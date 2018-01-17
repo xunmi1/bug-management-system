@@ -2,5 +2,9 @@
 
 > 软件 BUG 跟踪管理系统
 
-    分为三部分：客户端（client）、服务器端（server）和管理端（back-stage-mgmt）。
+    ## 三部分：
+    
+    客户端（client）
+    服务器端（server）
+    管理端（back-stage-mgmt）。
 
