@@ -82,5 +82,7 @@ module.exports = {
         'no-unneeded-ternary': 0,
         // 允许使用表达式
         'no-unused-expressions': 0,
+        //禁止在非赋值或条件语句中使用 new 操作符
+        'no-new':0,
     }
 }
