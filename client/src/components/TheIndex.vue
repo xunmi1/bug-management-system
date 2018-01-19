@@ -1,5 +1,5 @@
 <template>
-    <div class="hello">
+    <div class="index-title">
         <h1>{{ msg }}</h1>
         <h2>Essential Links</h2>
         <ul>
@@ -35,7 +35,7 @@
                     Twitter
                 </a>
             </li>
-            <br>
+            <br />
             <li>
                 <a
                     href="http://vuejs-templates.github.io/webpack/"
@@ -85,7 +85,7 @@
 
 <script>
     export default {
-        name: 'HelloWorld',
+        name: 'TheIndex',
         data() {
             return {
                 msg: 'Welcome to Your Vue.js App',
