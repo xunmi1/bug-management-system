@@ -71,7 +71,7 @@ module.exports = {
         // 开启此规则，因为字符串中一般不会出现 Ctrl 键，所以一旦出现了，可能是一个代码错误
         'no-control-regex': 'error',
         // @fixable 禁止使用 debugger
-        'no-debugger': 'error',
+        'no-debugger': 0,
         // 禁止在函数参数中出现重复名称的参数
         'no-dupe-args': 'error',
         // 禁止在对象字面量中出现重复名称的键名
@@ -84,5 +84,7 @@ module.exports = {
         'no-unused-expressions': 0,
         //禁止在非赋值或条件语句中使用 new 操作符
         'no-new':0,
+        //定义数组或对象最后多余的逗号
+        "comma-dangle": 1
     }
-}
+};

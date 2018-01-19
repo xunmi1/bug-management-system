@@ -9,7 +9,8 @@ export default new Router({
         {
             path: '/',
             name: 'TheIndex',
-            component: TheIndex,
-        },
-    ],
+            // 注册将使用的组件（局部注册），只在父组件可用
+            component: TheIndex
+        }
+    ]
 });

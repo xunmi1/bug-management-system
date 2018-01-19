@@ -1,3 +1,6 @@
+<!-- 仅仅定义组件内容，需要在使用时注册
+  -- template 定义模板
+  -- export default 导出组件对象，指定模块的默认输出 (ES6) -->
 <template>
     <div id="app">
         <img src="./assets/logo.png">
@@ -7,7 +10,7 @@
 
 <script>
     export default {
-        name: 'App',
+        name: 'App'
     };
 </script>
 
