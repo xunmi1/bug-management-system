@@ -3,7 +3,7 @@
   -- export default 导出组件对象，指定模块的默认输出 (ES6) -->
 <template>
     <div id="app">
-        <img src="./assets/logo.png">
+        <!--<img src="./assets/images/logo.png">-->
         <router-view/>
     </div>
 </template>
@@ -16,11 +16,9 @@
 
 <style>
     #app {
-        font-family: 'Avenir', Helvetica, Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
         text-align: center;
         color: #2c3e50;
-        margin-top: 60px;
+        margin-top: 48px;
     }
 </style>
+<style src="css/basestyle.css"></style>

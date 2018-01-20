@@ -1,6 +1,21 @@
 <template>
-    <div class="index-title">
-        <h1>{{ msg }}</h1>
+    <div class="index-container">
+        <div class="container-header">
+            <h1>{{ title }}</h1>
+            <div class="header-content">
+                <div class="item1">
+                    <img src="../assets/images/github.png" alt="github" height="30" width="30"/>
+                </div>
+                <div class="item2">
+                    <h2>
+                        <a v-bind:href="githuburl">github</a>
+                    </h2>
+                </div>
+
+            </div>
+        </div>
+        <div class="container-content">
+            <!--
         <h2>Essential Links</h2>
         <ul>
             <li>
@@ -80,6 +95,9 @@
                 </a>
             </li>
         </ul>
+        -->
+        </div>
+
     </div>
 </template>
 
@@ -88,7 +106,8 @@
         name: 'TheIndex',
         data() {
             return {
-                msg: 'Welcome to Your Vue.js App'
+                title: '软件 BUG 跟踪管理系统',
+                githuburl: 'https://github.com/xunmi1/bug-management-system'
             };
         }
     };
@@ -96,21 +115,36 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-    h1, h2 {
-        font-weight: normal;
-    }
-
-    ul {
-        list-style-type: none;
-        padding: 0;
-    }
-
-    li {
-        display: inline-block;
-        margin: 0 10px;
-    }
-
     a {
         color: #42b983;
     }
+
+    h1, h2 {
+        font-weight: normal;
+    }
+    .container-header h1 {
+        margin-bottom: 12px;
+    }
+    .header-content {
+        display: -webkit-flex; /* Safari */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .header-content .item1 {
+        margin-right: 16px;
+    }
+
+    /*ul {*/
+    /*list-style-type: none;*/
+    /*padding: 0;*/
+    /*}*/
+
+    /*li {*/
+    /*display: inline-block;*/
+    /*margin: 0 10px;*/
+    /*}*/
+
+
 </style>
