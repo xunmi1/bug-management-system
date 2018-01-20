@@ -18,7 +18,6 @@
     #app {
         text-align: center;
         color: #2c3e50;
-        margin-top: 48px;
     }
 </style>
-<style src="css/basestyle.css"></style>
+<style src="./assets/stylesheets/basestyle.css"></style>
