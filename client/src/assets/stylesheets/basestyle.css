@@ -18,3 +18,7 @@ img {
     vertical-align: top;
     border: none;
 }
+
+input {
+    outline: 0;
+}

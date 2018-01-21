@@ -15,12 +15,14 @@
             </div>
         </div>
         <div class="container-content">
+            <the-three-input></the-three-input>
         </div>
     </div>
 </template>
 
 <script>
     import TheBackground from './TheBackground';
+    import TheThreeInput from './TheThreeInput';
 
     export default {
         name: 'TheIndex',
@@ -31,8 +33,8 @@
             };
         },
         components: {
-            TheBackground,
-            'the-background': TheBackground
+            'the-background': TheBackground,
+            'the-three-input': TheThreeInput
         }
     };
 </script>
@@ -46,8 +48,8 @@
         font-size: 26px;
     }
     .container-header h1 {
-        padding-top: 56px;
-        margin-bottom: 12px;
+        padding-top: 80px;
+        margin-bottom: 16px;
     }
 
     .header-content {
