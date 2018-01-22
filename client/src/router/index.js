@@ -1,7 +1,9 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import TheIndex from '@/components/TheIndex';
-import  TheThreeInput from '@/components/TheThreeInput';
+import TheHomeInput from '@/components/TheHomeInput';
+import TheLoginInput from '@/components/TheLoginInput';
+import TheRegisterInput from '@/components/TheRegisterInput';
 
 Vue.use(Router);
 
@@ -14,11 +16,21 @@ export default new Router({
             component: TheIndex,
             children: [
                 {
-                    path:'home',
-                    name:'home',
-                    component: TheThreeInput,
+                    path: 'home',
+                    name: 'home',
+                    component: TheHomeInput,
                     // 别名，访问 / 时转向 /home, 且 url 不变。不同于重定向
                     alias: '/'
+                },
+                {
+                    path: 'login',
+                    name: 'login',
+                    component: TheLoginInput
+                },
+                {
+                    path: 'register',
+                    name: 'register',
+                    component: TheRegisterInput
                 }
             ]
         }
