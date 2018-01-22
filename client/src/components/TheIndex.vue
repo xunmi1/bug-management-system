@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="container-content">
-            <the-three-input></the-three-input>
+            <the-three-input v-bind:InputAttribute="types"></the-three-input>
         </div>
     </div>
 </template>
@@ -23,11 +23,31 @@
 <script>
     import TheBackground from './TheBackground';
     import TheThreeInput from './TheThreeInput';
-
+    let InputAttribute = {
+        input1: {
+            type: 'text',
+            value: '进入',
+            placeholder: '进入',
+            name:''
+        },
+        input2: {
+            type: 'button',
+            value: '登录',
+            placeholder: '登录',
+            name:''
+        },
+        input3: {
+            type: 'button',
+            value: '注册',
+            placeholder: '注册',
+            name:''
+        }
+    }
     export default {
         name: 'TheIndex',
         data() {
             return {
+                types: InputAttribute,
                 title: '软件 BUG 跟踪管理系统',
                 githuburl: 'https://github.com/xunmi1/bug-management-system'
             };
@@ -41,8 +61,11 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-    h1, h2 {
+    * {
         font-weight: normal;
+    }
+    h1 {
+        font-size: 32px;
     }
     h2 {
         font-size: 26px;
