@@ -1,9 +1,12 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import TheIndex from '@/components/TheIndex';
-import TheHomeInput from '@/components/TheHomeInput';
-import TheLoginInput from '@/components/TheLoginInput';
-import TheRegisterInput from '@/components/TheRegisterInput';
+
+import TheIndex from '@/TheIndex';
+import TheHomeInput from '@/TheHomeInput';
+import TheLoginInput from '@/TheLoginInput';
+import TheRegisterInput from '@/TheRegisterInput';
+
+import TheMain from '@/TheMain';
 
 Vue.use(Router);
 
@@ -33,6 +36,11 @@ export default new Router({
                     component: TheRegisterInput
                 }
             ]
+        },
+        {
+            path: '/main',
+            name: 'main',
+            component: TheMain
         }
     ]
 });
