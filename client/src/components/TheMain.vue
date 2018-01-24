@@ -2,7 +2,11 @@
     <div>
         <Layout>
             <div>
-                <Menu mode="horizontal" :theme="light" active-name="1" >
+                <Menu mode="horizontal" :theme="light" active-name="1">
+                    <div class="menu-logo">
+                     <a href="/"><img src="../assets/images/logo.png" alt="logo" width="40" height="40"/>
+                     bug-mgmt</a>
+                    </div>
                     <MenuItem name="1">
                         <Icon type="ios-paper"></Icon>
                         内容管理
@@ -77,10 +81,22 @@
     </div>
 </template>
 <script>
-    export default {
-
-    }
+    export default {}
 </script>
 <style scoped>
-
+    .ivu-menu-light.ivu-menu-horizontal .ivu-menu-item-active {
+        border-bottom-width: 3px;
+    }
+    .menu-logo {
+        float: left;
+        padding: 0 26px;
+        height: 60px;
+        font-size: 22px;
+    }
+    .menu-logo a img {
+        margin-right: 10px;
+        /*img 转行内元素*/
+        display:inline-block;
+        vertical-align: middle;
+    }
 </style>
