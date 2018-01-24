@@ -1,11 +1,16 @@
 <template>
     <div>
         <Layout>
-            <div>
+            <Header>
                 <Menu mode="horizontal" :theme="light" active-name="1">
                     <div class="menu-logo">
-                     <a href="/"><img src="../assets/images/logo.png" alt="logo" width="40" height="40"/>
-                     bug-mgmt</a>
+                        <a href="/">
+                            <img src="../assets/images/logo.png" alt="logo" width="40" height="40"/>bug-mgmt
+                        </a>
+                    </div>
+                    <div class="menu-search">
+                        <Input v-model="value4" icon="ios-clock-outline" placeholder="Enter something..."
+                               style="width: 200px"></Input>
                     </div>
                     <MenuItem name="1">
                         <Icon type="ios-paper"></Icon>
@@ -34,9 +39,14 @@
                         <Icon type="settings"></Icon>
                         综合设置
                     </MenuItem>
+                    <div class="menu-user">
+                        <Badge dot>
+                            <Avatar shape="square" icon="person"/>
+                        </Badge>
+                    </div>
                 </Menu>
-            </div>
-            <Layout>
+            </Header>
+            <Layout style="margin-top: 60px;">
                 <Sider hide-trigger :style="{background: '#fff'}">
                     <Menu active-name="1-2" theme="light" width="auto" :open-names="['1']">
                         <Submenu name="1">
@@ -66,7 +76,7 @@
                         </Submenu>
                     </Menu>
                 </Sider>
-                <Layout :style="{padding: '0 24px 24px'}">
+                <Layout :style="{padding: '0 24px 24px',margin:'0 0 0 200px'}">
                     <Breadcrumb :style="{margin: '24px 0'}">
                         <BreadcrumbItem>Home</BreadcrumbItem>
                         <BreadcrumbItem>Components</BreadcrumbItem>
@@ -81,22 +91,52 @@
     </div>
 </template>
 <script>
-    export default {}
+    import Header from "iview/src/components/layout/header";
+
+    export default {components: {Header}}
 </script>
 <style scoped>
+    .ivu-layout-header {
+        background: #fff;
+        padding: 0 40px;
+        height: 60px;
+        line-height: 60px;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        right: 0;
+        z-index: 1000;
+    }
+
     .ivu-menu-light.ivu-menu-horizontal .ivu-menu-item-active {
         border-bottom-width: 3px;
     }
+
     .menu-logo {
         float: left;
-        padding: 0 26px;
-        height: 60px;
         font-size: 22px;
     }
+
     .menu-logo a img {
         margin-right: 10px;
-        /*img 转行内元素*/
-        display:inline-block;
         vertical-align: middle;
+    }
+
+    .menu-search {
+        float: left;
+        margin: 0 60px;
+    }
+
+    .menu-user {
+        float: right;
+    }
+    .ivu-layout-sider {
+        position: fixed;
+        height: 100vh;
+        left: 0;
+        overflow: auto;
+    }
+    .ivu-layout {
+        height: 100vh;
     }
 </style>
