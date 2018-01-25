@@ -1,9 +1,9 @@
 <template>
     <div class="container">
-        <form class="form">
+        <form class="form" method="post">
             <input v-model="RegisterInput.input1.value" v-bind="RegisterInput.input1"/>
             <input v-model="RegisterInput.input2.value" v-bind="RegisterInput.input2"/>
-            <input v-model="RegisterInput.input3.value" v-bind="RegisterInput.input3"/>
+            <input v-model="RegisterInput.input3.value" v-bind="RegisterInput.input3" v-on:click="registerTest"/>
         </form>
     </div>
 </template>
@@ -21,15 +21,22 @@
             name: 'pwd'
         },
         input3: {
-            type: 'submit',
+            type: 'button',
             value: '注册',
-            name: 'registration'
+            name: 'register'
         }
     };
     export default {
         name: 'TheRegisterInput',
         data() {
-            return { RegisterInput };
+            return {RegisterInput};
+        },
+        methods: {
+            registerTest: function () {
+                if (true) {
+                    this.$router.push('main');
+                }
+            }
         }
     }
 </script>

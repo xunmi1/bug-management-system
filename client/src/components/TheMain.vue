@@ -128,7 +128,7 @@
     .menu-logo {
         float: left;
         font-size: 22px;
-        margin-right: 60px;
+        margin: 0 60px 0 12px;
     }
 
     .menu-logo a img {

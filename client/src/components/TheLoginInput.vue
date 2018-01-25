@@ -3,7 +3,7 @@
         <form class="form">
             <input v-model="LoginInput.input1.value" v-bind="LoginInput.input1"/>
             <input v-model="LoginInput.input2.value" v-bind="LoginInput.input2"/>
-            <input v-model="LoginInput.input3.value" v-bind="LoginInput.input3"/>
+            <input v-model="LoginInput.input3.value" v-bind="LoginInput.input3" v-on:click="loginTest"/>
         </form>
     </div>
 </template>
@@ -21,7 +21,7 @@
             name: 'pwd'
         },
         input3: {
-            type: 'submit',
+            type: 'button',
             value: '登录',
             name: 'login'
         }
@@ -29,7 +29,24 @@
     export default {
         name: 'TheLoginInput',
         data() {
-            return { LoginInput };
+            return {LoginInput};
+        },
+        methods: {
+            loginTest: function () {
+                this.axios.post('/main',{
+                    name:LoginInput.input1.value,
+                    pwd:LoginInput.input2.value
+                })
+                    .then(function(response) {
+                        console.log(response.data);
+                    })
+                    .catch(function(error) {
+                        console.log(error.data);
+                    });
+                if (true) {
+                    this.$router.push('main');
+                }
+            }
         }
     }
 </script>
