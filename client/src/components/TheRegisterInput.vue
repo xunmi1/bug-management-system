@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <form class="form" method="post">
+        <form class="form">
             <input v-model="RegisterInput.input1.value" v-bind="RegisterInput.input1"/>
             <input v-model="RegisterInput.input2.value" v-bind="RegisterInput.input2"/>
             <input v-model="RegisterInput.input3.value" v-bind="RegisterInput.input3" v-on:click="registerTest"/>

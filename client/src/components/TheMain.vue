@@ -15,34 +15,32 @@
                     <div class="menu-nav">
                         <MenuItem name="1">
                             <Icon type="ios-paper"></Icon>
-                            内容管理
+                            问题提交
                         </MenuItem>
-                        <MenuItem name="2">
-                            <Icon type="ios-people"></Icon>
-                            用户管理
-                        </MenuItem>
-                        <Submenu name="3">
+                        <Submenu name="2">
                             <template slot="title">
-                                <Icon type="stats-bars"></Icon>
-                                统计分析
+                                <Icon type="ios-gear"></Icon>
+                                项目配置
                             </template>
-                            <MenuGroup title="使用">
-                                <MenuItem name="3-1">新增和启动</MenuItem>
-                                <MenuItem name="3-2">活跃分析</MenuItem>
-                                <MenuItem name="3-3">时段分析</MenuItem>
-                            </MenuGroup>
-                            <MenuGroup title="留存">
-                                <MenuItem name="3-4">用户留存</MenuItem>
-                                <MenuItem name="3-5">流失用户</MenuItem>
-                            </MenuGroup>
+                            <MenuItem name="2-1">项目信息</MenuItem>
+                            <MenuItem name="2-2"><Icon type="ios-people"></Icon>成员管理</MenuItem>
+                            <MenuItem name="2-3">用户管理</MenuItem>
+                            <MenuItem name="2-4">功能模块</MenuItem>
+                            <MenuItem name="2-5">版本管理</MenuItem>
                         </Submenu>
-                        <MenuItem name="4">
-                            <Icon type="settings"></Icon>
-                            综合设置
+                        <MenuItem name="3">
+                            <Icon type="folder"></Icon>
+                            我的项目
                         </MenuItem>
-                        <Badge dot style="margin: 0 20px">
-                            <Avatar shape="square" icon="person"/>
-                        </Badge>
+                        <MenuItem name="4">
+                            <Icon type="ios-bell"></Icon>
+                            消息提醒
+                        </MenuItem>
+                        <MenuItem name="5">
+                            <Badge dot>
+                                <Avatar shape="square" icon="person" />
+                            </Badge>
+                        </MenuItem>
                     </div>
                 </Menu>
             </Header>
@@ -127,8 +125,8 @@
 
     .menu-logo {
         float: left;
-        font-size: 22px;
-        margin: 0 60px 0 12px;
+        font-size: 26px;
+        margin: 0 60px 0 0;
     }
 
     .menu-logo a img {
