@@ -9,6 +9,8 @@
 </template>
 
 <script>
+    import qs from 'qs';
+
     let LoginInput = {
         input1: {
             type: 'text',
@@ -33,19 +35,20 @@
         },
         methods: {
             loginTest: function () {
-                this.axios.post('/main',{
-                    name:LoginInput.input1.value,
-                    pwd:LoginInput.input2.value
-                })
-                    .then(function(response) {
+                this.axios.post('/api/login', qs.stringify({
+                    username: LoginInput.input1.value,
+                    password: LoginInput.input2.value
+                }))
+                //使用箭头函数，使 this 指向 vue 实例
+                    .then((response) => {
                         console.log(response.data);
+                        if (response.status === 200) {
+                            this.$router.push('main');
+                        }
                     })
-                    .catch(function(error) {
+                    .catch(function (error) {
                         console.log(error.data);
                     });
-                if (true) {
-                    this.$router.push('main');
-                }
             }
         }
     }

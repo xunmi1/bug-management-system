@@ -8,7 +8,9 @@ router.get('/hello/:name', async (ctx, next) => {
 });
 
 router.get('/', async (ctx, next) => {
-    ctx.response.body = '<h1>Index</h1>';
+    await next();
+    ctx.response.type = 'text/html';
+    ctx.response.body = '<h1>Hello, koa2!</h1>';
 });
 
 module.exports = router;
