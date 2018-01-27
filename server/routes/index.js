@@ -1,13 +1,14 @@
-var express = require('express');
-var router = express.Router();
+// require('koa-router')返回的是函数，需要()来调用函数
+const router = require('koa-router')();
 
-/* GET home page. */
-router.get('/', function (req, res, next) {
-    /**
-     * 接受两个参数，第一个是模板的名称，即 views 目录下的模板文件名，扩展名 .ejs 可选
-     * 第二个参数是传递给模板的数据对象
-     */
-    res.render('index', {title: 'Express'});
+// add url-route:
+router.get('/hello/:name', async (ctx, next) => {
+    var name = ctx.params.name;
+    ctx.response.body = `<h1>Hello, ${name}!</h1>`;
+});
+
+router.get('/', async (ctx, next) => {
+    ctx.response.body = '<h1>Index</h1>';
 });
 
 module.exports = router;
