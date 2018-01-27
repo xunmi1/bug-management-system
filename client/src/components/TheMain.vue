@@ -5,12 +5,13 @@
                 <Menu mode="horizontal" :theme="light" active-name="1">
                     <div class="menu-logo">
                         <a href="/">
-                            <img src="../assets/images/logo.png" alt="logo" width="40" height="40"/>bug-mgmt
+                            <img src="../assets/images/logo.png" alt="logo" width="40" height="40" />
+                            bug-mgmt
                         </a>
                     </div>
                     <div class="menu-search">
-                        <Input v-model="SearchValue" icon="ios-search-strong" placeholder="搜索..."
-                               style="width: 200px"></Input>
+                        <Input v-model="SearchValue" icon="ios-search-strong"
+                               placeholder="搜索..." style="width: 200px"></Input>
                     </div>
                     <div class="menu-nav">
                         <MenuItem name="1">
@@ -23,7 +24,7 @@
                                 项目配置
                             </template>
                             <MenuItem name="2-1">项目信息</MenuItem>
-                            <MenuItem name="2-2"><Icon type="ios-people"></Icon>成员管理</MenuItem>
+                            <MenuItem name="2-2">成员管理</MenuItem>
                             <MenuItem name="2-3">用户管理</MenuItem>
                             <MenuItem name="2-4">功能模块</MenuItem>
                             <MenuItem name="2-5">版本管理</MenuItem>

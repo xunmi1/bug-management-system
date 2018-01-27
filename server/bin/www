@@ -3,28 +3,31 @@
 /**
  * Module dependencies.
  */
-
 var app = require('../app');
-var debug = require('debug')('server:server');
+var debug = require('debug')('nodejsserver:server');
 var http = require('http');
 
 /**
  * Get port from environment and store in Express.
  */
 
+/**
+ * process 是全局变量，即 global 对象的属性，它用于描述当前 Node.js 进程状态的对象。
+ * process.env.PORT 返回当前Shell的环境变量的 POST。
+ */
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
  * Create HTTP server.
+ * 创建 HTTP 服务器。
  */
-
 var server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
+ * 设置监听端口，设置 error/listening 事件。
  */
-
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
@@ -32,7 +35,6 @@ server.on('listening', onListening);
 /**
  * Normalize a port into a number, string, or false.
  */
-
 function normalizePort(val) {
     var port = parseInt(val, 10);
 
@@ -52,7 +54,6 @@ function normalizePort(val) {
 /**
  * Event listener for HTTP server "error" event.
  */
-
 function onError(error) {
     if (error.syscall !== 'listen') {
         throw error;
@@ -80,7 +81,6 @@ function onError(error) {
 /**
  * Event listener for HTTP server "listening" event.
  */
-
 function onListening() {
     var addr = server.address();
     var bind = typeof addr === 'string'
