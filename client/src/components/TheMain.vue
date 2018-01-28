@@ -4,10 +4,10 @@
             <Header v-bind:style="{ height: headerHeight + 'px' }" class="layout-header">
                 <Menu mode="horizontal" theme="light" active-name="3">
                     <div class="menu-logo">
-                        <a href="/">
+                        <router-link to="/home">
                             <img src="../assets/images/logo.png" alt="logo" width="40" height="40"/>
                             bug-mgmt
-                        </a>
+                        </router-link>
                     </div>
                     <div class="menu-search">
                         <Input v-model="SearchValue" icon="ios-search-strong"
