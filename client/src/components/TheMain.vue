@@ -1,7 +1,7 @@
 <template>
     <div>
         <Layout>
-            <Header>
+            <Header v-bind:style="{ height: headerHeight + 'px' }" class="layout-header">
                 <Menu mode="horizontal" theme="light" active-name="3">
                     <div class="menu-logo">
                         <a href="/">
@@ -11,7 +11,7 @@
                     </div>
                     <div class="menu-search">
                         <Input v-model="SearchValue" icon="ios-search-strong"
-                               placeholder="搜索..." style="width: 200px"></Input>
+                               placeholder="搜索..." style="width: 180px"></Input>
                     </div>
                     <div class="menu-nav">
                         <MenuItem name="1">
@@ -47,7 +47,7 @@
                     </div>
                 </Menu>
             </Header>
-            <Layout style="margin-top: 60px">
+            <Layout v-bind:style="{ marginTop: headerHeight + 'px' }">
                 <Sider hide-trigger :style="{background: '#fff'}">
                     <Menu theme="light" width="auto">
                         <Submenu name="1">
@@ -97,7 +97,10 @@
     export default {
         data() {
             return {
-                SearchValue: ''
+                SearchValue: '',
+                // 屏幕兼容 > 630 px
+                screenWidth: document.body.clientWidth,
+                headerHeight: 60
             };
             components: {
                 Header
@@ -106,21 +109,50 @@
         methods: {
             toProject: function () {
                 this.$router.push('/project');
+            },
+            init: function () {
+                if (this.screenWidth < 1050) this.headerHeight = 120;
+                else this.headerHeight = 60;
+            }
+        },
+        mounted() {
+            const that = this;
+            window.onresize = () => {
+                return (() => {
+                    window.screenWidth = document.body.clientWidth;
+                    that.screenWidth = window.screenWidth;
+                })()
+            }
+        },
+        watch: {
+            screenWidth(val) {
+                if (!this.timer) {
+                    this.screenWidth = val;
+                    this.timer = true;
+                    let that = this;
+                    setTimeout(function () {
+                        // that.screenWidth = that.$store.state.canvasWidth
+                        // console.log(that.screenWidth);
+                        that.init();
+                        that.timer = false;
+                    }, 400)
+                }
             }
         }
     }
 </script>
 <style scoped>
 
-    .ivu-layout-header {
+    .layout-header {
         background: #fff;
         padding: 0 24px;
-        height: 60px;
+        /*height: 60px;*/
         line-height: 60px;
         position: fixed;
         width: 100%;
         top: 0;
-        right: 0;
+        bottom: 0;
+        min-width: 630px;
         z-index: 1000;
     }
 
@@ -145,7 +177,6 @@
 
     .menu-search {
         float: left;
-        margin-right: 20px;
     }
 
     .menu-nav {
