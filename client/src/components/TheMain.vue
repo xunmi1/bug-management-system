@@ -107,11 +107,8 @@
             }
         },
         methods: {
-            toProject: function () {
-                this.$router.push('/project');
-            },
             init: function () {
-                if (this.screenWidth < 1050) this.headerHeight = 120;
+                if (this.screenWidth <= 1042) this.headerHeight = 120;
                 else this.headerHeight = 60;
             }
         },
@@ -135,7 +132,7 @@
                         // console.log(that.screenWidth);
                         that.init();
                         that.timer = false;
-                    }, 400)
+                    }, 300)
                 }
             }
         }
