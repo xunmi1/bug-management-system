@@ -39,11 +39,11 @@
                     username: LoginInput.input1.value,
                     password: LoginInput.input2.value
                 }))
-                //使用箭头函数，使 this 指向 vue 实例
+                // 使用箭头函数，使 this 绑定父级作用域，父级指向 vue 实例
                     .then((response) => {
                         console.log(response.data);
                         if (response.status === 200) {
-                            this.$router.push('main');
+                            this.$router.push('main/project');
                         }
                     })
                     .catch(function (error) {

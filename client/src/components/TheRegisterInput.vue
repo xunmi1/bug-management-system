@@ -33,9 +33,7 @@
         },
         methods: {
             registerTest: function () {
-                if (true) {
-                    this.$router.push('main');
-                }
+                this.$router.push('main');
             }
         }
     }

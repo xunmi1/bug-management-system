@@ -35,13 +35,13 @@
              * 见 https://cn.vuejs.org/v2/api/#methods
              */
             toMain: function () {
-                this.$router.push('main');
+                this.$router.push('/main/project');
             },
             toLogin: function () {
-                this.$router.push('login');
+                this.$router.push('/login');
             },
             toRegister: function () {
-                this.$router.push('register');
+                this.$router.push('/register');
             }
         }
     }

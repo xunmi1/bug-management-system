@@ -5,8 +5,8 @@ import TheIndex from '@/TheIndex';
 import TheHomeInput from '@/TheHomeInput';
 import TheLoginInput from '@/TheLoginInput';
 import TheRegisterInput from '@/TheRegisterInput';
-
 import TheMain from '@/TheMain';
+import TheProject from '@/TheProject';
 
 Vue.use(Router);
 
@@ -40,7 +40,14 @@ export default new Router({
         {
             path: '/main',
             name: 'main',
-            component: TheMain
+            component: TheMain,
+            children: [
+                {
+                    path: 'project',
+                    name: 'project',
+                    component: TheProject
+                }
+            ]
         }
     ]
 });

@@ -2,10 +2,10 @@
     <div>
         <Layout>
             <Header>
-                <Menu mode="horizontal" :theme="light" active-name="1">
+                <Menu mode="horizontal" theme="light" active-name="3">
                     <div class="menu-logo">
                         <a href="/">
-                            <img src="../assets/images/logo.png" alt="logo" width="40" height="40" />
+                            <img src="../assets/images/logo.png" alt="logo" width="40" height="40"/>
                             bug-mgmt
                         </a>
                     </div>
@@ -29,17 +29,19 @@
                             <MenuItem name="2-4">功能模块</MenuItem>
                             <MenuItem name="2-5">版本管理</MenuItem>
                         </Submenu>
-                        <MenuItem name="3">
-                            <Icon type="folder"></Icon>
-                            我的项目
-                        </MenuItem>
+                        <router-link to="/main/project" :style="{height:'60px'}">
+                            <MenuItem name="3">
+                                <Icon type="folder"></Icon>
+                                我的项目
+                            </MenuItem>
+                        </router-link>
                         <MenuItem name="4">
                             <Icon type="ios-bell"></Icon>
                             消息提醒
                         </MenuItem>
                         <MenuItem name="5">
                             <Badge dot>
-                                <Avatar shape="square" icon="person" />
+                                <Avatar shape="square" icon="person"/>
                             </Badge>
                         </MenuItem>
                     </div>
@@ -81,8 +83,8 @@
                         <BreadcrumbItem>Components</BreadcrumbItem>
                         <BreadcrumbItem>Layout</BreadcrumbItem>
                     </Breadcrumb>
-                    <Content :style="{padding: '24px', minHeight: '280px', background: '#fff'}">
-                        Content
+                    <Content :style="{padding: '0', minHeight: '77vh', background: 'fafafa'}">
+                        <router-view></router-view>
                     </Content>
                 </Layout>
             </Layout>
@@ -99,6 +101,11 @@
             };
             components: {
                 Header
+            }
+        },
+        methods: {
+            toProject: function () {
+                this.$router.push('/project');
             }
         }
     }
@@ -122,6 +129,7 @@
     .ivu-menu-light.ivu-menu-horizontal .ivu-menu-item:hover,
     .ivu-menu-light.ivu-menu-horizontal .ivu-menu-submenu:hover {
         border-bottom-width: 3px;
+        font-size: 15px;
     }
 
     .menu-logo {
@@ -152,7 +160,4 @@
         overflow: auto;
     }
 
-    .ivu-layout-content {
-        height: 77vh;
-    }
 </style>
