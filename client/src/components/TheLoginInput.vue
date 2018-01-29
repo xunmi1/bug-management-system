@@ -1,54 +1,39 @@
 <template>
     <div class="container">
         <form class="form">
-            <input v-model="LoginInput.input1.value" v-bind="LoginInput.input1"/>
-            <input v-model="LoginInput.input2.value" v-bind="LoginInput.input2"/>
-            <input v-model="LoginInput.input3.value" v-bind="LoginInput.input3" v-on:click="loginTest"/>
+            <input v-model="userName" type="text" placeholder="用户名" name="username"/>
+            <input v-model="userPwd" type="password" placeholder="密码" name="possword"/>
+            <input type="button" value="登录" @click="loginSubmit"/>
         </form>
     </div>
 </template>
 
 <script>
-    import qs from 'qs';
-
-    let LoginInput = {
-        input1: {
-            type: 'text',
-            placeholder: '用户名',
-            name: 'username'
-        },
-        input2: {
-            type: 'password',
-            placeholder: '密码',
-            name: 'pwd'
-        },
-        input3: {
-            type: 'button',
-            value: '登录',
-            name: 'login'
-        }
-    };
     export default {
         name: 'TheLoginInput',
         data() {
-            return {LoginInput};
+            return {
+                userName: '',
+                userPwd: ''
+            };
         },
         methods: {
-            loginTest: function () {
-                this.axios.post('/api/login', qs.stringify({
-                    username: LoginInput.input1.value,
-                    password: LoginInput.input2.value
-                }))
-                // 使用箭头函数，使 this 绑定父级作用域，父级指向 vue 实例
-                    .then((response) => {
-                        console.log(response.data);
-                        if (response.status === 200) {
-                            this.$router.push('main/project');
-                        }
-                    })
-                    .catch(function (error) {
-                        console.log(error.data);
-                    });
+            toMain: function () {
+                console.log('开始验证');
+                if (this.$store.state.user.stating) {
+                    this.$router.push('main/project');
+                }
+            },
+            loginSubmit: function () {
+                this.$store.commit('upUserName', {
+                    name: this.userName
+                });
+                this.$store.commit('upUserPwd', {
+                    pwd: this.userPwd
+                });
+                this.$store.dispatch('loginCheck').then(() => {
+                    setTimeout(this.toMain, 260);
+                });
             }
         }
     }
