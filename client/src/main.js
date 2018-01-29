@@ -9,13 +9,15 @@ import router from './router/index.js';
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
 
-import axios from 'axios'
-import VueAxios from 'vue-axios'
+import axios from 'axios';
+import VueAxios from 'vue-axios';
+import Vuex from 'vuex';
 
 /* 阻止 vue 在启动时生成生产提示 */
 Vue.config.productionTip = false;
 
 Vue.use(iView);
+Vue.use(Vuex);
 Vue.use(VueAxios, axios);
 new Vue({
     el: '#app',

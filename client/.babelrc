@@ -13,7 +13,7 @@
                 }
             }
         ],
-        "stage-2"
+        "stage-3"
     ],
     "plugins": [
         "transform-vue-jsx",
@@ -23,7 +23,7 @@
         "test": {
             "presets": [
                 "env",
-                "stage-2"
+                "stage-3"
             ],
             "plugins": [
                 "transform-vue-jsx",
