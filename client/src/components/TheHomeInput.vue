@@ -1,32 +1,18 @@
 <template>
     <div class="container">
         <form class="form">
-            <input v-model="HomeInput.input1.value" v-bind="HomeInput.input1" v-on:click="toMain"/>
-            <input v-model="HomeInput.input2.value" v-bind="HomeInput.input2" v-on:click="toLogin"/>
-            <input v-model="HomeInput.input3.value" v-bind="HomeInput.input3" v-on:click="toRegister"/>
+            <input type="button" value="进入" v-on:click="toMain"/>
+            <input type="button" value="登录" v-on:click="toLogin"/>
+            <input type="button" value="注册" v-on:click="toRegister"/>
         </form>
     </div>
 </template>
 
 <script>
-    const HomeInput = {
-        input1: {
-            type: 'button',
-            value: '进入',
-        },
-        input2: {
-            type: 'button',
-            value: '登录',
-        },
-        input3: {
-            type: 'button',
-            value: '注册',
-        }
-    };
     export default {
         name: 'TheHomeInput',
         data() {
-            return {HomeInput};
+            return {};
         },
         methods: {
             /**
