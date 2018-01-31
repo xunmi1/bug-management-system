@@ -19,7 +19,7 @@
         },
         methods: {
             registerSubmit: function () {
-                this.$router.push('main');
+                this.$router.push('/main/project');
             }
         }
     }

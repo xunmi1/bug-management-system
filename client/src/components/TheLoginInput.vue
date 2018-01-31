@@ -21,7 +21,7 @@
             toMain: function () {
                 console.log('开始验证');
                 if (this.$store.state.user.stating) {
-                    this.$router.push('main/project');
+                    this.$router.push('/main/project');
                 }
             },
             loginSubmit: function () {
