@@ -1,8 +1,9 @@
 <template>
     <div>
-        <Tag v-for="(item, index) in count" :key="item" :name="index"
-             closable type="dot" color="blue" @on-close="tagClose">
-            {{ item }}
+        <Tag v-for="(item, index) in count" :key="index" :name="index" type="dot"
+             :closable="count.length===1? false: true"
+             :color="item.isChecked===true? 'blue': 'default'" @on-close="tagClose">
+            {{ item.name }}
         </Tag>
     </div>
 </template>
@@ -12,16 +13,34 @@
         name: "BaseTag",
         data() {
             return {
-                count: ['项目1', '项目2']
+                count: [
+                    {
+                        name: '我的项目',
+                        isChecked: false
+                    },
+                    {
+                        name: '我的项目1',
+                        isChecked: false
+                    },
+                    {
+                        name: '我的项目2',
+                        isChecked: true
+                    }
+                ]
             }
         },
         methods: {
-            tagAdd(text) {
+            tagAdd: function (text) {
                 this.count.push(text);
             },
             // event: 触发事件类型, name: 元素的 name 值
             tagClose(event, name) {
-                this.count.splice(name, 1);
+                if (this.count.length > 1) {
+                    if (this.count[name].isChecked) {
+                        this.count[name - 1].isChecked = true;
+                    }
+                    this.count.splice(name, 1);
+                }
             }
         }
     }

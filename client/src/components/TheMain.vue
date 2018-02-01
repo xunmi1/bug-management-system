@@ -2,7 +2,7 @@
     <div>
         <Layout>
             <Header v-bind:style="{ height: headerHeight + 'px' }" class="layout-header">
-                <Menu mode="horizontal" theme="light" active-name="3">
+                <Menu mode="horizontal" theme="light" active-name="3" v-bind:style="{ height: headerHeight + 'px' }">
                     <div class="menu-logo">
                         <router-link to="/home">
                             <img src="../assets/images/logo.png" alt="logo" width="40" height="40"/>
@@ -88,9 +88,8 @@
     </div>
 </template>
 <script>
-    import Header from 'iview/src/components/layout/header';
-
     import BaseTag from './BaseTag';
+
     export default {
         data() {
             return {
@@ -99,9 +98,7 @@
                 screenWidth: document.body.clientWidth,
                 headerHeight: 60
             };
-            components: {
-                Header
-            }
+
         },
         components: {
             BaseTag,
