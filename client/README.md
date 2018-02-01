@@ -2,6 +2,14 @@
 
 > 客户端项目
 
+***
+## 生产环境部署问题
+
+### 1. 跨域
+
+> 1. 将所有 axios 的请求地址改为相对应的完整 url 。
+> 2. 删掉 config/index.js 中的 dev 下的 proxyTable 内容。
+
 ## Build Setup
 
 ``` bash

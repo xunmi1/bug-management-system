@@ -1,8 +1,11 @@
 <template>
     <div>
-        <Tag v-for="(item, index) in count" :key="index" :name="index" type="dot"
+        <Tag type="dot" v-for="(item, index) in count"
+             :key="index"
+             :name="index"
              :closable="count.length===1? false: true"
-             :color="item.isChecked===true? 'blue': 'default'" @on-close="tagClose">
+             :color="item.isChecked===true? 'blue': 'default'"
+             @on-close="tagClose">
             {{ item.name }}
         </Tag>
     </div>
