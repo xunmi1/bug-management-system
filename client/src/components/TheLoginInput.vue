@@ -9,6 +9,7 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex';
     export default {
         name: 'TheLoginInput',
         data() {
@@ -20,21 +21,28 @@
         methods: {
             toMain: function () {
                 console.log('开始验证');
-                if (this.$store.state.user.stating) {
+                if (this.stating) {
+                    console.log('开始结束');
                     this.$router.push('/main/project');
                 }
             },
             loginSubmit: function () {
-                this.$store.commit('upUserName', {
+                this.$store.commit('setUserName', {
                     name: this.userName
                 });
-                this.$store.commit('upUserPwd', {
+                this.$store.commit('setUserPwd', {
                     pwd: this.userPwd
                 });
                 this.$store.dispatch('loginCheck').then(() => {
                     setTimeout(this.toMain, 260);
                 });
             }
+        },
+        computed:{
+            ...mapState({
+                stating: state => state.user.localStating
+            })
+
         }
     }
 </script>

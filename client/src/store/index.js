@@ -11,19 +11,20 @@ const state = {
     user: {
         name: '',
         pwd: '',
-        stating: ''
+        localStating: '', // 当前页面判断依据
+        dbStating: '' // 将在后台判断用户是否同时在线
     }
 };
 
 const mutations = {
-    upUserName(state, info) {
+    setUserName(state, info) {
         state.user.name = info.name;
     },
-    upUserPwd(state, info) {
+    setUserPwd(state, info) {
         state.user.pwd = info.pwd;
     },
-    upUserStating(state, info) {
-        state.user.stating = info.stating;
+    setUserLocalStating(state, info) {
+        state.user.localStating = info.localStating;
     },
 };
 
@@ -35,9 +36,11 @@ const actions = {
         }))
             .then((response) => {
                 // console.log(response.data);
-                context.commit('upUserStating', {
-                    stating: response.data
-                });
+                if (!state.user.dbStating) {
+                    context.commit('setUserLocalStating', {
+                        localStating: response.data
+                    });
+                }
             })
             .catch(function (error) {
                 console.log(error.data);
