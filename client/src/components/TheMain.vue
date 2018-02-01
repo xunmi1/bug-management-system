@@ -78,12 +78,8 @@
                     </Menu>
                 </Sider>
                 <Layout :style="{padding: '0 24px 24px',margin:'0 0 0 200px'}">
-                    <Breadcrumb :style="{margin: '24px 0'}">
-                        <BreadcrumbItem>Home</BreadcrumbItem>
-                        <BreadcrumbItem>Components</BreadcrumbItem>
-                        <BreadcrumbItem>Layout</BreadcrumbItem>
-                    </Breadcrumb>
-                    <Content :style="{padding: '0', minHeight: '77vh', background: 'fafafa'}">
+                    <base-tag :style="{height: '44px', padding: '4px 0'}"></base-tag>
+                    <Content :style="{padding: '0', minHeight: '77vh', background: 'f5f7f9'}">
                         <router-view></router-view>
                     </Content>
                 </Layout>
@@ -92,8 +88,9 @@
     </div>
 </template>
 <script>
-    import Header from "iview/src/components/layout/header";
+    import Header from 'iview/src/components/layout/header';
 
+    import BaseTag from './BaseTag';
     export default {
         data() {
             return {
@@ -105,6 +102,10 @@
             components: {
                 Header
             }
+        },
+        components: {
+            BaseTag,
+            'base-tag': BaseTag
         },
         methods: {
             init: function () {

@@ -9,7 +9,8 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex';
+    import {mapState} from 'vuex';
+
     export default {
         name: 'TheLoginInput',
         data() {
@@ -38,7 +39,7 @@
                 });
             }
         },
-        computed:{
+        computed: {
             ...mapState({
                 stating: state => state.user.localStating
             })
