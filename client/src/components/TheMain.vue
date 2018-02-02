@@ -78,7 +78,7 @@
                     </Menu>
                 </Sider>
                 <Layout :style="{padding: '0 24px 24px',margin:'0 0 0 200px'}">
-                    <base-tag :style="{height: '44px', padding: '4px 0'}"></base-tag>
+                    <base-tag :style="{padding: '4px 0'}"></base-tag>
                     <Content :style="{padding: '0', minHeight: '77vh', background: 'f5f7f9'}">
                         <router-view></router-view>
                     </Content>
@@ -105,34 +105,20 @@
             'base-tag': BaseTag
         },
         methods: {
-            init: function () {
+            changeHeight() {
                 if (this.screenWidth <= 1042) this.headerHeight = 120;
                 else this.headerHeight = 60;
             }
         },
-        mounted() {
-            const that = this;
-            window.onresize = () => {
-                return (() => {
-                    window.screenWidth = document.body.clientWidth;
-                    that.screenWidth = window.screenWidth;
-                })()
-            }
+        created() {
+            this.changeHeight();
         },
-        watch: {
-            screenWidth(val) {
-                if (!this.timer) {
-                    this.screenWidth = val;
-                    this.timer = true;
-                    let that = this;
-                    setTimeout(function () {
-                        // that.screenWidth = that.$store.state.canvasWidth
-                        // console.log(that.screenWidth);
-                        that.init();
-                        that.timer = false;
-                    }, 300)
-                }
-            }
+        mounted() {
+            // 监听window的resize事件．在窗口变化时再设置宽度
+            window.onresize = () => {
+                this.screenWidth = document.body.clientWidth;
+                this.changeHeight();
+            };
         }
     }
 </script>
@@ -141,7 +127,6 @@
     .layout-header {
         background: #fff;
         padding: 0 24px;
-        /*height: 60px;*/
         line-height: 60px;
         position: fixed;
         width: 100%;
