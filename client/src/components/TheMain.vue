@@ -39,11 +39,13 @@
                             <Icon type="ios-bell"></Icon>
                             消息提醒
                         </MenuItem>
-                        <MenuItem name="5">
-                            <Badge dot>
-                                <Avatar shape="square" icon="person"/>
-                            </Badge>
-                        </MenuItem>
+                        <router-link to="/main/user" :style="{height:'60px'}">
+                            <MenuItem name="5">
+                                <Badge dot>
+                                    <Avatar shape="square" icon="person"/>
+                                </Badge>
+                            </MenuItem>
+                        </router-link>
                     </div>
                 </Menu>
             </Header>

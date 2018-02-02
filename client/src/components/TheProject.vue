@@ -1,5 +1,5 @@
 <template>
-    <Collapse v-model="value1" style="font-size: 14px">
+    <Collapse value="1" style="font-size: 14px">
         <Panel name="1">
             拥有的项目
             <div slot="content">
@@ -33,7 +33,7 @@
                 <base-card></base-card>
                 <base-card></base-card>
                 <base-card></base-card>
-                <base-card></base-card>。
+                <base-card></base-card>
             </div>
         </Panel>
     </Collapse>
@@ -45,7 +45,6 @@
         name: "TheProject",
         data() {
             return {
-                value1: '1'
             }
         },
         components: {
