@@ -11,6 +11,8 @@ const state = {
     user: {
         name: '',
         pwd: '',
+        email: '',
+        text: '',
         localStating: '', // 当前页面判断依据
         dbStating: '' // 将在后台判断用户是否同时在线
     }
@@ -29,9 +31,24 @@ const mutations = {
 };
 
 const actions = {
+    nameCheck(context, info) {
+        // 向服务器验证是否已存在
+        if (true) {
+
+        } else {
+            context.commit('setUserName', info);
+        }
+    },
+    pwdCheck(context, info) {
+        if (true) {
+
+        } else {
+            context.commit('setUserPwd',info);
+        }
+    },
     async loginCheck(context, info) {
-        context.commit('setUserName',info);
-        context.commit('setUserPwd',info);
+        context.commit('setUserName', info);
+        context.commit('setUserPwd', info);
         await axios.post('/api/login', qs.stringify({
             username: context.state.user.name,
             password: context.state.user.pwd
