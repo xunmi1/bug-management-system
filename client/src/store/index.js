@@ -29,8 +29,10 @@ const mutations = {
 };
 
 const actions = {
-    loginCheck(context) {
-        axios.post('/api/login', qs.stringify({
+    async loginCheck(context, info) {
+        context.commit('setUserName',info);
+        context.commit('setUserPwd',info);
+        await axios.post('/api/login', qs.stringify({
             username: context.state.user.name,
             password: context.state.user.pwd
         }))

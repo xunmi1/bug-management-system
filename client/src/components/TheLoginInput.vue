@@ -28,14 +28,12 @@
                 }
             },
             loginSubmit: function () {
-                this.$store.commit('setUserName', {
-                    name: this.userName
-                });
-                this.$store.commit('setUserPwd', {
+                this.$store.dispatch('loginCheck',{
+                    name: this.userName,
                     pwd: this.userPwd
-                });
-                this.$store.dispatch('loginCheck').then(() => {
-                    setTimeout(this.toMain, 260);
+                }).then(() => {
+                    this.toMain();
+                    //setTimeout(this.toMain, 260);
                 });
             }
         },
