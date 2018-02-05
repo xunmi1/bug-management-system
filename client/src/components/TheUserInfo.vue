@@ -34,7 +34,7 @@
                             :show-upload-list="false"
                             :default-file-list="defaultAvatar"
                             :on-success="handleSuccess"
-                            :format="['jpg','jpeg','png']"
+                            :format="['jpg', 'jpeg', 'png', 'gif','ico']"
                             :max-size="1024"
                             :on-format-error="handleFormatError"
                             :on-exceeded-size="handleMaxSize"
@@ -100,7 +100,6 @@
                 this.$store.commit('setUserAvatarId', {
                     avatarId: file.response.filename
                 });
-                console.log(file);
                 this.$Notice.success({
                     title: '上传成功',
                     desc: file.name + ' 上传成功'

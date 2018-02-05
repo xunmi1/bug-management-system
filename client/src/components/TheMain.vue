@@ -42,7 +42,7 @@
                         <router-link to="/main/user" :style="{height:'60px'}">
                             <MenuItem name="5">
                                 <Badge dot>
-                                    <Avatar shape="square" icon="person"/>
+                                    <Avatar shape="square" :src="defaultAvatar" icon="person"/>
                                 </Badge>
                             </MenuItem>
                         </router-link>
@@ -92,6 +92,7 @@
 </template>
 <script>
     import BaseTag from './BaseTag';
+    import {mapState} from 'vuex';
 
     export default {
         data() {
@@ -99,9 +100,12 @@
                 SearchValue: '',
                 // 屏幕兼容 > 630 px
                 screenWidth: document.body.clientWidth,
-                headerHeight: 60
+                headerHeight: 60,
+                avatar: {
+                    name: '',
+                    file: 'http://localhost:8000/public/images/'
+                }
             };
-
         },
         components: {
             BaseTag,
@@ -111,6 +115,20 @@
             changeHeight() {
                 if (this.screenWidth <= 1042) this.headerHeight = 120;
                 else this.headerHeight = 60;
+            }
+        },
+        computed: {
+            ...mapState({
+                avatarId: state => state.user.avatarId
+            }),
+            defaultAvatar: function () {
+                if (!this.avatarId) {
+                    return null;
+                } else {
+                    console.log(this.avatarId);
+                    this.avatar.name = this.avatarId;
+                    return this.avatar.file + this.avatar.name;
+                }
             }
         },
         created() {
