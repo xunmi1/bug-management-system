@@ -34,7 +34,7 @@
                             :show-upload-list="false"
                             :default-file-list="defaultAvatar"
                             :on-success="handleSuccess"
-                            :format="['jpg', 'jpeg', 'png', 'gif','ico']"
+                            :format="['jpg', 'jpeg', 'png', 'gif', 'ico']"
                             :max-size="1024"
                             :on-format-error="handleFormatError"
                             :on-exceeded-size="handleMaxSize"
