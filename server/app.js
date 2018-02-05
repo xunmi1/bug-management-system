@@ -4,9 +4,12 @@ const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
 const staic = require('koa-static');
 const cors = require('koa2-cors');
+const logger = require('koa-logger');
 
 const index = require('./routes/index');
-const login = require('./routes/login')
+const login = require('./routes/login');
+const upload = require('./routes/upload');
+
 // 创建一个Koa对象表示 web app 本身
 const app = new Koa();
 
@@ -16,11 +19,9 @@ app.use(bodyParser());
 // app.use(router.routes());
 // 以中间件形式绑定到路径上
 
-// log request URL
-app.use(async (ctx, next) => {
-    console.log(`Process ${ctx.request.method} ${ctx.request.url}...`);
-    await next();
-});
+// log request
+app.use(logger());
+
 app.use(cors({
     origin: function (ctx) {
         if (ctx.url === '/test') {
@@ -37,6 +38,7 @@ app.use(cors({
 
 app.use(index.routes());
 app.use(login.routes());
+app.use(upload.routes());
 
 // 监听端口
 app.listen(8000);

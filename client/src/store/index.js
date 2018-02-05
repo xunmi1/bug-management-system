@@ -13,6 +13,7 @@ const state = {
         pwd: '',
         email: '',
         text: '',
+        avatarId: '',
         localStating: '', // 当前页面判断依据
         dbStating: '' // 将在后台判断用户是否同时在线
     }
@@ -27,6 +28,9 @@ const mutations = {
     },
     setUserLocalStating(state, info) {
         state.user.localStating = info.localStating;
+    },
+    setUserAvatarId(state, info) {
+        state.user.avatarId = info.avatarId;
     },
 };
 
@@ -43,7 +47,7 @@ const actions = {
         if (true) {
 
         } else {
-            context.commit('setUserPwd',info);
+            context.commit('setUserPwd', info);
         }
     },
     async loginCheck(context, info) {

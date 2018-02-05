@@ -26,7 +26,7 @@
                         <div class="avatar">
                             <i class="avatar-i fa fa-user-o"></i>
                             <div class="img-position">
-                                <img :src="defaultAvatar.file + defaultAvatar.name"
+                                <img :src="defaultAvatar[0].file + defaultAvatar[0].name"
                                      width="200" height="200" alt=""/>
                             </div>
                         </div>
@@ -39,7 +39,7 @@
                             :on-format-error="handleFormatError"
                             :on-exceeded-size="handleMaxSize"
                             type="drag"
-                            action=""
+                            action="http://localhost:8000/user/avatar"
                             style="width: 200px">
                             <div style="background-color: #e6e6e6">
                                 <Icon type="camera" size="24"
@@ -82,7 +82,7 @@
                 defaultAvatar: [
                     {
                         name: '',
-                        file: '../assets/images/'
+                        file: 'http://localhost:8000/public/images/'
                     }
                 ]
             }
@@ -93,9 +93,13 @@
                 this.userInfo.pwd = this.user.pwd;
                 this.userInfo.email = this.user.email;
                 this.userInfo.text = this.user.text;
+                this.defaultAvatar[0].name = this.user.avatarId;
             },
             handleSuccess(evnet, file) {
-                this.defaultAvatar[0].name = file.name;
+                this.defaultAvatar[0].name = file.response.filename;
+                this.$store.commit('setUserAvatarId', {
+                    avatarId: file.response.filename
+                });
                 console.log(file);
                 this.$Notice.success({
                     title: '上传成功',
