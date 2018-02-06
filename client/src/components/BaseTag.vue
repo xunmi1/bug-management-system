@@ -14,81 +14,67 @@
 </template>
 
 <script>
+    import {mapMutations, mapState} from 'vuex';
+
     export default {
         name: "BaseTag",
         data() {
-            return {
-                list: [
-                    {
-                        name: '我的项目',
-                        url: '/main/project',
-                        isChecked: false
-                    },
-                    {
-                        name: '账号设置',
-                        url: '/main/user',
-                        isChecked: false
-                    },
-                    {
-                        name: '我的项目',
-                        url: '/main/project',
-                        isChecked: false
-                    },
-                ]
-            }
+            return {}
         },
         methods: {
-            tagAdd(text) {
-                // 先将 tag 全部设为 false, 再将添加的设为true
-                this.list.forEach(item => {
-                    item.isChecked = false;
+            ...mapMutations({
+                add: 'tagAdd',
+                close: 'tagClose',
+                change: 'tagChange'
+            }),
+            tagAdd(name, url) {
+                this.add({
+                    name,
+                    url
                 });
-                const tmpItem = {
-                    name: text,
-                    isChecked: true
-                };
-                this.list.push(tmpItem);
-                this.tagRedirection(this.list[index].url);
+                this.tagRedirect(this.list[index].url);
             },
-            // event: 触发事件类型, index: 元素的 name 值
+
+            /**
+             * tag 标签关闭
+             * @param event - 触发事件类型
+             * @param index - 元素的 name 值
+             */
             tagClose(event, index) {
-                // tag 数量大于 1
-                if (this.list.length > 1) {
-                    let tmp = index;
-                    // 选择的 tag 为选中状态
-                    if (this.list[index].isChecked) {
-                        /**
-                         * 选择的 tag 改为未选择状态
-                         * 选择的 tag 是第一个，则将第二个 tag 设为选中状态
-                         * 否则，将前一个 tag 设为选中状态
-                         */
-                        this.list[index].isChecked = false;
-                        if (index === 0) {
-                            this.list[index + 1].isChecked = true;
-                            this.tagRedirection(this.list[index + 1].url);
-                        } else {
-                            this.list[index - 1].isChecked = true;
-                            this.tagRedirection(this.list[index - 1].url);
-                        }
-                    }
-                    this.list.splice(index, 1);
+                this.close({index});
+                if (this.isRedirect) {
+                    index = this.tagIndex;
+                    this.tagRedirect(this.list[index].url);
                 }
             },
-            // checked: 组件自带的 prop，index: 元素的 name 值
+
+            /**
+             * tag 标签切换
+             * @param checked - 组件自带的 prop
+             * @param index - 元素的 name 值
+             */
             tagChange(checked, index) {
-                if (!this.list[index].isChecked) {
-                    this.list.forEach(item => {
-                        item.isChecked = false;
-                    });
-                    this.list[index].isChecked = true;
-                    this.tagRedirection(this.list[index].url);
+                if (this.isRedirect) {
+                    this.change({index});
+                    this.tagRedirect(this.list[index].url);
                 }
             },
-            // 组件切换
-            tagRedirection(url) {
+
+            /**
+             * 切换当前显示页面
+             * @param url tag 标签的 url
+             */
+            tagRedirect(url) {
                 this.$router.push({path: url});
             }
-        }
+        },
+        computed: {
+            ...mapState({
+                list: state => state.tagState.list,
+                tagIndex: state => state.tagState.tagIndex,
+                isRedirect: state => state.tagState.isRedirect
+            })
+        },
     }
 </script>
 

@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import createLogger from 'vuex/dist/logger';
 
 import user from './modules/user';
+import tagState from './modules/tagState';
 
 Vue.use(Vuex);
 
@@ -11,7 +12,8 @@ const store = new Vuex.Store({
     mutations: {},
     actions: {},
     modules: {
-        user
+        user,
+        tagState
     },
     plugins: [createLogger()]
 });

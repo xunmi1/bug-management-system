@@ -69,7 +69,6 @@ const user = {
     state,
     actions,
     mutations,
-    actions,
 };
 
 export default user;
