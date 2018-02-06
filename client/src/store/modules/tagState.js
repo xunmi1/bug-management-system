@@ -1,20 +1,10 @@
 const state = {
     list: [
         {
-            name: '账号设置',
-            url: '/main/user',
-            isChecked: false
-        },
-        {
             name: '我的项目',
             url: '/main/project',
-            isChecked: false
-        },
-        {
-            name: '我的项目1',
-            url: '/main/project',
             isChecked: true
-        },
+        }
     ],
     tagIndex: '',
     isRedirect: true
@@ -32,7 +22,6 @@ const mutations = {
             isChecked: true
         };
         state.list.push(tmpItem);
-        state.tagRedirection(state.list[index].url);
     },
 
     tagClose(state, tag) {
@@ -53,6 +42,7 @@ const mutations = {
                 } else {
                     state.list[tag.index + 1].isChecked = true;
                 }
+                state.isRedirect = true;
             } else {
                 state.isRedirect = false;
             }
@@ -67,6 +57,7 @@ const mutations = {
                 item.isChecked = false;
             });
             state.list[tag.index].isChecked = true;
+            state.isRedirect = true;
         } else {
             state.isRedirect = false;
         }

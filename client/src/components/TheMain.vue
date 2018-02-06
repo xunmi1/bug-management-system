@@ -2,7 +2,10 @@
     <div>
         <Layout>
             <Header v-bind:style="{ height: headerHeight + 'px' }" class="layout-header">
-                <Menu mode="horizontal" theme="light" active-name="3" v-bind:style="{ height: headerHeight + 'px' }">
+                <Menu mode="horizontal" theme="light" accordion
+                      active-name="project"
+                      @on-select="tagAdd"
+                      :style="{ height: headerHeight + 'px' }">
                     <div class="menu-logo">
                         <router-link to="/home">
                             <img src="../assets/images/logo.png" alt="logo" width="40" height="40"/>
@@ -14,33 +17,33 @@
                                placeholder="搜索..." style="width: 180px"></Input>
                     </div>
                     <div class="menu-nav">
-                        <MenuItem name="1">
+                        <MenuItem name="issue">
                             <Icon type="ios-paper"></Icon>
                             问题提交
                         </MenuItem>
-                        <Submenu name="2">
+                        <Submenu name="mgmt">
                             <template slot="title">
                                 <Icon type="ios-gear"></Icon>
                                 项目配置
                             </template>
-                            <MenuItem name="2-1">项目信息</MenuItem>
-                            <MenuItem name="2-2">成员管理</MenuItem>
-                            <MenuItem name="2-3">用户管理</MenuItem>
-                            <MenuItem name="2-4">功能模块</MenuItem>
-                            <MenuItem name="2-5">版本管理</MenuItem>
+                            <MenuItem name="mgmt1">项目信息</MenuItem>
+                            <MenuItem name="mgmt2">成员管理</MenuItem>
+                            <MenuItem name="mgmt3">用户管理</MenuItem>
+                            <MenuItem name="mgmt4">功能模块</MenuItem>
+                            <MenuItem name="mgmt5">版本管理</MenuItem>
                         </Submenu>
                         <router-link to="/main/project" :style="{height:'60px'}">
-                            <MenuItem name="3">
+                            <MenuItem name="project">
                                 <Icon type="folder"></Icon>
                                 我的项目
                             </MenuItem>
                         </router-link>
-                        <MenuItem name="4">
+                        <MenuItem name="message">
                             <Icon type="ios-bell"></Icon>
                             消息提醒
                         </MenuItem>
                         <router-link to="/main/user" :style="{height:'60px'}">
-                            <MenuItem name="5">
+                            <MenuItem name="user">
                                 <Badge dot>
                                     <Avatar shape="square" :src="defaultAvatar" icon="person"/>
                                 </Badge>
@@ -92,7 +95,7 @@
 </template>
 <script>
     import BaseTag from './BaseTag';
-    import {mapState} from 'vuex';
+    import {mapMutations, mapState} from 'vuex';
 
     export default {
         data() {
@@ -104,14 +107,63 @@
                 avatar: {
                     name: '',
                     file: 'http://localhost:8000/public/images/'
+                },
+                menuItem: {
+                    issue: {
+                        name: '问题提交',
+                        url: '/main/issue'
+                    },
+                    mgmt1: {
+                        name: '项目信息',
+                        url: ''
+                    },
+                    mgmt2: {
+                        name: '成员管理',
+                        url: ''
+                    },
+                    mgmt3: {
+                        name: '用户管理',
+                        url: ''
+                    },
+                    mgmt4: {
+                        name: '功能模块',
+                        url: ''
+                    },
+                    mgmt5: {
+                        name: '版本管理',
+                        url: ''
+                    },
+                    project: {
+                        name: '我的项目',
+                        url: '/main/project'
+                    },
+                    message: {
+                        name: '消息提醒',
+                        url: '/main/message'
+                    },
+                    user: {
+                        name: '账号设置',
+                        url: '/main/user'
+                    }
                 }
-            };
+            }
         },
         components: {
-            BaseTag,
             'base-tag': BaseTag
         },
         methods: {
+            ...mapMutations({
+                add: 'tagAdd'
+            }),
+            // tag 标签添加
+            tagAdd(index) {
+                this.add({
+                    name: this.menuItem[index].name,
+                    url: this.menuItem[index].url
+                });
+                this.$router.push({path: this.menuItem[index].url});
+            },
+            // 导航栏高度自适应 (页面兼容性)
             changeHeight() {
                 if (this.screenWidth <= 1042) this.headerHeight = 120;
                 else this.headerHeight = 60;
@@ -119,9 +171,10 @@
         },
         computed: {
             ...mapState({
-                avatarId: state => state.user.avatarId
+                avatarId: state => state.user.userInfo.avatarId,
             }),
-            defaultAvatar: function () {
+            // 用户头像设置
+            defaultAvatar() {
                 if (!this.avatarId) {
                     return null;
                 } else {

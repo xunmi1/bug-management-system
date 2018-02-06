@@ -32,7 +32,7 @@
                     name,
                     url
                 });
-                this.tagRedirect(this.list[index].url);
+                this.tagRedirect(url);
             },
 
             /**
@@ -42,6 +42,7 @@
              */
             tagClose(event, index) {
                 this.close({index});
+                console.log('是否跳转：' + this.isRedirect);
                 if (this.isRedirect) {
                     index = this.tagIndex;
                     this.tagRedirect(this.list[index].url);
