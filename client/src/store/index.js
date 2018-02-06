@@ -2,79 +2,18 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import createLogger from 'vuex/dist/logger';
 
-import axios from 'axios';
-import qs from 'qs';
+import user from './modules/user';
 
 Vue.use(Vuex);
 
-const state = {
-    user: {
-        name: '',
-        pwd: '',
-        email: '',
-        text: '',
-        avatarId: '',
-        localStating: '', // 当前页面判断依据
-        dbStating: '' // 将在后台判断用户是否同时在线
-    }
-};
-
-const mutations = {
-    setUserName(state, info) {
-        state.user.name = info.name;
+const store = new Vuex.Store({
+    state: {},
+    mutations: {},
+    actions: {},
+    modules: {
+        user
     },
-    setUserPwd(state, info) {
-        state.user.pwd = info.pwd;
-    },
-    setUserLocalStating(state, info) {
-        state.user.localStating = info.localStating;
-    },
-    setUserAvatarId(state, info) {
-        state.user.avatarId = info.avatarId;
-    },
-};
-
-const actions = {
-    nameCheck(context, info) {
-        // 向服务器验证是否已存在
-        if (true) {
-
-        } else {
-            context.commit('setUserName', info);
-        }
-    },
-    pwdCheck(context, info) {
-        if (true) {
-
-        } else {
-            context.commit('setUserPwd', info);
-        }
-    },
-    async loginCheck(context, info) {
-        context.commit('setUserName', info);
-        context.commit('setUserPwd', info);
-        await axios.post('/api/login', qs.stringify({
-            username: context.state.user.name,
-            password: context.state.user.pwd
-        }))
-            .then((response) => {
-                // console.log(response.data);
-                if (!state.user.dbStating) {
-                    context.commit('setUserLocalStating', {
-                        localStating: response.data
-                    });
-                }
-            })
-            .catch(function (error) {
-                console.log(error.data);
-            });
-    }
-};
-
-export default new Vuex.Store({
-    state,
-    mutations,
-    actions,
-    modules: {},
     plugins: [createLogger()]
-})
+});
+
+export default store;

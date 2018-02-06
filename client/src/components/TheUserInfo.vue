@@ -120,7 +120,7 @@
         },
         computed: {
             ...mapState({
-                user: state => state.user
+                user: state => state.user.userInfo
             })
         },
         created() {
