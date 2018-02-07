@@ -18,7 +18,7 @@
                         <div class="content-info-box">
                             <p>个性简介：</p>
                             <Input v-model="userInfo.text"
-                                   :autosize="{minRows: 3, maxRows: 5}" type="textarea"
+                                   :autosize="{minRows: 2, maxRows: 5}" type="textarea"
                                    style="width: 360px" class="info-input"></Input>
                         </div>
                     </div>
@@ -42,11 +42,17 @@
                             action="http://localhost:8000/user/avatar"
                             style="width: 200px">
                             <div style="background-color: #e6e6e6">
-                                <Icon type="camera" size="24"
+                                <Icon type="camera" size="22"
                                       style="line-height: 40px; vertical-align: middle"></Icon>
                                 <label>上传头像</label>
                             </div>
                         </Upload>
+                    </div>
+                    <div class="content-info content-button">
+                        <ButtonGroup>
+                            <Button size="large">取消</Button>
+                            <Button size="large">确定</Button>
+                        </ButtonGroup>
                     </div>
                 </div>
             </div>
@@ -54,7 +60,31 @@
         <Panel name="2">
             安全设置
             <div slot="content">
-
+                <div class="content-info">
+                    <div class="content-info content-flex-direction content-info-left">
+                        <div class="content-info-box">
+                            <p>原密码：</p>
+                            <Input v-model="userInfo.pwd" clearable type="password"
+                                   class="info-input-pwd"></Input>
+                        </div>
+                        <div class="content-info-box">
+                            <p>新密码：</p>
+                            <Input v-model="userInfo.newPwd" clearable type="password"
+                                   class="info-input-pwd"></Input>
+                        </div>
+                        <div class="content-info-box">
+                            <p>确认新密码：</p>
+                            <Input v-model="userInfo.newPwd1" clearable type="password"
+                                   class="info-input-pwd"></Input>
+                        </div>
+                    </div>
+                    <div class="content-info content-button">
+                        <ButtonGroup>
+                            <Button size="large">取消</Button>
+                            <Button size="large">确定</Button>
+                        </ButtonGroup>
+                    </div>
+                </div>
             </div>
         </Panel>
         <Panel name="3">
@@ -76,6 +106,8 @@
                 userInfo: {
                     name: '',
                     pwd: '',
+                    newPwd: '',
+                    newPwd1: '',
                     email: '',
                     text: ''
                 },
@@ -90,7 +122,7 @@
         methods: {
             init() {
                 this.userInfo.name = this.user.name;
-                this.userInfo.pwd = this.user.pwd;
+                //this.userInfo.pwd = this.user.pwd;
                 this.userInfo.email = this.user.email;
                 this.userInfo.text = this.user.text;
                 this.defaultAvatar[0].name = this.user.avatarId;
@@ -168,18 +200,15 @@
 
     .content-info-left {
         width: 400px;
-        height: 280px;
     }
 
     .content-info-right {
         width: 200px;
-        height: 280px;
         margin: 0 auto;
     }
 
     .content-info-box {
-        margin-right: 10px;
-        margin-bottom: 10px;
+        margin: 0 6px 20px 6px;
     }
 
     .content-info-box p {
@@ -188,5 +217,22 @@
 
     .info-input {
         width: 200px;
+    }
+
+    .info-input-pwd {
+        width: 360px
+    }
+
+    .content-button {
+        width: 100%;
+        height: 80px;
+        line-height: 80px;
+        display: inline-block;
+        text-align: center;
+        font-size: 0; /* 消除 inline-block 间隙*/
+    }
+
+    .content-button button {
+        width: 100px;
     }
 </style>
