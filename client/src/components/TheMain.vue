@@ -3,7 +3,8 @@
         <Layout>
             <Header v-bind:style="{ height: headerHeight + 'px' }" class="layout-header">
                 <Menu mode="horizontal" theme="light" accordion
-                      active-name="project"
+                      ref="menu"
+                      :active-name="$route.name"
                       @on-select="tagAdd"
                       :style="{ height: headerHeight + 'px' }">
                     <div class="menu-logo">
@@ -100,10 +101,11 @@
     export default {
         data() {
             return {
+                // 页面兼容属性 width > 630px
                 SearchValue: '',
-                // 屏幕兼容 > 630 px
                 screenWidth: document.body.clientWidth,
                 headerHeight: 60,
+
                 avatar: {
                     name: '',
                     file: 'http://localhost:8000/public/images/'
@@ -155,14 +157,16 @@
             ...mapMutations({
                 add: 'tagAdd'
             }),
-            // tag 标签添加
-            tagAdd(index) {
+
+            // 点击导航菜单，添加 tag 标签
+            tagAdd(tag) {
                 this.add({
-                    name: this.menuItem[index].name,
-                    url: this.menuItem[index].url
+                    tag,
+                    name: this.menuItem[tag].name,
+                    url: this.menuItem[tag].url
                 });
-                this.$router.push({path: this.menuItem[index].url});
             },
+
             // 导航栏高度自适应 (页面兼容性)
             changeHeight() {
                 if (this.screenWidth <= 1042) this.headerHeight = 120;
@@ -186,6 +190,7 @@
         },
         created() {
             this.changeHeight();
+            this.tagAdd(this.$route.name);
         },
         mounted() {
             // 监听window的resize事件．在窗口变化时再设置宽度
@@ -193,6 +198,13 @@
                 this.screenWidth = document.body.clientWidth;
                 this.changeHeight();
             };
+        },
+        updated() {
+            this.$nextTick(() => {
+                if (this.$refs.menu) {
+                    this.$refs.menu.updateActiveName();
+                }
+            })
         }
     }
 </script>

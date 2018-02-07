@@ -27,13 +27,6 @@
                 close: 'tagClose',
                 change: 'tagChange'
             }),
-            tagAdd(name, url) {
-                this.add({
-                    name,
-                    url
-                });
-                this.tagRedirect(url);
-            },
 
             /**
              * tag 标签关闭
@@ -45,7 +38,7 @@
                 console.log('是否跳转：' + this.isRedirect);
                 if (this.isRedirect) {
                     index = this.tagIndex;
-                    this.tagRedirect(this.list[index].url);
+                    this.tagRedirect(index);
                 }
             },
 
@@ -57,7 +50,7 @@
             tagChange(checked, index) {
                 if (this.isRedirect) {
                     this.change({index});
-                    this.tagRedirect(this.list[index].url);
+                    this.tagRedirect(index);
                 }
             },
 
@@ -65,8 +58,9 @@
              * 切换当前显示页面
              * @param url tag 标签的 url
              */
-            tagRedirect(url) {
-                this.$router.push({path: url});
+            tagRedirect(index) {
+                this.$router.push({path: this.list[index].url});
+                //this.$emit('itemChange', this.list[index].tag);
             }
         },
         computed: {

@@ -1,12 +1,6 @@
 const state = {
-    list: [
-        {
-            name: '我的项目',
-            url: '/main/project',
-            isChecked: true
-        }
-    ],
-    tagIndex: '',
+    list: [],
+    tagIndex: 0,
     isRedirect: true
 };
 
@@ -17,6 +11,7 @@ const mutations = {
             item.isChecked = false;
         });
         const tmpItem = {
+            tag: item.tag,
             name: item.name,
             url: item.url,
             isChecked: true
