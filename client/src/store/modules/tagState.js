@@ -1,7 +1,7 @@
 const state = {
     list: [],
     tagIndex: new Number,
-    isRedirect: true
+    isRedirect: true // tag 组件被点击，判断是否跳转
 };
 
 const mutations = {

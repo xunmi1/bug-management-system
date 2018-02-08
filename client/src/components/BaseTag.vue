@@ -48,8 +48,9 @@
              * @param index - 元素的 name 值
              */
             tagChange(checked, index) {
+                this.change({index});
+                console.log('是否跳转：' + this.isRedirect);
                 if (this.isRedirect) {
-                    this.change({index});
                     this.tagRedirect(index);
                 }
             },
