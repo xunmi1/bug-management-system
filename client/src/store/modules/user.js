@@ -6,7 +6,7 @@ const state = {
         name: '',
         pwd: '',
         email: '',
-        text: '',
+        desc: '',
         avatarId: '',
         localStating: '', // 当前页面判断依据
         dbStating: '' // 将在后台判断用户是否同时在线

@@ -5,22 +5,22 @@
             <div slot="content">
                 <div class="content-info">
                     <div class="content-info content-flex-direction content-info-left">
-                        <div class="content-info-box">
-                            <p>用户名：</p>
-                            <Input v-model="userInfo.name" clearable
-                                   class="info-input"></Input>
-                        </div>
-                        <div class="content-info-box">
-                            <p>邮箱：</p>
-                            <Input v-model="userInfo.email" clearable type="email"
-                                   class="info-input"></Input>
-                        </div>
-                        <div class="content-info-box">
-                            <p>个性简介：</p>
-                            <Input v-model="userInfo.text"
-                                   :autosize="{minRows: 2, maxRows: 5}" type="textarea"
-                                   style="width: 360px" class="info-input"></Input>
-                        </div>
+                        <Form ref="userInfo" :model="userInfo" :rules="ruleInfo">
+                            <FormItem prop="name" class="content-info-box">
+                                <p>用户名：</p>
+                                <Input v-model="userInfo.name" clearable class="info-input"></Input>
+                            </FormItem>
+                            <FormItem prop="email" class="content-info-box">
+                                <p>邮箱：</p>
+                                <Input v-model="userInfo.email" clearable class="info-input"></Input>
+                            </FormItem>
+                            <FormItem prop="desc" class="content-info-box">
+                                <p>个性简介：</p>
+                                <Input v-model="userInfo.desc"
+                                       :autosize="{minRows: 2, maxRows: 5}" type="textarea"
+                                       style="width: 360px" class="info-input"></Input>
+                            </FormItem>
+                        </Form>
                     </div>
                     <div class="content-info content-flex-direction content-info-right">
                         <div class="avatar">
@@ -49,9 +49,9 @@
                         </Upload>
                     </div>
                     <div class="content-info content-button">
-                        <ButtonGroup>
-                            <Button size="large">取消</Button>
-                            <Button size="large">确定</Button>
+                        <ButtonGroup size="large">
+                            <Button @click="commitInfo">确定</Button>
+                            <Button @click="handleReset('userInfo')">取消</Button>
                         </ButtonGroup>
                     </div>
                 </div>
@@ -62,26 +62,28 @@
             <div slot="content">
                 <div class="content-info">
                     <div class="content-info content-flex-direction content-info-left">
-                        <div class="content-info-box">
-                            <p>原密码：</p>
-                            <Input v-model="userInfo.pwd" clearable type="password"
-                                   class="info-input-pwd"></Input>
-                        </div>
-                        <div class="content-info-box">
-                            <p>新密码：</p>
-                            <Input v-model="userInfo.newPwd" clearable type="password"
-                                   class="info-input-pwd"></Input>
-                        </div>
-                        <div class="content-info-box">
-                            <p>确认新密码：</p>
-                            <Input v-model="userInfo.newPwd1" clearable type="password"
-                                   class="info-input-pwd"></Input>
-                        </div>
+                        <Form ref="userSafe" :model="userSafe" :rules="ruleSafe">
+                            <FormItem prop="pwd" class="content-info-box">
+                                <p>原密码：</p>
+                                <Input v-model="userSafe.pwd" clearable type="password"
+                                       class="info-input-pwd"></Input>
+                            </FormItem>
+                            <FormItem prop="newPwd" class="content-info-box">
+                                <p>新密码：</p>
+                                <Input v-model="userSafe.newPwd" clearable type="password"
+                                       class="info-input-pwd"></Input>
+                            </FormItem>
+                            <FormItem prop="pwdCheck" class="content-info-box">
+                                <p>确认新密码：</p>
+                                <Input v-model="userSafe.pwdCheck" clearable type="password"
+                                       class="info-input-pwd"></Input>
+                            </FormItem>
+                        </Form>
                     </div>
                     <div class="content-info content-button">
-                        <ButtonGroup>
-                            <Button size="large">取消</Button>
-                            <Button size="large">确定</Button>
+                        <ButtonGroup size="large">
+                            <Button @click="commitSafe">确定</Button>
+                            <Button @click="handleReset('userSafe')">取消</Button>
                         </ButtonGroup>
                     </div>
                 </div>
@@ -102,14 +104,57 @@
     export default {
         name: "theUserInfo",
         data() {
+            const validatePass = (rule, value, callback) => {
+                if (value) {
+                    if (this.userSafe.pwdCheck !== '') {
+                        // 对第二个密码框单独验证
+                        this.$refs.userSafe.validateField('pwdCheck');
+                    }
+                    callback();
+                }
+            };
+            const validatePassCheck = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请再次输入新密码'));
+                } else if (value !== this.userSafe.newPwd) {
+                    callback(new Error('两次密码不一致！'));
+                } else {
+                    callback();
+                }
+            };
+
             return {
                 userInfo: {
                     name: '',
+                    email: '',
+                    desc: ''
+                },
+                userSafe: {
                     pwd: '',
                     newPwd: '',
-                    newPwd1: '',
-                    email: '',
-                    text: ''
+                    pwdCheck: '',
+                },
+                ruleInfo: {
+                    name: [
+                        {required: true, message: '请输入用户名', trigger: 'blur'}
+                    ],
+                    email: [
+                        {required: true, message: '请输入邮箱地址', trigger: 'blur'},
+                        {type: 'email', message: '邮箱地址不正确', trigger: 'blur'}
+                    ]
+                },
+                ruleSafe: {
+                    pwd: [
+                        {required: true, message: '请输入密码', trigger: 'blur'},
+                    ],
+                    newPwd: [
+                        {required: true, message: '请输入密码', trigger: 'blur'},
+                        {type: 'string', min: 6, message: '密码长度不少于6位', trigger: 'blur'},
+                        {validator: validatePass, trigger: 'blur'}
+                    ],
+                    pwdCheck: [
+                        {validator: validatePassCheck, trigger: 'blur'}
+                    ]
                 },
                 defaultAvatar: [
                     {
@@ -122,11 +167,37 @@
         methods: {
             init() {
                 this.userInfo.name = this.user.name;
-                //this.userInfo.pwd = this.user.pwd;
                 this.userInfo.email = this.user.email;
-                this.userInfo.text = this.user.text;
+                this.userInfo.desc = this.user.desc;
                 this.defaultAvatar[0].name = this.user.avatarId;
             },
+            commitInfo() {
+                this.$refs['userInfo'].validate((valid) => {
+                    console.log(valid);
+                    if (valid) {
+                        // 这里写请求
+                        this.$Message.success('修改成功！');
+                    } else {
+                        this.$Message.error('修改失败！');
+                    }
+                });
+            },
+
+            commitSafe() {
+                this.$refs['userSafe'].validate((valid) => {
+                    console.log(valid);
+                    if (valid) {
+                        // 这里写请求
+                        this.$Message.success('修改成功！');
+                    } else {
+                        this.$Message.error('修改失败！');
+                    }
+                });
+            },
+            handleReset(name) {
+                this.$refs[name].resetFields();
+            },
+
             handleSuccess(evnet, file) {
                 this.defaultAvatar[0].name = file.response.filename;
                 this.$store.commit('setUserAvatarId', {
@@ -155,7 +226,7 @@
                 user: state => state.user.userInfo
             })
         },
-        created() {
+        mounted() {
             this.init();
         }
     }
@@ -208,7 +279,7 @@
     }
 
     .content-info-box {
-        margin: 0 6px 20px 6px;
+        margin: 0 6px 22px 6px;
     }
 
     .content-info-box p {

@@ -39,7 +39,7 @@
         },
         computed: {
             ...mapState({
-                stating: state => state.user.localStating
+                stating: state => state.user.userInfo.localStating
             })
 
         }
