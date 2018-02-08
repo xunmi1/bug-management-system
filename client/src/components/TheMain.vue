@@ -86,7 +86,9 @@
                 <Layout :style="{padding: '0 24px 24px',margin:'0 0 0 200px'}">
                     <base-tag :style="{padding: '4px 0'}"></base-tag>
                     <Content :style="{padding: '0', minHeight: '77vh', background: 'f5f7f9'}">
-                        <router-view></router-view>
+                        <keep-alive include="">
+                            <router-view></router-view>
+                        </keep-alive>
                     </Content>
                 </Layout>
             </Layout>
@@ -165,6 +167,7 @@
                     name: this.menuItem[tag].name,
                     url: this.menuItem[tag].url
                 });
+                // 通过 router-link 跳转，无需再进行跳转
             },
 
             // 导航栏高度自适应 (页面兼容性)

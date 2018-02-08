@@ -1,22 +1,36 @@
 const state = {
     list: [],
-    tagIndex: 0,
+    tagIndex: new Number,
     isRedirect: true
 };
 
 const mutations = {
+    // tagAdd 由 Main 组件触发，tagClose、tagChange 由 tag 组件触发
     tagAdd(state, item) {
-        // 先将 tag 全部设为 false, 再将添加的设为true
-        state.list.forEach(item => {
-            item.isChecked = false;
+        /**
+         * 先将 tag 全部设为 false,
+         * 如果需要添加，则将要添加的 tag 设为 true
+         * 否则，将激活项对应的 tag 设为 true
+         */
+        let isAdd = true;
+        state.list.forEach((i, index) => {
+            i.isChecked = false;
+            if (i.tag === item.tag) {
+                isAdd = false;
+                state.tagIndex = index;
+            }
         });
-        const tmpItem = {
-            tag: item.tag,
-            name: item.name,
-            url: item.url,
-            isChecked: true
-        };
-        state.list.push(tmpItem);
+        if (isAdd) {
+            const tmpItem = {
+                tag: item.tag,
+                name: item.name,
+                url: item.url,
+                isChecked: true
+            };
+            state.list.push(tmpItem);
+        } else {
+            state.list[state.tagIndex].isChecked = true;
+        }
     },
 
     tagClose(state, tag) {
@@ -27,7 +41,7 @@ const mutations = {
             if (state.list[tag.index].isChecked) {
                 /**
                  * 选择的 tag 改为未选择状态
-                 * 选择的 tag 是最后一个，则将前一个 tag 设为选中状态
+                 * 若选择的 tag 是最后一个，则将前一个 tag 设为选中状态
                  * 否则，后一个 tag 设为选中状态
                  */
                 state.list[tag.index].isChecked = false;
@@ -45,8 +59,9 @@ const mutations = {
             state.list.splice(tag.index, 1);
         }
     },
-    // checked: 组件自带的 prop，index: 元素的 name 值
+
     tagChange(state, tag) {
+        // index: 元素的 name 值 (索引值)
         if (!state.list[tag.index].isChecked) {
             state.list.forEach(item => {
                 item.isChecked = false;
