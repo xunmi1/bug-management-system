@@ -1,0 +1,9 @@
+/**
+ * 修改 iView 默认样式
+ * 仅对于在原组件中，无法修改的样式
+ */
+
+/* TheMain 组件 - 使头部导航栏中默认头像处于中心 */
+.ivu-menu-submenu-title .ivu-avatar .ivu-icon-person {
+    margin-right: 0px;
+}

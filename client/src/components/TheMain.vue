@@ -43,9 +43,9 @@
                             <Icon type="ios-bell"></Icon>
                             消息提醒
                         </MenuItem>
-                        <Submenu>
+                        <Submenu name="user">
                             <template slot="title">
-                                <Avatar shape="square" :src="defaultAvatar" icon="person"/>
+                                <Avatar shape="square" :src="defaultAvatar" icon="person" id="avatar"/>
                             </template>
                             <router-link to="/main/user" :style="{height:'60px'}">
                                 <MenuItem name="user">账号设置</MenuItem>
@@ -176,6 +176,12 @@
             changeHeight() {
                 if (this.screenWidth <= 1042) this.headerHeight = 120;
                 else this.headerHeight = 60;
+            },
+            // 删除头像右边的 '^' 对应的节点
+            removeAvatarI() {
+                const avatarSibling = document.getElementById('avatar').nextElementSibling;
+                const avatarParent = document.getElementById('avatar').parentNode;
+                avatarParent.removeChild(avatarSibling);
             }
         },
         computed: {
@@ -198,6 +204,7 @@
             this.tagAdd(this.$route.name);
         },
         mounted() {
+            this.removeAvatarI();
             // 监听window的resize事件．在窗口变化时再设置宽度
             window.onresize = () => {
                 this.screenWidth = document.body.clientWidth;
@@ -214,7 +221,6 @@
     }
 </script>
 <style scoped>
-
     .layout-header {
         background: #fff;
         padding: 0 24px;
@@ -261,5 +267,4 @@
         left: 0;
         overflow: auto;
     }
-
 </style>

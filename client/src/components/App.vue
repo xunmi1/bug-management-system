@@ -21,3 +21,4 @@
     }
 </style>
 <style src="../assets/stylesheets/basestyle.css"></style>
+<style src="../assets/stylesheets/iviewstyle.css"></style>
