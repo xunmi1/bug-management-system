@@ -43,13 +43,15 @@
                             <Icon type="ios-bell"></Icon>
                             消息提醒
                         </MenuItem>
-                        <router-link to="/main/user" :style="{height:'60px'}">
-                            <MenuItem name="user">
-                                <Badge dot>
-                                    <Avatar shape="square" :src="defaultAvatar" icon="person"/>
-                                </Badge>
-                            </MenuItem>
-                        </router-link>
+                        <Submenu>
+                            <template slot="title">
+                                <Avatar shape="square" :src="defaultAvatar" icon="person"/>
+                            </template>
+                            <router-link to="/main/user" :style="{height:'60px'}">
+                                <MenuItem name="user">账号设置</MenuItem>
+                            </router-link>
+                            <MenuItem name="exit">退出系统</MenuItem>
+                        </Submenu>
                     </div>
                 </Menu>
             </Header>
