@@ -41,7 +41,6 @@ class msSqlDb {
                 console.log(err);
             })
     }
-
 }
 
 module.exports = new msSqlDb;
