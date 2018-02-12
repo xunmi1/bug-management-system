@@ -2,8 +2,7 @@
     <div>
         <Layout>
             <Header v-bind:style="{ height: headerHeight + 'px' }" class="layout-header">
-                <Menu mode="horizontal" theme="light" accordion
-                      ref="menu"
+                <Menu mode="horizontal" theme="light" accordion ref="menu"
                       :active-name="$route.name"
                       @on-select="tagAdd"
                       :style="{ height: headerHeight + 'px' }">
@@ -19,7 +18,7 @@
                     </div>
                     <div class="menu-nav">
                         <MenuItem name="issue">
-                            <Icon type="ios-paper"></Icon>
+                            <Icon type="ios-compose"></Icon>
                             问题提交
                         </MenuItem>
                         <Submenu name="mgmt">
@@ -27,24 +26,44 @@
                                 <Icon type="ios-gear"></Icon>
                                 项目配置
                             </template>
-                            <MenuItem name="mgmt1">项目信息</MenuItem>
-                            <MenuItem name="mgmt2">成员管理</MenuItem>
-                            <MenuItem name="mgmt3">用户管理</MenuItem>
-                            <MenuItem name="mgmt4">功能模块</MenuItem>
-                            <MenuItem name="mgmt5">版本管理</MenuItem>
+                            <MenuItem name="mgmt1">
+                                <Icon type="ios-paper"></Icon>
+                                项目信息
+                            </MenuItem>
+                            <MenuItem name="mgmt2">
+                                <Icon type="android-person-add"></Icon>
+                                成员管理
+                            </MenuItem>
+                            <MenuItem name="mgmt3">
+                                <Icon type="cube"></Icon>
+                                功能模块
+                            </MenuItem>
+                            <MenuItem name="mgmt4">
+                                <Icon type="pull-request"></Icon>
+                                版本管理
+                            </MenuItem>
                         </Submenu>
                         <MenuItem name="project">
                             <Icon type="folder"></Icon>
                             我的项目
                         </MenuItem>
-                        <MenuItem name="message">
-                            <Icon type="ios-bell"></Icon>
-                            消息提醒
-                        </MenuItem>
+                        <Submenu name="options">
+                            <template slot="title">
+                                <Icon type="navicon-round"></Icon>
+                                其他功能
+                            </template>
+                            <MenuItem name="retrieval">
+                                <Icon type="bug"></Icon>
+                                BUG 检索
+                            </MenuItem>
+                            <MenuItem name="more">
+                                <Icon type="more"></Icon>
+                                开发中...
+                            </MenuItem>
+                        </Submenu>
                         <Submenu name="user">
                             <template slot="title">
-                                <Avatar shape="square" :src="defaultAvatar"
-                                        icon="person" id="avatar"/>
+                                <Avatar shape="square" :src="defaultAvatar" icon="person" id="avatar"/>
                             </template>
                             <MenuItem name="user">账号设置</MenuItem>
                             <MenuItem name="exit" @click.native="setModal('exit')">退出系统</MenuItem>
@@ -104,7 +123,6 @@
     export default {
         data() {
             return {
-                // 页面兼容属性 width > 630px
                 SearchValue: '',
                 screenWidth: document.body.clientWidth,
                 headerHeight: 60,
@@ -145,9 +163,9 @@
                         name: '我的项目',
                         url: '/main/project'
                     },
-                    message: {
-                        name: '消息提醒',
-                        url: '/main/message'
+                    retrieval: {
+                        name: 'BUG 检索',
+                        url: '/main/retrieval'
                     },
                     user: {
                         name: '账号设置',
@@ -182,7 +200,7 @@
 
             // 导航栏高度自适应 (页面兼容性)
             changeHeight() {
-                if (this.screenWidth <= 1042) this.headerHeight = 120;
+                if (this.screenWidth <= 1064) this.headerHeight = 120;
                 else this.headerHeight = 60;
             },
             // 删除头像右边的 '^' 对应的节点
