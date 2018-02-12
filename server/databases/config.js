@@ -3,7 +3,7 @@ const dbConfig = {
     password: '123456',
     server: 'localhost',
     port: 1433,
-    database: 'bug-management-system',
+    database: 'BugManagementSystem',
     options: {
         encrypt: true // Use this if you're on Windows Azure
     },
