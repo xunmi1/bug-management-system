@@ -33,29 +33,26 @@
                             <MenuItem name="mgmt4">功能模块</MenuItem>
                             <MenuItem name="mgmt5">版本管理</MenuItem>
                         </Submenu>
-                        <router-link to="/main/project" :style="{height:'60px'}">
-                            <MenuItem name="project">
-                                <Icon type="folder"></Icon>
-                                我的项目
-                            </MenuItem>
-                        </router-link>
+                        <MenuItem name="project">
+                            <Icon type="folder"></Icon>
+                            我的项目
+                        </MenuItem>
                         <MenuItem name="message">
                             <Icon type="ios-bell"></Icon>
                             消息提醒
                         </MenuItem>
                         <Submenu name="user">
                             <template slot="title">
-                                <Avatar shape="square" :src="defaultAvatar" icon="person" id="avatar"/>
+                                <Avatar shape="square" :src="defaultAvatar"
+                                        icon="person" id="avatar"/>
                             </template>
-                            <router-link to="/main/user" :style="{height:'60px'}">
-                                <MenuItem name="user">账号设置</MenuItem>
-                            </router-link>
-                            <MenuItem name="exit">退出系统</MenuItem>
+                            <MenuItem name="user">账号设置</MenuItem>
+                            <MenuItem name="exit" @click.native="setModal('exit')">退出系统</MenuItem>
                         </Submenu>
                     </div>
                 </Menu>
             </Header>
-            <Layout v-bind:style="{ marginTop: headerHeight + 'px' }">
+            <Layout :style="{marginTop: headerHeight + 'px'}">
                 <Sider hide-trigger :style="{background: '#fff'}">
                     <Menu theme="light" width="auto">
                         <Submenu name="1">
@@ -85,7 +82,7 @@
                         </Submenu>
                     </Menu>
                 </Sider>
-                <Layout :style="{padding: '0 24px 24px',margin:'0 0 0 200px'}">
+                <Layout :style="{padding: '0 24px 24px', margin:'0 0 0 200px'}">
                     <base-tag :style="{padding: '4px 0'}"></base-tag>
                     <Content :style="{padding: '0', minHeight: '77vh', background: 'f5f7f9'}">
                         <keep-alive include="">
@@ -95,12 +92,14 @@
                 </Layout>
             </Layout>
         </Layout>
+        <base-modal :modal="modal"></base-modal>
         <BackTop></BackTop>
     </div>
 </template>
 <script>
-    import BaseTag from './BaseTag';
     import {mapMutations, mapState} from 'vuex';
+    import BaseTag from './BaseTag';
+    import BaseModal from './BaseModal';
 
     export default {
         data() {
@@ -113,6 +112,9 @@
                 avatar: {
                     name: '',
                     file: 'http://localhost:8000/public/images/'
+                },
+                modal: {
+                    exit: false
                 },
                 menuItem: {
                     issue: {
@@ -155,7 +157,8 @@
             }
         },
         components: {
-            'base-tag': BaseTag
+            'base-tag': BaseTag,
+            'base-modal': BaseModal
         },
         methods: {
             ...mapMutations({
@@ -164,12 +167,17 @@
 
             // 点击导航菜单，添加 tag 标签
             tagAdd(tag) {
-                this.add({
-                    tag,
-                    name: this.menuItem[tag].name,
-                    url: this.menuItem[tag].url
-                });
-                // 通过 router-link 跳转，无需再进行跳转
+                if (this.menuItem[tag]) {
+                    this.add({
+                        tag,
+                        name: this.menuItem[tag].name,
+                        url: this.menuItem[tag].url
+                    });
+                    this.$router.push({path: this.menuItem[tag].url});
+                }
+            },
+            setModal(name) {
+                this.modal[name] = true;
             },
 
             // 导航栏高度自适应 (页面兼容性)

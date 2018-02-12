@@ -5,5 +5,5 @@
 
 /* TheMain 组件 - 使头部导航栏中默认头像处于中心 */
 .ivu-menu-submenu-title .ivu-avatar .ivu-icon-person {
-    margin-right: 0px;
+    margin-right: 0;
 }

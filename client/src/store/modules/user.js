@@ -1,5 +1,4 @@
 import axios from "axios/index";
-import qs from 'qs';
 
 const state = {
     userInfo: {
@@ -47,10 +46,10 @@ const actions = {
     async loginCheck(context, info) {
         context.commit('setUserName', info);
         context.commit('setUserPwd', info);
-        await axios.post('/api/login', qs.stringify({
+        await axios.post('/api/login', {
             username: context.state.userInfo.name,
             password: context.state.userInfo.pwd
-        }))
+        })
             .then((response) => {
                 // console.log(response.data);
                 if (!state.userInfo.dbStating) {

@@ -28,17 +28,19 @@ class msSqlDb {
             })
     }
 
-    async getData() {
+    async getLoginData(option) {
         return await this.getConnection()
             .then(conn => {
-                return conn.request().query`select * from userSafe`
+                const sql = `select * from userSafe where userName = ${option.name}`;
+                return conn.request().query(sql);
             })
             .then(result => {
                 console.log('查询成功');
-                return result;
+                return result.recordset[0];
             })
             .catch(err => {
-                console.log(err);
+                console.log('查无此人');
+                return false;
             })
     }
 }
