@@ -7,15 +7,20 @@
             </p>
             <p style="text-align:center; font-size: 15px">你确定要退出系统吗？</p>
         </Modal>
-        <Modal v-model="modal.issue" width="580" :mask-closable="false" :loading=true @on-ok="issue()">
+        <Modal v-model="modal.issue" width="660" :styles="{top: '30px'}"
+               :mask-closable="false" :loading=true @on-ok="issue() ">
             <p slot="header" class="header-font">
-                <Icon type="ios-compose" class="fa fa-lg fa-fw"></Icon>
+                <Icon type="compose" class="fa-lg fa-fw" style="color: #2d8cf0"></Icon>
                 <span>问题提交</span>
             </p>
             <div>
                 <ButtonGroup class="issue-btn-group">
-                    <Button :type="btnStyle? 'info':'default' " class="issue-btn">问题信息</Button>
-                    <Button :type="btnStyle? 'default': 'info'" class="issue-btn">计划安排</Button>
+                    <Button :type="btnStyle? 'info':'default'"
+                            class="issue-btn" @click="changeBtn(true)">问题信息
+                    </Button>
+                    <Button :type="btnStyle? 'default':'info'"
+                            class="issue-btn" @click="changeBtn(false)">计划安排
+                    </Button>
                 </ButtonGroup>
                 <div class="content">
                     <keep-alive>
@@ -60,6 +65,10 @@
             },
             issue() {
 
+            },
+            changeBtn(bool) {
+                this.btnStyle = bool;
+                this.contentView = this.btnStyle ? theIssueInfo : theIssuePlan;
             }
         }
     }
@@ -82,7 +91,6 @@
     }
 
     .content {
-        border: 1px solid #e9eaec;
-        font-size: 14px;
+        margin-top: 16px;
     }
 </style>

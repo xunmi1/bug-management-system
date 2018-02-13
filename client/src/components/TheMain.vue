@@ -18,7 +18,7 @@
                     </div>
                     <div class="menu-nav">
                         <MenuItem name="issue" @click.native="setModal('issue')">
-                            <Icon type="ios-compose"></Icon>
+                            <Icon type="compose"></Icon>
                             问题提交
                         </MenuItem>
                         <Submenu name="mgmt">
