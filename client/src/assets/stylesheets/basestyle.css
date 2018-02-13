@@ -7,7 +7,7 @@
 }
 
 a {
-    text-decoration:none;
+    text-decoration: none;
 }
 
 li {
@@ -19,6 +19,6 @@ img {
     border: none;
 }
 
-input {
-    outline: 0;
+input, button, select, option, textarean {
+    outline: none;
 }

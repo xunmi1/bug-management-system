@@ -17,7 +17,7 @@
                                placeholder="搜索..." style="width: 180px"></Input>
                     </div>
                     <div class="menu-nav">
-                        <MenuItem name="issue">
+                        <MenuItem name="issue" @click.native="setModal('issue')">
                             <Icon type="ios-compose"></Icon>
                             问题提交
                         </MenuItem>
@@ -132,13 +132,10 @@
                     file: 'http://localhost:8000/public/images/'
                 },
                 modal: {
+                    issue: false,
                     exit: false
                 },
                 menuItem: {
-                    issue: {
-                        name: '问题提交',
-                        url: '/main/issue'
-                    },
                     mgmt1: {
                         name: '项目信息',
                         url: ''
@@ -148,14 +145,10 @@
                         url: ''
                     },
                     mgmt3: {
-                        name: '用户管理',
-                        url: ''
-                    },
-                    mgmt4: {
                         name: '功能模块',
                         url: ''
                     },
-                    mgmt5: {
+                    mgmt4: {
                         name: '版本管理',
                         url: ''
                     },
