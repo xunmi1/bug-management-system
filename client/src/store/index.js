@@ -4,6 +4,7 @@ import createLogger from 'vuex/dist/logger';
 
 import user from './modules/user';
 import tagState from './modules/tagState';
+import issue from './modules/issue';
 
 Vue.use(Vuex);
 
@@ -13,7 +14,8 @@ const store = new Vuex.Store({
     actions: {},
     modules: {
         user,
-        tagState
+        tagState,
+        issue
     },
     plugins: [createLogger()]
 });

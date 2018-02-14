@@ -80,7 +80,7 @@
                 } else {
                     this.disabledState2 = false;
                 }
-                this.handleData = !val ? [] : [
+                this.dispenseData = !val ? [] : [
                     val,
                     val + '测试'
                 ];
