@@ -74,23 +74,21 @@
 </template>
 
 <script>
+    import {mapState} from 'vuex';
+
     export default {
         name: "theIssueInfo",
         data() {
             return {
-                issueInfo: {
-                    title: '',
-                    select: 'bug',
-                    severity: 0,
-                    version: '',
-                    project: '',
-                    module: '',
-                    textarea: ''
-                },
+                issueInfo: {},
                 versionData: []
             }
         },
         methods: {
+            init() {
+                this.issueInfo = this.issue;
+                this.versionData = this.version
+            },
             tipFormat(val) {
                 switch (val) {
                     case 0:
@@ -111,6 +109,15 @@
                     val + '.1'
                 ];
             }
+        },
+        computed: {
+            ...mapState({
+                issue: state => state.issue.issueInfo,
+                version: state => state.project.countData.versionData
+            })
+        },
+        mounted() {
+            this.init();
         }
     }
 </script>

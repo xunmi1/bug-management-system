@@ -4,7 +4,7 @@
             <iCol span="12">
                 <FormItem label="分配人员">
                     <AutoComplete v-model="issuePlan.dispense"
-                                  :data="dispenseData"
+                                  :data="countData.dispenseData"
                                   :disabled="disabledState1"
                                   @on-search="dispenseSearch"
                                   placeholder="分配此问题的人员">
@@ -14,7 +14,7 @@
             <iCol span="12">
                 <FormItem label="解决人员">
                     <AutoComplete v-model="issuePlan.handle"
-                                  :data="handleData"
+                                  :data="countData.handleData"
                                   :disabled="disabledState2"
                                   @on-search="handleSearch"
                                   placeholder="解决此问题的人员">
@@ -30,7 +30,7 @@
             </iCol>
             <iCol span="10">
                 <FormItem label="版本号">
-                    <AutoComplete v-model="issuePlan.versionEnd" :data="versionEndData"
+                    <AutoComplete v-model="issuePlan.versionEnd" :data="countData.versionEndData"
                                   @on-search="versionSearch" placeholder="预计解决时的版本">
                     </AutoComplete>
                 </FormItem>
@@ -54,33 +54,30 @@
 </template>
 
 <script>
+    import {mapState} from 'vuex';
+
     export default {
         name: "theIssuePlan",
         data() {
             return {
-                issuePlan: {
-                    dispense: '',
-                    handle: '',
-                    priority: 2,
-                    versionEnd: '',
-                    dateState: '',
-                    dateEnd: ''
-                },
-                dispenseData: [],
-                handleData: [],
-                versionEndData: [],
+                issuePlan: {},
+                countData: {},
                 disabledState1: false,
                 disabledState2: false,
             }
         },
         methods: {
+            init() {
+                this.issuePlan = this.issue;
+                this.countData = this.count
+            },
             dispenseSearch(val) {
                 if (val) {
                     this.disabledState2 = true;
                 } else {
                     this.disabledState2 = false;
                 }
-                this.dispenseData = !val ? [] : [
+                this.countData.dispenseData = !val ? [] : [
                     val,
                     val + '测试'
                 ];
@@ -91,7 +88,7 @@
                 } else {
                     this.disabledState1 = false;
                 }
-                this.handleData = !val ? [] : [
+                this.countData.handleData = !val ? [] : [
                     val,
                     val + '测试'
                 ];
@@ -111,11 +108,20 @@
                 }
             },
             versionSearch(val) {
-                this.versionData = !val ? [] : [
+                this.countData.versionData = !val ? [] : [
                     value,
                     val + '.1'
                 ];
             }
+        },
+        computed: {
+            ...mapState({
+                issue: state => state.issue.issuePlan,
+                count: state => state.project.countData
+            })
+        },
+        mounted() {
+            this.init();
         }
     }
 </script>
