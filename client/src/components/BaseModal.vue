@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal v-model="modal.exit" width="380" :mask-closable="false" :loading=true @on-ok="exit">
+        <Modal v-model="modal.exit" width="380" :mask-closable=false :loading=true @on-ok="exit">
             <p slot="header" class="header-font">
                 <i class="fa fa-exclamation-circle fa-lg fa-fw" style="color: #f90"></i>
                 <span>退出系统</span>
@@ -8,7 +8,7 @@
             <p style="text-align:center; font-size: 15px">你确定要退出系统吗？</p>
         </Modal>
         <Modal v-model="modal.issue" width="660" :styles="{top: '30px'}"
-               :mask-closable="false" :loading="loading" @on-ok="issue">
+               :mask-closable=false @on-ok="issue" @on-cancel="clearInfo">
             <p slot="header" class="header-font">
                 <Icon type="compose" class="fa-lg fa-fw" style="color: #2d8cf0"></Icon>
                 <span>问题提交</span>
@@ -24,7 +24,7 @@
                 </ButtonGroup>
                 <div class="content">
                     <keep-alive>
-                        <component :is="contentView" ref="component" @stopClose="stopClose">
+                        <component :is="contentView" ref="component">
                         </component>
                     </keep-alive>
                 </div>
@@ -52,7 +52,6 @@
         },
         data() {
             return {
-                loading: true,
                 contentView: theIssueInfo,
                 btnStyle: true
             }
@@ -65,17 +64,15 @@
                 }, 1000);
             },
             issue() {
-                this.loading = true;
                 this.$refs.component.submit();
+            },
+            clearInfo() {
+                
             },
             // 点击 issue 中切换按钮，切换表单
             changeBtn(bool) {
                 this.btnStyle = bool;
                 this.contentView = this.btnStyle ? theIssueInfo : theIssuePlan;
-            },
-            stopClose() {
-                console.log(this.loading);
-                this.loading = false;
             }
         }
     }

@@ -80,8 +80,6 @@
         name: "theIssueInfo",
         data() {
             return {
-                issueInfo: {},
-                versionData: [],
                 ruleInfo: {
                     title: [
                         {required: true, message: '请输入标题', trigger: 'blur'},
@@ -126,7 +124,6 @@
                         this.$store.commit('setIssueInfo', this.issueInfo);
                         this.$Message.success('提交成功！');
                     } else {
-                        this.$emit('stopClose');
                         this.$Message.error('提交失败！');
                     }
                 });
@@ -134,12 +131,9 @@
         },
         computed: {
             ...mapState({
-                issue: state => state.issue.issueInfo,
-                version: state => state.project.countData.versionData
+                issueInfo: state => state.issue.issueInfo,
+                versionData: state => state.project.countData.versionData
             })
-        },
-        mounted() {
-            this.init();
         }
     }
 </script>

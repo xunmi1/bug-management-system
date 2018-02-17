@@ -60,17 +60,11 @@
         name: "theIssuePlan",
         data() {
             return {
-                issuePlan: {},
-                countData: {},
                 disabledState1: false,
                 disabledState2: false,
             }
         },
         methods: {
-            init() {
-                this.issuePlan = this.issue;
-                this.countData = this.count
-            },
             dispenseSearch(val) {
                 if (val) {
                     this.disabledState2 = true;
@@ -120,7 +114,6 @@
                         this.$store.commit('setIssuePlan', this.issuePlan);
                         this.$Message.success('提交成功！');
                     } else {
-                        this.$emit('stopClose');
                         this.$Message.error('提交失败！');
                     }
                 });
@@ -128,12 +121,9 @@
         },
         computed: {
             ...mapState({
-                issue: state => state.issue.issuePlan,
-                count: state => state.project.countData
+                issuePlan: state => state.issue.issuePlan,
+                countData: state => state.project.countData
             })
-        },
-        mounted() {
-            this.init();
         }
     }
 </script>
