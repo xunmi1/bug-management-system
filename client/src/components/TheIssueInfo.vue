@@ -1,8 +1,8 @@
 <template>
-    <Form :model="issueInfo" :label-width="74">
+    <Form ref="issueInfo" :model="issueInfo" :label-width="74" :rules="ruleInfo">
         <Row>
             <iCol span="18">
-                <FormItem label="标题">
+                <FormItem label="标题" prop="title">
                     <Input v-model="issueInfo.title" placeholder="问题简述......"></Input>
                 </FormItem>
             </iCol>
@@ -47,8 +47,8 @@
                 </FormItem>
             </iCol>
         </Row>
-        <FormItem label="详细描述">
-            <Input v-model="issueInfo.textarea" type="textarea"
+        <FormItem label="描述" prop="text">
+            <Input v-model="issueInfo.text" type="textarea"
                    :autosize="{minRows: 4, maxRows: 12}"></Input>
         </FormItem>
         <FormItem label="附件">
@@ -81,7 +81,17 @@
         data() {
             return {
                 issueInfo: {},
-                versionData: []
+                versionData: [],
+                ruleInfo: {
+                    title: [
+                        {required: true, message: '请输入标题', trigger: 'blur'},
+                        {type: 'string', max: 30, message: '长度不超过30位', trigger: 'blur'},
+                    ],
+                    text: [
+                        {required: true, message: '请输入详细内容', trigger: 'blur'},
+                        {type: 'string', max: 3000, message: '长度不超过3000位', trigger: 'blur'},
+                    ]
+                },
             }
         },
         methods: {
@@ -108,6 +118,18 @@
                     value,
                     val + '.1'
                 ];
+            },
+            submit() {
+                this.$refs['issueInfo'].validate((valid) => {
+                    console.log(valid);
+                    if (valid) {
+                        this.$store.commit('setIssueInfo', this.issueInfo);
+                        this.$Message.success('提交成功！');
+                    } else {
+                        this.$emit('stopClose');
+                        this.$Message.error('提交失败！');
+                    }
+                });
             }
         },
         computed: {

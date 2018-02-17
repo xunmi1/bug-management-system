@@ -2,27 +2,37 @@ const state = {
     issueInfo: {
         title: '',
         select: 'bug',
-        severity: 0,
+        severity: 2,
         version: '',
         project: '',
         module: '',
-        textarea: ''
+        text: ''
     },
     issuePlan: {
         dispense: '',
         handle: '',
         priority: 2,
         versionEnd: '',
-        dateState: '',
+        dateState: new Date(),
         dateEnd: ''
     }
 };
 
-const mutations = {};
+const mutations = {
+    setIssueInfo(state, info) {
+        state.issueInfo = info;
+    },
+    setIssuePlan(state, info) {
+        state.issuePlan = info;
+    }
+};
+
+const actions = {};
 
 const issue = {
     state,
-    mutations
+    mutations,
+    actions
 };
 
 export default issue;

@@ -1,5 +1,5 @@
 <template>
-    <Form :model="issuePlan" :label-width="78">
+    <Form ref="issuePlan" :model="issuePlan" :label-width="78">
         <Row>
             <iCol span="12">
                 <FormItem label="分配人员">
@@ -112,6 +112,18 @@
                     value,
                     val + '.1'
                 ];
+            },
+            submit() {
+                this.$refs['issuePlan'].validate((valid) => {
+                    console.log(valid);
+                    if (valid) {
+                        this.$store.commit('setIssuePlan', this.issuePlan);
+                        this.$Message.success('提交成功！');
+                    } else {
+                        this.$emit('stopClose');
+                        this.$Message.error('提交失败！');
+                    }
+                });
             }
         },
         computed: {
