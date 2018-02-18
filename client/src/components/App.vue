@@ -10,6 +10,11 @@
 </template>
 
 <script>
+    function stopClose() {
+        return '';
+    }
+
+    window.onbeforeunload = stopClose;
     export default {
         name: 'App'
     };
