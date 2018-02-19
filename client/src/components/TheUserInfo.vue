@@ -136,7 +136,8 @@
                 },
                 ruleInfo: {
                     name: [
-                        {required: true, message: '请输入用户名', trigger: 'blur'}
+                        {required: true, message: '请输入用户名', trigger: 'blur'},
+                        {type: 'string', min: 6, message: '长度不少于6位', trigger: 'blur'},
                     ],
                     email: [
                         {required: true, message: '请输入邮箱地址', trigger: 'blur'},
@@ -171,33 +172,37 @@
                 this.userInfo.desc = this.user.desc;
                 this.defaultAvatar[0].name = this.user.avatarId;
             },
+
             commitInfo() {
                 this.$refs['userInfo'].validate((valid) => {
                     console.log(valid);
                     if (valid) {
-                        // 这里写请求
-                        this.$Message.success('修改成功！');
+                        this.$store.dispatch('postInfo', this.userInfo)
+                            .then(() => {
+                                this.$Message.success('修改成功！');
+                            });
                     } else {
                         this.$Message.error('修改失败！');
                     }
                 });
             },
-
             commitSafe() {
                 this.$refs['userSafe'].validate((valid) => {
                     console.log(valid);
                     if (valid) {
-                        // 这里写请求
-                        this.$Message.success('修改成功！');
+                        this.$store.dispatch('postSafe', this.userSafe)
+                            .then(() => {
+                                this.$Message.success('修改成功！');
+                            });
                     } else {
                         this.$Message.error('修改失败！');
                     }
                 });
             },
+
             handleReset(name) {
                 this.$refs[name].resetFields();
             },
-
             handleSuccess(evnet, file) {
                 this.defaultAvatar[0].name = file.response.filename;
                 this.$store.commit('setUserAvatarId', {

@@ -93,10 +93,6 @@
             }
         },
         methods: {
-            init() {
-                this.issueInfo = this.issue;
-                this.versionData = this.version
-            },
             tipFormat(val) {
                 switch (val) {
                     case 0:
