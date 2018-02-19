@@ -1,7 +1,7 @@
 <template>
     <div>
         <Layout>
-            <Header v-bind:style="{ height: headerHeight + 'px' }" class="layout-header">
+            <Header :style="{ height: headerHeight + 'px' }" class="layout-header">
                 <Menu mode="horizontal" theme="light" accordion ref="menu"
                       :active-name="$route.name"
                       @on-select="tagAdd"
@@ -72,38 +72,45 @@
                 </Menu>
             </Header>
             <Layout :style="{marginTop: headerHeight + 'px'}">
-                <Sider hide-trigger :style="{background: '#fff'}">
-                    <Menu theme="light" width="auto">
-                        <Submenu name="1">
-                            <template slot="title">
-                                <Icon type="ios-navigate"></Icon>
-                                Item 1
-                            </template>
-                            <MenuItem name="1-1">Option 1</MenuItem>
-                            <MenuItem name="1-2">Option 2</MenuItem>
-                            <MenuItem name="1-3">Option 3</MenuItem>
-                        </Submenu>
-                        <Submenu name="2">
-                            <template slot="title">
-                                <Icon type="ios-keypad"></Icon>
-                                Item 2
-                            </template>
-                            <MenuItem name="2-1">Option 1</MenuItem>
-                            <MenuItem name="2-2">Option 2</MenuItem>
-                        </Submenu>
-                        <Submenu name="3">
-                            <template slot="title">
-                                <Icon type="ios-analytics"></Icon>
-                                Item 3
-                            </template>
-                            <MenuItem name="3-1">Option 1</MenuItem>
-                            <MenuItem name="3-2">Option 2</MenuItem>
-                        </Submenu>
+                <Sider :style="{background: '#fff'}" width="180">
+                    <Menu theme="light" @on-select="tagAdd" width="auto">
+                        <MenuItem name="console">
+                            <Icon type="compose"></Icon>
+                            项目概况
+                        </MenuItem>
+                        <MenuGroup title="未完成">
+                            <MenuItem name="1">
+                                <Icon type="compose"></Icon>
+                                待分配
+                            </MenuItem>
+                            <MenuItem name="2">
+                                <Icon type="compose"></Icon>
+                                待解决
+                            </MenuItem>
+                            <MenuItem name="3">
+                                <Icon type="compose"></Icon>
+                                待测试
+                            </MenuItem>
+                        </MenuGroup>
+                        <MenuGroup title="已完成">
+                            <MenuItem name="4">
+                                <Icon type="compose"></Icon>
+                                已分配
+                            </MenuItem>
+                            <MenuItem name="5">
+                                <Icon type="compose"></Icon>
+                                已解决
+                            </MenuItem>
+                            <MenuItem name="6">
+                                <Icon type="compose"></Icon>
+                                已测试
+                            </MenuItem>
+                        </MenuGroup>
                     </Menu>
                 </Sider>
-                <Layout :style="{padding: '0 24px 24px', margin:'0 0 0 200px'}">
+                <Layout :style="{padding: '0 24px 0 24px', margin:'0 0 0 180px'}">
                     <base-tag :style="{padding: '4px 0'}"></base-tag>
-                    <Content :style="{padding: '0', minHeight: '77vh', background: 'f5f7f9'}">
+                    <Content :style="{padding: '0', minHeight: '84vh', background: 'f5f7f9'}">
                         <keep-alive include="">
                             <router-view></router-view>
                         </keep-alive>
@@ -135,36 +142,6 @@
                     issue: false,
                     exit: false
                 },
-                menuItem: {
-                    mgmt1: {
-                        name: '项目信息',
-                        url: ''
-                    },
-                    mgmt2: {
-                        name: '成员管理',
-                        url: ''
-                    },
-                    mgmt3: {
-                        name: '功能模块',
-                        url: ''
-                    },
-                    mgmt4: {
-                        name: '版本管理',
-                        url: ''
-                    },
-                    project: {
-                        name: '我的项目',
-                        url: '/main/project'
-                    },
-                    retrieval: {
-                        name: 'BUG 检索',
-                        url: '/main/retrieval'
-                    },
-                    user: {
-                        name: '账号设置',
-                        url: '/main/user'
-                    }
-                }
             }
         },
         components: {
@@ -206,6 +183,7 @@
         computed: {
             ...mapState({
                 avatarId: state => state.user.userInfo.avatarId,
+                menuItem: state => state.tagState.menuList
             }),
             // 用户头像设置
             defaultAvatar() {

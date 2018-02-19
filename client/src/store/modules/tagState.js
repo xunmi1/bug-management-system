@@ -1,8 +1,42 @@
 const state = {
     list: [],
+    menuList: {
+        mgmt1: {
+            name: '项目信息',
+            url: ''
+        },
+        mgmt2: {
+            name: '成员管理',
+            url: ''
+        },
+        mgmt3: {
+            name: '功能模块',
+            url: ''
+        },
+        mgmt4: {
+            name: '版本管理',
+            url: ''
+        },
+        project: {
+            name: '我的项目',
+            url: '/main/project'
+        },
+        retrieval: {
+            name: 'BUG 检索',
+            url: '/main/retrieval'
+        },
+        user: {
+            name: '账号设置',
+            url: '/main/user'
+        },
+        console: {
+            name: '项目概况',
+            url: '/mian/console'
+        }
+    },
     tagIndex: new Number,
     isRedirect: true // tag 组件被点击，判断是否跳转
-};
+}
 
 const mutations = {
     // tagAdd 由 Main 组件触发，tagClose、tagChange 由 tag 组件触发
