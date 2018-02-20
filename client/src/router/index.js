@@ -8,6 +8,7 @@ import TheRegisterInput from '@/TheRegisterInput';
 import TheMain from '@/TheMain';
 import TheProject from '@/TheProject';
 import TheUserInfo from '@/TheUserInfo';
+import TheNewProject from '@/TheNewProject';
 
 Vue.use(Router);
 
@@ -52,6 +53,11 @@ export default new Router({
                     path: 'user',
                     name: 'user',
                     component: TheUserInfo
+                },
+                {
+                    path: 'newProject',
+                    name: 'newProject',
+                    component: TheNewProject
                 },
                 {
                     path: 'console',

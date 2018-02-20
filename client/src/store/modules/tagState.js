@@ -29,6 +29,10 @@ const state = {
             name: '账号设置',
             url: '/main/user'
         },
+        newProject: {
+            name: '新建项目',
+            url: '/main/newProject'
+        },
         console: {
             name: '项目概况',
             url: '/mian/console'
