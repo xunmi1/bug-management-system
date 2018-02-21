@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="background-height">
         <Layout>
             <Header :style="{ height: headerHeight + 'px' }" class="layout-header">
                 <Menu mode="horizontal" theme="light" accordion ref="menu"
@@ -26,7 +26,7 @@
                                 <Icon type="ios-gear"></Icon>
                                 项目配置
                             </template>
-                            <MenuItem name="mgmt1">
+                            <MenuItem name="projectInfo">
                                 <Icon type="ios-paper"></Icon>
                                 项目信息
                             </MenuItem>
@@ -110,7 +110,7 @@
                 </Sider>
                 <Layout :style="{padding: '0 24px 0 24px', margin:'0 0 0 180px'}">
                     <base-tag :style="{padding: '4px 0'}"></base-tag>
-                    <Content :style="{padding: '0', minHeight: '84vh', background: 'f5f7f9'}">
+                    <Content :style="{padding: '0'}">
                         <keep-alive include="">
                             <router-view></router-view>
                         </keep-alive>
@@ -170,7 +170,7 @@
 
             // 导航栏高度自适应 (页面兼容性)
             changeHeight() {
-                if (this.screenWidth <= 1064) this.headerHeight = 120;
+                if (this.screenWidth <= 1056) this.headerHeight = 120;
                 else this.headerHeight = 60;
             },
             // 删除头像右边的 '^' 对应的节点
@@ -218,6 +218,11 @@
     }
 </script>
 <style scoped>
+    #background-height {
+        min-height: 100vh;
+        background-color: #f9f9f9;
+    }
+
     .layout-header {
         background: #fff;
         padding: 0 24px;
@@ -245,7 +250,6 @@
     }
 
     .menu-logo a img {
-        margin-right: 8px;
         vertical-align: middle;
     }
 
@@ -258,6 +262,9 @@
         height: 60px;
     }
 
+    .ivu-menu-vertical .ivu-menu-item {
+        font-size: 15px;
+    }
     .ivu-layout-sider {
         position: fixed;
         height: 100vh;

@@ -9,6 +9,7 @@ import TheMain from '@/TheMain';
 import TheProject from '@/TheProject';
 import TheUserInfo from '@/TheUserInfo';
 import TheNewProject from '@/TheNewProject';
+import ProjectInfo from '@/project/ProjectInfo';
 
 Vue.use(Router);
 
@@ -58,6 +59,11 @@ export default new Router({
                     path: 'newProject',
                     name: 'newProject',
                     component: TheNewProject
+                },
+                {
+                    path: 'projectInfo',
+                    name: 'projectInfo',
+                    component: ProjectInfo
                 },
                 {
                     path: 'console',

@@ -1,9 +1,9 @@
 const state = {
     list: [],
     menuList: {
-        mgmt1: {
+        projectInfo: {
             name: '项目信息',
-            url: ''
+            url: '/main/projectInfo'
         },
         mgmt2: {
             name: '成员管理',
