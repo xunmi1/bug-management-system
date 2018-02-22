@@ -43,7 +43,7 @@
                                 版本管理
                             </MenuItem>
                         </Submenu>
-                        <MenuItem name="project">
+                        <MenuItem name="userProject">
                             <Icon type="folder"></Icon>
                             我的项目
                         </MenuItem>
@@ -265,6 +265,7 @@
     .ivu-menu-vertical .ivu-menu-item {
         font-size: 15px;
     }
+
     .ivu-layout-sider {
         position: fixed;
         height: 100vh;

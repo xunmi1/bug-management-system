@@ -8,7 +8,7 @@
                 <Step title="版本" content="项目的迭代和版本信息"></Step>
             </Steps>
         </Card>
-        <Carousel v-model="current" dots="none" style="width: 100%">
+        <Carousel v-model="current" dots="none">
             <CarouselItem>
                 <project-info></project-info>
             </CarouselItem>

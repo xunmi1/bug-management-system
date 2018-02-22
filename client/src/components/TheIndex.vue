@@ -1,21 +1,19 @@
 <template>
     <div class="index-container">
-        <the-background />
+        <the-background/>
         <div class="container-header">
             <h1>{{ title }}</h1>
             <div class="header-content">
-                <div class="item1">
-                    <img src="../assets/images/github.png" alt="github" height="36" width="36"/>
+                <div class="item">
+                    <i class="fa fa-github fa-lg fa-fw"></i>
                 </div>
-                <div class="item2">
-                    <h2>
-                        <a v-bind:href="githuburl">github</a>
-                    </h2>
+                <div class="item">
+                    <a :href="githubUrl">github</a>
                 </div>
             </div>
         </div>
         <div class="container-content">
-            <router-view />
+            <router-view></router-view>
         </div>
     </div>
 </template>
@@ -28,30 +26,25 @@
         data() {
             return {
                 title: '软件 BUG 跟踪管理系统',
-                githuburl: 'https://github.com/xunmi1/bug-management-system'
+                githubUrl: 'https://github.com/xunmi1/bug-management-system'
             };
         },
         components: {
-            'the-background': TheBackground,
+            'the-background': TheBackground
         }
-    };
+    }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
     * {
         text-align: center;
         font-weight: normal;
     }
-    h1 {
-        font-size: 32px;
-    }
-    h2 {
-        font-size: 26px;
-    }
+
     .container-header h1 {
         padding-top: 80px;
         margin-bottom: 16px;
+        font-size: 32px;
     }
 
     .header-content {
@@ -61,7 +54,7 @@
         align-items: center;
     }
 
-    .header-content .item1 {
-        margin-right: 16px;
+    .item {
+        font-size: 26px;
     }
 </style>

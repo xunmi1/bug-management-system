@@ -46,24 +46,25 @@ export default new Router({
             component: TheMain,
             children: [
                 {
-                    path: 'project',
-                    name: 'project',
-                    component: TheProject
+                    path: 'project/user',
+                    name: 'userProject',
+                    component: TheProject,
+                    alias: 'project'
+                },
+                {
+                    path: 'project/new',
+                    name: 'newProject',
+                    component: TheNewProject
+                },
+                {
+                    path: 'project/info',
+                    name: 'projectInfo',
+                    component: ProjectInfo
                 },
                 {
                     path: 'user',
                     name: 'user',
                     component: TheUserInfo
-                },
-                {
-                    path: 'newProject',
-                    name: 'newProject',
-                    component: TheNewProject
-                },
-                {
-                    path: 'projectInfo',
-                    name: 'projectInfo',
-                    component: ProjectInfo
                 },
                 {
                     path: 'console',

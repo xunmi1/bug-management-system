@@ -3,7 +3,7 @@ const state = {
     menuList: {
         projectInfo: {
             name: '项目信息',
-            url: '/main/projectInfo'
+            url: '/main/project/info'
         },
         mgmt2: {
             name: '成员管理',
@@ -17,7 +17,7 @@ const state = {
             name: '版本管理',
             url: ''
         },
-        project: {
+        userProject: {
             name: '我的项目',
             url: '/main/project'
         },
@@ -31,16 +31,16 @@ const state = {
         },
         newProject: {
             name: '新建项目',
-            url: '/main/newProject'
+            url: '/main/project/new'
         },
         console: {
             name: '项目概况',
             url: '/mian/console'
         }
     },
-    tagIndex: new Number,
+    tagIndex: Number,
     isRedirect: true // tag 组件被点击，判断是否跳转
-}
+};
 
 const mutations = {
     // tagAdd 由 Main 组件触发，tagClose、tagChange 由 tag 组件触发
