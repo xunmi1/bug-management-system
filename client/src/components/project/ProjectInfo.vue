@@ -1,17 +1,17 @@
 <template>
     <Card>
         <Form ref="projectInfo" :model="projectInfo" :rules="ruleInfo">
-            <Row>
-                <iCol span="10">
+            <Row :gutter="24">
+                <iCol span="14">
                     <FormItem prop="title" class="content-info-box">
                         <p>项目标题：</p>
-                        <Input v-model="projectInfo.title" clearable class="info-input"></Input>
+                        <Input v-model="projectInfo.title" style="width: 100%; max-width:300px" clearable></Input>
                     </FormItem>
                     <FormItem prop="desc" class="content-info-box">
                         <p>简要描述：</p>
                         <Input v-model="projectInfo.desc"
                                :autosize="{minRows: 3, maxRows: 6}" type="textarea"
-                               style="width: 360px" class="info-input"></Input>
+                               style="width: 100%; max-width:460px"></Input>
                     </FormItem>
                     <FormItem class="content-info-box">
                         <div class="content-button">
@@ -20,11 +20,13 @@
                                 <Button @click="handleReset('projectInfo')">取消</Button>
                             </ButtonGroup>
                         </div>
-
                     </FormItem>
                 </iCol>
-                <iCol span="4">
-                    <Avatar shape="square">Project</Avatar>
+                <iCol span="10">
+                    <div class="img-size">
+                        <img :src="projectInfo.img[0].file+projectInfo.img[0].name"
+                             class="img-size" width="118" height="118" alt="project"/>
+                    </div>
                     <Upload
                         :show-upload-list="false"
                         :default-file-list="projectInfo.img"
@@ -33,10 +35,10 @@
                         :max-size="1024"
                         :on-format-error="handleFormatError"
                         :on-exceeded-size="handleMaxSize"
-                        type="drag"
                         action="http://localhost:8000/poject/img">
-                        <!--style="width: 160px">-->
-                        <Button type="ghost" icon="ios-cloud-upload-outline" long>上传图标</Button>
+                        <Button type="ghost" icon="ios-cloud-upload-outline" class="upload-button">
+                            上传图标
+                        </Button>
                     </Upload>
                 </iCol>
             </Row>
@@ -113,10 +115,6 @@
         font-size: 15px;
     }
 
-    .info-input {
-        width: 200px;
-    }
-
     .content-button {
         width: 100%;
         height: 80px;
@@ -127,5 +125,18 @@
 
     .content-button button {
         width: 100px;
+    }
+
+    .img-size {
+        background-color: #f9f9f9;
+        width: 118px;
+        height: 118px;
+        font-size: 22px;
+        text-align: center;
+    }
+
+    .upload-button {
+        font-size: 14px;
+        padding: 6px 20px;
     }
 </style>
