@@ -55,7 +55,7 @@
                         name: this.menuItem[tag].name,
                         url: this.menuItem[tag].url
                     });
-                    this.$router.push({path: this.menuItem[tag].url});
+                    this.$router.push({name: tag});
                 }
             }
         },

@@ -1,4 +1,5 @@
 import axios from "axios/index";
+import userName from '../../userName';
 
 const state = {
     userInfo: {
@@ -15,6 +16,7 @@ const state = {
 const mutations = {
     setUserName(state, info) {
         state.userInfo.name = info.name;
+        userName.name = info.name;
     },
     setUserPwd(state, info) {
         state.userInfo.pwd = info.pwd;

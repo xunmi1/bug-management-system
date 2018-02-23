@@ -24,7 +24,10 @@
                 console.log('开始验证');
                 if (this.stating) {
                     console.log('开始结束');
-                    this.$router.push('/main/project');
+                    this.$router.push({
+                        name: 'userProject',
+                        params: {userName: this.$store.state.user.userInfo.name}
+                    });
                 }
             },
             loginSubmit: function () {

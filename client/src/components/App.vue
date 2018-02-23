@@ -10,14 +10,23 @@
 </template>
 
 <script>
+    import userName from '../userName';
+
+    export default {
+        name: 'App',
+        beforeCreate() {
+            // 这里将根据用户浏览器本地存储，通过后台返回用户名
+            if (true) {
+                userName.name = 'admin';
+                this.$store.commit('setUserName', {name: userName.name});
+            }
+        }
+    };
+    window.onbeforeunload = stopClose;
+
     function stopClose() {
         return '';
     }
-
-    window.onbeforeunload = stopClose;
-    export default {
-        name: 'App'
-    };
 </script>
 
 <style>

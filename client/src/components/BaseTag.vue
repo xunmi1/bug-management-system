@@ -60,8 +60,8 @@
              * @param url tag 标签的 url
              */
             tagRedirect(index) {
-                this.$router.push({path: this.list[index].url});
-                //this.$emit('itemChange', this.list[index].tag);
+                //this.$router.push({path: this.list[index].url});
+                this.$router.push({name: this.list[index].tag});
             }
         },
         computed: {

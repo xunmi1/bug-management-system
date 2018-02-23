@@ -21,13 +21,16 @@
              * 见 https://cn.vuejs.org/v2/api/#methods
              */
             toMain: function () {
-                this.$router.push('/main/project');
+                this.$router.push({
+                    name: 'userProject',
+                    params: {userName: this.$store.state.user.userInfo.name}
+                });
             },
             toLogin: function () {
-                this.$router.push('/login');
+                this.$router.push({name: 'login'});
             },
             toRegister: function () {
-                this.$router.push('/register');
+                this.$router.push({name: 'register'});
             }
         }
     }

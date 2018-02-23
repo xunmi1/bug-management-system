@@ -60,14 +60,14 @@
             exit() {
                 // 这里添加清除登录状态
                 setTimeout(() => {
-                    this.$router.push({path: '/'});
+                    this.$router.push({name: 'home'});
                 }, 1000);
             },
             issue() {
                 this.$refs.component.submit();
             },
             clearInfo() {
-                
+
             },
             // 点击 issue 中切换按钮，切换表单
             changeBtn(bool) {

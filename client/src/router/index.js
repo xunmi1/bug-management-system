@@ -10,10 +10,11 @@ import TheProject from '@/TheProject';
 import TheUserInfo from '@/TheUserInfo';
 import TheNewProject from '@/TheNewProject';
 import ProjectInfo from '@/project/ProjectInfo';
+import userName from '../userName';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
     routes: [
         {
             path: '/',
@@ -41,7 +42,7 @@ export default new Router({
             ]
         },
         {
-            path: '/main',
+            path: '/:userName',
             name: 'main',
             component: TheMain,
             children: [
@@ -74,3 +75,18 @@ export default new Router({
         }
     ]
 });
+router.beforeEach((to, from, next) => {
+    const isOpen = (to.name === '' || to.name === 'home' || to.name === 'login' || to.name === 'register');
+    if (isOpen) {
+        next();
+    } else {
+        if (to.params.userName === userName.name) {
+            console.log(to.params);
+            next();
+        } else {
+            alert('无权访问');
+        }
+    }
+});
+
+export default router;

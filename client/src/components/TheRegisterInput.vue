@@ -19,7 +19,15 @@
         },
         methods: {
             registerSubmit: function () {
-                this.$router.push('/main/project');
+                // 如果后台验证通过
+                if (this.userName) {
+                    this.$store.commit('setUserName', {name: this.userName});
+                    this.$store.commit('setUserPwd', {name: this.userPwd});
+                    this.$router.push({
+                        name: 'userProject',
+                        params: {userName: this.$store.state.user.userInfo.name}
+                    });
+                }
             }
         }
     }
