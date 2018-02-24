@@ -81,10 +81,10 @@ router.beforeEach((to, from, next) => {
         next();
     } else {
         if (to.params.userName === userName.name) {
-            console.log(to.params);
             next();
         } else {
-            alert('无权访问');
+            console.log('用户拦截');
+            next('/');
         }
     }
 });

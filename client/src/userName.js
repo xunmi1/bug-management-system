@@ -1,5 +1,5 @@
 const userName = {
-    name: 'main'
+    name: 'admin'
 };
 
 export default userName;

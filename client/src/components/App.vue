@@ -10,15 +10,12 @@
 </template>
 
 <script>
-    import userName from '../userName';
-
     export default {
         name: 'App',
-        beforeCreate() {
+        created() {
             // 这里将根据用户浏览器本地存储，通过后台返回用户名
             if (true) {
-                userName.name = 'admin';
-                this.$store.commit('setUserName', {name: userName.name});
+                this.$store.commit('setUserName', {name: 'admin'});
             }
         }
     };
