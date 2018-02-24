@@ -3,31 +3,24 @@ const state = {
     menuList: {
         projectInfo: {
             name: '项目信息',
-            url: '/main/project/info'
         },
         mgmt2: {
             name: '成员管理',
-            url: ''
         },
         mgmt3: {
             name: '功能模块',
-            url: ''
         },
         mgmt4: {
             name: '版本管理',
-            url: ''
         },
         userProject: {
             name: '我的项目',
-            url: '/main/project'
         },
         retrieval: {
             name: 'BUG 检索',
-            url: '/main/retrieval'
         },
         user: {
             name: '账号设置',
-            url: '/main/user'
         },
         newProject: {
             name: '新建项目',
@@ -62,7 +55,7 @@ const mutations = {
             const tmpItem = {
                 tag: item.tag,
                 name: item.name,
-                url: item.url,
+                //url: item.url,
                 isChecked: true
             };
             state.list.push(tmpItem);
