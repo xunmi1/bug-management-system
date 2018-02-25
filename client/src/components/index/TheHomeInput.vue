@@ -36,4 +36,4 @@
     }
 </script>
 
-<style scoped src="../assets/stylesheets/theinput.css"></style>
+<style scoped src="../../assets/stylesheets/theinput.css"></style>

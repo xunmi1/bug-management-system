@@ -1,5 +1,5 @@
 <template>
-    <Card>
+    <div style="background-color: #fff">
         <Card>
             <Steps :current="current">
                 <Step title="信息" content="填写项目基本信息"></Step>
@@ -11,10 +11,10 @@
         <Card>
             <Carousel id="123" v-model="current" dots="none">
                 <CarouselItem>
-                    <project-info></project-info>
+                    <project-info isBordered=""></project-info>
                 </CarouselItem>
                 <CarouselItem>
-                    <project-people></project-people>
+                    <project-people isBordered=""></project-people>
                 </CarouselItem>
                 <CarouselItem>
                     <div>3</div>
@@ -24,11 +24,11 @@
                 </CarouselItem>
             </Carousel>
         </Card>
-    </Card>
+    </div>
 </template>
 
 <script>
-    import ProjectInfo from './project/ProjectInfo';
+    import ProjectInfo from './ProjectInfo';
     import ProjectPeople from '@/project/ProjectPeople';
 
     export default {

@@ -1,5 +1,5 @@
 <template>
-    <div class="padding">
+    <div class="padding" :class="{ bordered: isBordered }">
         <Form ref="projectInfo" :model="projectInfo" :rules="ruleInfo">
             <Row :gutter="24">
                 <iCol span="14">
@@ -35,7 +35,7 @@
                         :max-size="1024"
                         :on-format-error="handleFormatError"
                         :on-exceeded-size="handleMaxSize"
-                        action="http://localhost:8000/poject/img">
+                        action="http://localhost:8000/project/img">
                         <Button type="ghost" icon="ios-cloud-upload-outline" class="upload-button">
                             上传图标
                         </Button>
@@ -49,6 +49,12 @@
 <script>
     export default {
         name: "ProjectInfo",
+        props: {
+            isBordered: {
+                type: [Boolean, String],
+                default: true
+            }
+        },
         data() {
             return {
                 projectInfo: {
@@ -111,6 +117,18 @@
     .padding {
         padding: 24px;
         background-color: #fff;
+        border-radius: 4px;
+    }
+
+    .bordered {
+        border: 1px solid #dddee1;
+        position: relative;
+        transition: all .2s ease-in-out;
+    }
+
+    .bordered:hover {
+        box-shadow: 0 1px 6px rgba(0, 0, 0, .2);
+        border-color: #eee;
     }
 
     .content-info-box {

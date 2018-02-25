@@ -19,8 +19,8 @@
 
 <script>
     export default {
-        name: 'TheBackground'
+        name: 'BaseBackground'
     };
 </script>
 
-<style scoped src="../assets/stylesheets/background.css"></style>
+<style scoped src="../../assets/stylesheets/background.css"></style>

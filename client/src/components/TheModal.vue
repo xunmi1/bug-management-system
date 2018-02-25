@@ -34,8 +34,8 @@
 </template>
 
 <script>
-    import theIssueInfo from './TheIssueInfo';
-    import theIssuePlan from './TheIssuePlan';
+    import theIssueInfo from './issue/TheIssueInfo';
+    import theIssuePlan from './issue/TheIssuePlan';
 
     export default {
         name: "BaseModal",

@@ -1,6 +1,6 @@
 <template>
     <div class="index-container">
-        <the-background/>
+        <base-background></base-background>
         <div class="container-header">
             <h1>{{ title }}</h1>
             <div class="header-content">
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-    import TheBackground from './TheBackground';
+    import BaseBackground from './base/BaseBackground';
 
     export default {
         name: 'TheIndex',
@@ -30,7 +30,8 @@
             };
         },
         components: {
-            'the-background': TheBackground
+            BaseBackground,
+            'base-background': BaseBackground
         }
     }
 </script>

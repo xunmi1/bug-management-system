@@ -2,13 +2,13 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 import TheIndex from '@/TheIndex';
-import TheHomeInput from '@/TheHomeInput';
-import TheLoginInput from '@/TheLoginInput';
-import TheRegisterInput from '@/TheRegisterInput';
+import TheHomeInput from '@/index/TheHomeInput';
+import TheLoginInput from '@/index/TheLoginInput';
+import TheRegisterInput from '@/index/TheRegisterInput';
 import TheMain from '@/TheMain';
 import TheProject from '@/TheProject';
 import TheUserInfo from '@/TheUserInfo';
-import TheNewProject from '@/TheNewProject';
+import TheNewProject from '@/project/TheNewProject';
 import ProjectInfo from '@/project/ProjectInfo';
 import ProjectPeople from '@/project/ProjectPeople';
 

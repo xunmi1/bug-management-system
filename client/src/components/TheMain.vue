@@ -118,14 +118,14 @@
                 </Layout>
             </Layout>
         </Layout>
-        <base-modal :modal="modal"></base-modal>
+        <the-modal :modal="modal"></the-modal>
         <BackTop></BackTop>
     </div>
 </template>
 <script>
     import {mapMutations, mapState} from 'vuex';
-    import BaseTag from './BaseTag';
-    import BaseModal from './BaseModal';
+    import BaseTag from './base/BaseTag';
+    import TheModal from './TheModal';
 
     export default {
         data() {
@@ -146,7 +146,7 @@
         },
         components: {
             'base-tag': BaseTag,
-            'base-modal': BaseModal
+            'the-modal': TheModal
         },
         methods: {
             ...mapMutations({
