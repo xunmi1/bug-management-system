@@ -8,25 +8,28 @@
                 <Step title="版本" content="项目的迭代和版本信息"></Step>
             </Steps>
         </Card>
-        <Carousel v-model="current" dots="none">
-            <CarouselItem>
-                <project-info></project-info>
-            </CarouselItem>
-            <CarouselItem>
-                <div>2</div>
-            </CarouselItem>
-            <CarouselItem>
-                <div>3</div>
-            </CarouselItem>
-            <CarouselItem>
-                <div>4</div>
-            </CarouselItem>
-        </Carousel>
+        <Card>
+            <Carousel id="123" v-model="current" dots="none">
+                <CarouselItem>
+                    <project-info></project-info>
+                </CarouselItem>
+                <CarouselItem>
+                    <project-people></project-people>
+                </CarouselItem>
+                <CarouselItem>
+                    <div>3</div>
+                </CarouselItem>
+                <CarouselItem>
+                    <div>4</div>
+                </CarouselItem>
+            </Carousel>
+        </Card>
     </Card>
 </template>
 
 <script>
-    import ProjectInfo from './project/ProjectInfo'
+    import ProjectInfo from './project/ProjectInfo';
+    import ProjectPeople from '@/project/ProjectPeople';
 
     export default {
         name: "TheNewProject",
@@ -36,8 +39,19 @@
             }
         },
         components: {
-            ProjectInfo,
-            'project-info': ProjectInfo
+            'project-info': ProjectInfo,
+            'project-people': ProjectPeople
+        },
+        methods: {
+            nextStep() {
+                if (this.current < 3) {
+                    this.current++;
+                } else {
+                    this.$Notice.success({
+                        title: '项目新建成功！'
+                    });
+                }
+            }
         }
     }
 </script>

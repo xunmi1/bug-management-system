@@ -10,6 +10,8 @@ import TheProject from '@/TheProject';
 import TheUserInfo from '@/TheUserInfo';
 import TheNewProject from '@/TheNewProject';
 import ProjectInfo from '@/project/ProjectInfo';
+import ProjectPeople from '@/project/ProjectPeople';
+
 import userName from '../userName';
 
 Vue.use(Router);
@@ -61,6 +63,11 @@ const router = new Router({
                     path: 'project/info',
                     name: 'projectInfo',
                     component: ProjectInfo
+                },
+                {
+                    path: 'project/people',
+                    name: 'projectPeople',
+                    component: ProjectPeople
                 },
                 {
                     path: 'user',

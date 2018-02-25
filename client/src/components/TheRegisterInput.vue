@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <form class="form">
-            <input v-model="userName" type="text" placeholder="手机号或邮箱" name="username"/>
+            <input v-model="userName" type="text" placeholder="邮箱地址" name="username"/>
             <input v-model="userPwd" type="password" placeholder="密码" name="possword"/>
             <input type="button" value="注册" @click="registerSubmit"/>
         </form>
@@ -23,6 +23,7 @@
                 if (this.userName) {
                     this.$store.commit('setUserName', {name: this.userName});
                     this.$store.commit('setUserPwd', {name: this.userPwd});
+                    this.$store.commit('setUserEmail', {email: this.userName});
                     this.$router.push({
                         name: 'userProject',
                         params: {userName: this.$store.state.user.userInfo.name}

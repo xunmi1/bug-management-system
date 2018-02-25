@@ -1,5 +1,5 @@
 <template>
-    <Card>
+    <div class="padding">
         <Form ref="projectInfo" :model="projectInfo" :rules="ruleInfo">
             <Row :gutter="24">
                 <iCol span="14">
@@ -25,7 +25,7 @@
                 <iCol span="10">
                     <div class="img-size">
                         <img :src="projectInfo.img[0].file+projectInfo.img[0].name"
-                             class="img-size" width="118" height="118" alt="project"/>
+                             class="img-size" width="128" height="128" alt="project"/>
                     </div>
                     <Upload
                         :show-upload-list="false"
@@ -43,7 +43,7 @@
                 </iCol>
             </Row>
         </Form>
-    </Card>
+    </div>
 </template>
 
 <script>
@@ -74,9 +74,10 @@
             handleSubmit(name) {
                 this.$refs[name].validate((valid) => {
                     if (valid) {
-                        this.$Message.success('成功!');
+                        this.$Message.success('修改成功!');
+                        this.$emit('on-ok');
                     } else {
-                        this.$Message.error('失败！');
+                        this.$Message.error('修改失败！');
                     }
                 })
             },
@@ -107,6 +108,11 @@
 </script>
 
 <style scoped>
+    .padding {
+        padding: 24px;
+        background-color: #fff;
+    }
+
     .content-info-box {
         margin: 0 6px 22px 6px;
     }
@@ -129,14 +135,14 @@
 
     .img-size {
         background-color: #f9f9f9;
-        width: 118px;
-        height: 118px;
+        width: 128px;
+        height: 128px;
         font-size: 22px;
         text-align: center;
     }
 
     .upload-button {
         font-size: 14px;
-        padding: 6px 20px;
+        padding: 6px 25px;
     }
 </style>

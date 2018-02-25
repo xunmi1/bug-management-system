@@ -30,7 +30,7 @@
                                 <Icon type="ios-paper"></Icon>
                                 项目信息
                             </MenuItem>
-                            <MenuItem name="mgmt2">
+                            <MenuItem name="projectPeople">
                                 <Icon type="android-person-add"></Icon>
                                 成员管理
                             </MenuItem>

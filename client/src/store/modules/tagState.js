@@ -2,33 +2,31 @@ const state = {
     list: [],
     menuList: {
         projectInfo: {
-            name: '项目信息',
+            name: '项目信息'
         },
-        mgmt2: {
-            name: '成员管理',
+        projectPeople: {
+            name: '成员管理'
         },
         mgmt3: {
-            name: '功能模块',
+            name: '功能模块'
         },
         mgmt4: {
-            name: '版本管理',
+            name: '版本管理'
         },
         userProject: {
-            name: '我的项目',
+            name: '我的项目'
         },
         retrieval: {
             name: 'BUG 检索',
         },
         user: {
-            name: '账号设置',
+            name: '账号设置'
         },
         newProject: {
-            name: '新建项目',
-            url: '/main/project/new'
+            name: '新建项目'
         },
         console: {
-            name: '项目概况',
-            url: '/mian/console'
+            name: '项目概况'
         }
     },
     tagIndex: Number,
