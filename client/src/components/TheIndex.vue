@@ -30,7 +30,6 @@
             };
         },
         components: {
-            BaseBackground,
             'base-background': BaseBackground
         }
     }

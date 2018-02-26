@@ -1,5 +1,6 @@
 const state = {
     issueInfo: {
+        id: '',
         title: '',
         select: 'bug',
         severity: 2,
@@ -9,7 +10,10 @@ const state = {
         text: ''
     },
     issuePlan: {
+        issuer: '',
         dispense: '',
+        developer: '',
+        tester: '',
         handle: '',
         priority: 2,
         versionEnd: '',

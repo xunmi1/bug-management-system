@@ -4,7 +4,7 @@
             <iCol span="12">
                 <FormItem label="分配人员">
                     <AutoComplete v-model="issuePlan.dispense"
-                                  :data="countData.dispenseData"
+                                  :data="people.dispenseList"
                                   :disabled="disabledState1"
                                   @on-search="dispenseSearch"
                                   placeholder="分配此问题的人员">
@@ -13,10 +13,10 @@
             </iCol>
             <iCol span="12">
                 <FormItem label="解决人员">
-                    <AutoComplete v-model="issuePlan.handle"
-                                  :data="countData.handleData"
+                    <AutoComplete v-model="issuePlan.developer"
+                                  :data="people.developerList"
                                   :disabled="disabledState2"
-                                  @on-search="handleSearch"
+                                  @on-search="developerSearch"
                                   placeholder="解决此问题的人员">
                     </AutoComplete>
                 </FormItem>
@@ -30,7 +30,7 @@
             </iCol>
             <iCol span="10">
                 <FormItem label="版本号">
-                    <AutoComplete v-model="issuePlan.versionEnd" :data="countData.versionEndData"
+                    <AutoComplete v-model="issuePlan.versionEnd" :data="versionList"
                                   @on-search="versionSearch" placeholder="预计解决时的版本">
                     </AutoComplete>
                 </FormItem>
@@ -71,18 +71,18 @@
                 } else {
                     this.disabledState2 = false;
                 }
-                this.countData.dispenseData = !val ? [] : [
+                this.people.dispenseList = !val ? [] : [
                     val,
                     val + '测试'
                 ];
             },
-            handleSearch(val) {
+            developerSearch(val) {
                 if (val) {
                     this.disabledState1 = true;
                 } else {
                     this.disabledState1 = false;
                 }
-                this.countData.handleData = !val ? [] : [
+                this.people.developerList = !val ? [] : [
                     val,
                     val + '测试'
                 ];
@@ -102,7 +102,7 @@
                 }
             },
             versionSearch(val) {
-                this.countData.versionData = !val ? [] : [
+                this.versionList = !val ? [] : [
                     value,
                     val + '.1'
                 ];
@@ -122,7 +122,8 @@
         computed: {
             ...mapState({
                 issuePlan: state => state.issue.issuePlan,
-                countData: state => state.project.countData
+                people: state => state.project.projectList[0].people,
+                versionList: state => state.project.projectList[0].versionList
             })
         }
     }

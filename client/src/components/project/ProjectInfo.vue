@@ -47,12 +47,17 @@
 </template>
 
 <script>
+    import {mapMutations, mapState} from 'vuex';
+
     export default {
         name: "ProjectInfo",
         props: {
             isBordered: {
-                type: [Boolean, String],
+                type: Boolean,
                 default: true
+            },
+            data: {
+                type: Object
             }
         },
         data() {
@@ -77,6 +82,13 @@
             }
         },
         methods: {
+            init() {
+                if (!this.data) {
+                    this.projectInfo.title = this.stateInfo.title;
+                    this.projectInfo.desc = this.stateInfo.desc;
+                    this.projectInfo.img[0].name = this.stateInfo.imgName;
+                }
+            },
             handleSubmit(name) {
                 this.$refs[name].validate((valid) => {
                     if (valid) {
@@ -109,13 +121,21 @@
                     desc: file.name + ' 格式不正确，请选择合适的图片'
                 });
             }
+        },
+        computed: {
+            ...mapState({
+                stateInfo: state => state.project.projectList[0].info
+            })
+        },
+        mounted() {
+            this.init();
         }
     }
 </script>
 
 <style scoped>
     .padding {
-        padding: 24px;
+        padding: 30px 24px;
         background-color: #fff;
         border-radius: 4px;
     }

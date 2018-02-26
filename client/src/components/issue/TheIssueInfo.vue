@@ -41,7 +41,7 @@
             </iCol>
             <iCol span="10">
                 <FormItem label="版本号">
-                    <AutoComplete v-model="issueInfo.version" :data="versionData"
+                    <AutoComplete v-model="issueInfo.version" :data="versionList"
                                   @on-search="versionSearch" placeholder="问题所在版本">
                     </AutoComplete>
                 </FormItem>
@@ -108,7 +108,7 @@
                 }
             },
             versionSearch(val) {
-                this.versionData = !val ? [] : [
+                this.versionList = !val ? [] : [
                     value,
                     val + '.1'
                 ];
@@ -128,7 +128,7 @@
         computed: {
             ...mapState({
                 issueInfo: state => state.issue.issueInfo,
-                versionData: state => state.project.countData.versionData
+                versionList: state => state.project.projectList[0].versionList
             })
         }
     }

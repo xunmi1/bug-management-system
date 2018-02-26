@@ -11,7 +11,7 @@
         <Card>
             <Carousel id="123" v-model="current" dots="none">
                 <CarouselItem>
-                    <project-info isBordered=""></project-info>
+                    <project-info :isBordered=false :data="projectItem.info"></project-info>
                 </CarouselItem>
                 <CarouselItem>
                     <project-people isBordered=""></project-people>
@@ -29,7 +29,8 @@
 
 <script>
     import ProjectInfo from './ProjectInfo';
-    import ProjectPeople from '@/project/ProjectPeople';
+    import ProjectPeople from './ProjectPeople';
+    import {mapState} from 'vuex';
 
     export default {
         name: "TheNewProject",
@@ -52,6 +53,11 @@
                     });
                 }
             }
+        },
+        computed: {
+            ...mapState({
+                projectItem: state => state.project.projectItem
+            })
         }
     }
 </script>
