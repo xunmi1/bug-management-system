@@ -11,7 +11,7 @@
         name: "projectPeople",
         props: {
             isBordered: {
-                type: [Boolean, String],
+                type: Boolean,
                 default: true
             }
         },

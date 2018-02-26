@@ -24,12 +24,11 @@
                 </iCol>
                 <iCol span="10">
                     <div class="img-size">
-                        <img :src="projectInfo.img[0].file+projectInfo.img[0].name"
+                        <img :src="'http://localhost:8000/public/images/'+projectInfo.imgName"
                              class="img-size" width="128" height="128" alt="project"/>
                     </div>
                     <Upload
                         :show-upload-list="false"
-                        :default-file-list="projectInfo.img"
                         :on-success="handleSuccess"
                         :format="['jpg', 'jpeg', 'png', 'gif', 'ico']"
                         :max-size="1024"
@@ -65,10 +64,7 @@
                 projectInfo: {
                     title: '',
                     desc: '',
-                    img: [{
-                        name: '',
-                        file: 'http://localhost:8000/public/images/'
-                    }]
+                    imgName: ''
                 },
                 ruleInfo: {
                     title: [
@@ -84,18 +80,32 @@
         methods: {
             init() {
                 if (!this.data) {
-                    this.projectInfo.title = this.stateInfo.title;
-                    this.projectInfo.desc = this.stateInfo.desc;
-                    this.projectInfo.img[0].name = this.stateInfo.imgName;
+                    const stateInfo = this.projectList[this.defaultIndex].info;
+                    this.projectInfo.title = stateInfo.title;
+                    this.projectInfo.desc = stateInfo.desc;
+                    this.projectInfo.imgName = stateInfo.imgName;
+                } else {
+                    this.$emit('update:data', this.projectInfo);
                 }
             },
             handleSubmit(name) {
                 this.$refs[name].validate((valid) => {
-                    if (valid) {
-                        this.$Message.success('修改成功!');
-                        this.$emit('on-ok');
+                    if (!this.data) {
+                        if (valid) {
+                            this.$store.commit('setProjectInfo', {
+                                title: this.projectInfo.title,
+                                desc: this.projectInfo.desc,
+                                imgName: this.projectInfo.imgName
+                            });
+                            this.$Message.success('修改成功!');
+                        } else {
+                            this.$Message.error('修改失败！');
+                        }
                     } else {
-                        this.$Message.error('修改失败！');
+                        if (valid) {
+                            this.$emit('update:data', this.projectInfo);
+                            this.$emit('on-ok');
+                        }
                     }
                 })
             },
@@ -124,7 +134,8 @@
         },
         computed: {
             ...mapState({
-                stateInfo: state => state.project.projectList[0].info
+                defaultIndex: state => state.project.defaultIndex,
+                projectList: state => state.project.projectList
             })
         },
         mounted() {

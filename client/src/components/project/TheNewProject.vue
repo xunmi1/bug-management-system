@@ -11,10 +11,11 @@
         <Card>
             <Carousel id="123" v-model="current" dots="none">
                 <CarouselItem>
-                    <project-info :isBordered=false :data="projectItem.info"></project-info>
+                    <project-info :isBordered=false :data.sync="newProject.info"
+                                  @on-ok="nextStep"></project-info>
                 </CarouselItem>
                 <CarouselItem>
-                    <project-people isBordered=""></project-people>
+                    <project-people :isBordered=false @on-ok="nextStep"></project-people>
                 </CarouselItem>
                 <CarouselItem>
                     <div>3</div>
@@ -30,12 +31,17 @@
 <script>
     import ProjectInfo from './ProjectInfo';
     import ProjectPeople from './ProjectPeople';
-    import {mapState} from 'vuex';
 
     export default {
         name: "TheNewProject",
         data() {
             return {
+                newProject: {
+                    info: {},
+                    people: {},
+                    versionList: [],
+                    issueList: []
+                },
                 current: 0
             }
         },
@@ -48,16 +54,13 @@
                 if (this.current < 3) {
                     this.current++;
                 } else {
+                    this.$store.commit('pushProject', this.newProject);
                     this.$Notice.success({
-                        title: '项目新建成功！'
+                        title: '新项目添加成功！',
+                        desc: '切勿重复点击确认按钮！'
                     });
                 }
             }
-        },
-        computed: {
-            ...mapState({
-                projectItem: state => state.project.projectItem
-            })
         }
     }
 </script>
