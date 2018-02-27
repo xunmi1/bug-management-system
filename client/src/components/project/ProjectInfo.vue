@@ -1,5 +1,11 @@
 <template>
     <div class="padding" :class="{ bordered: isBordered }">
+        <slot name="header">
+            <div class="header">
+                <Icon type="ios-paper fa-lg fa-fw" style="color: #2d8cf0"></Icon>
+                项目信息
+            </div>
+        </slot>
         <Form ref="projectInfo" :model="projectInfo" :rules="ruleInfo">
             <Row :gutter="24">
                 <iCol span="14">
@@ -91,7 +97,7 @@
                                 desc: this.projectInfo.desc,
                                 imgName: this.projectInfo.imgName
                             });
-                            this.$Message.success('修改成功!');
+                            this.$Message.success('修改成功！');
                         } else {
                             this.$Message.error('修改失败！');
                         }
@@ -154,6 +160,15 @@
     .bordered:hover {
         box-shadow: 0 1px 6px rgba(0, 0, 0, .2);
         border-color: #eee;
+    }
+
+    .header {
+        position: relative;
+        font-size: 15px;
+        border-bottom: 1px solid #e9eaec;
+        top: -14px;
+        padding-bottom: 16px;
+        line-height: 1;
     }
 
     .content-info-box {

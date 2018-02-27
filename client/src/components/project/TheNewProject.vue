@@ -12,11 +12,15 @@
             <Carousel id="123" v-model="current" dots="none" arrow="never">
                 <CarouselItem>
                     <project-info :isBordered=false :data.sync="newProject.info"
-                                  @on-ok="nextStep"></project-info>
+                                  @on-ok="nextStep">
+                        <div slot="header"></div>
+                    </project-info>
                 </CarouselItem>
                 <CarouselItem>
                     <project-people :isBordered=false :data.sync="newProject.people"
-                                    @on-ok="nextStep"></project-people>
+                                    @on-ok="nextStep">
+                        <div slot="header"></div>
+                    </project-people>
                 </CarouselItem>
                 <CarouselItem>
                     <div>3</div>
@@ -61,7 +65,6 @@
             }
         },
         components: {
-            ProjectInfo,
             'project-info': ProjectInfo,
             'project-people': ProjectPeople
         },
@@ -72,7 +75,7 @@
                 }
             },
             nextStep() {
-                if (this.current < 0) {
+                if (this.current < 3) {
                     this.current++;
                     if (this.maxCurrent < this.current) {
                         this.maxCurrent = this.current;

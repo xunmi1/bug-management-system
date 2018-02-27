@@ -1,5 +1,11 @@
 <template>
     <div class="padding" :class="{ bordered: isBordered }">
+        <slot name="header">
+            <div class="header">
+                <Icon type="android-person-add fa-lg fa-fw" style="color: #2d8cf0"></Icon>
+                成员管理
+            </div>
+        </slot>
         <Form ref="projectPeople" :model="projectPeople" :rules="rulePeople">
             <FormItem class="content-info-box">
                 <div class="content-button">
@@ -47,7 +53,7 @@
                     if (!this.data) {
                         if (valid) {
                             this.$store.commit();
-                            this.$Message.success('修改成功!');
+                            this.$Message.success('修改成功！');
                         } else {
                             this.$Message.error('修改失败！');
                         }
@@ -77,7 +83,7 @@
 
 <style scoped>
     .padding {
-        padding: 24px;
+        padding: 30px 24px;
         background-color: #fff;
         border-radius: 4px;
     }
@@ -91,6 +97,15 @@
     .bordered:hover {
         box-shadow: 0 1px 6px rgba(0, 0, 0, .2);
         border-color: #eee;
+    }
+
+    .header {
+        position: relative;
+        font-size: 15px;
+        border-bottom: 1px solid #e9eaec;
+        top: -14px;
+        padding-bottom: 16px;
+        line-height: 1;
     }
 
     .content-info-box {
