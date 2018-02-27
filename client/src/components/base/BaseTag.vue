@@ -8,7 +8,7 @@
              :color="item.isChecked===true? 'blue': 'default'"
              @on-close="tagClose"
              @on-change="tagChange">
-            {{ item.name }}
+            {{ item.title }}
         </Tag>
     </div>
 </template>

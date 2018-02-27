@@ -111,7 +111,7 @@
                 <Layout :style="{padding: '0 24px 0 24px', margin:'0 0 0 180px'}">
                     <base-tag :style="{padding: '4px 0'}"></base-tag>
                     <Content :style="{padding: '0'}">
-                        <keep-alive include="">
+                        <keep-alive :include="aliveList">
                             <router-view></router-view>
                         </keep-alive>
                     </Content>
@@ -128,6 +128,7 @@
     import TheModal from './TheModal';
 
     export default {
+        name: 'TheMain',
         data() {
             return {
                 SearchValue: '',
@@ -158,6 +159,7 @@
                 if (this.menuItem[tag]) {
                     this.add({
                         tag,
+                        title: this.menuItem[tag].title,
                         name: this.menuItem[tag].name
                     });
                     this.$router.push({name: tag});
@@ -182,7 +184,8 @@
         computed: {
             ...mapState({
                 avatarId: state => state.user.userInfo.avatarId,
-                menuItem: state => state.tagState.menuList
+                menuItem: state => state.tagState.menuList,
+                tagList: state => state.tagState.list
             }),
             // 用户头像设置
             defaultAvatar() {
@@ -193,6 +196,15 @@
                     this.avatar.name = this.avatarId;
                     return this.avatar.file + this.avatar.name;
                 }
+            },
+            /**
+             * 组件缓存动态销毁
+             * 实时遍历 tag 标签数组，返回包含当前组件名的新数组
+             */
+            aliveList() {
+                return this.tagList.map(item => {
+                    return item.name;
+                });
             }
         },
         created() {

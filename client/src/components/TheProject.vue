@@ -52,8 +52,8 @@
                 if (this.menuItem[tag]) {
                     this.add({
                         tag,
-                        name: this.menuItem[tag].name,
-                        url: this.menuItem[tag].url
+                        title: this.menuItem[tag].title,
+                        name: this.menuItem[tag].name
                     });
                     this.$router.push({name: tag});
                 }

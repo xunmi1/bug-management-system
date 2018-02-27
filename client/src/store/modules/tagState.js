@@ -2,31 +2,41 @@ const state = {
     list: [],
     menuList: {
         projectInfo: {
-            name: '项目信息'
+            title: '项目信息',
+            name: 'ProjectInfo'
         },
         projectPeople: {
-            name: '成员管理'
+            title: '成员管理',
+            name: 'ProjectPeople'
         },
         mgmt3: {
-            name: '功能模块'
+            title: '功能模块',
+            name: ''
         },
         mgmt4: {
-            name: '版本管理'
+            title: '版本管理',
+            name: ''
         },
         userProject: {
-            name: '我的项目'
+            title: '我的项目',
+            name: 'TheProject'
         },
         retrieval: {
-            name: 'BUG 检索',
+            title: 'BUG 检索',
+            name: ''
         },
         user: {
-            name: '账号设置'
+            title: '账号设置',
+            name: 'TheUserInfo'
         },
         newProject: {
-            name: '新建项目'
+            title: '新建项目',
+            name: 'TheNewProject'
         },
         console: {
-            name: '项目概况'
+            title: '项目概况',
+            name: ''
+
         }
     },
     tagIndex: Number,
@@ -52,8 +62,8 @@ const mutations = {
         if (isAdd) {
             const tmpItem = {
                 tag: item.tag,
+                title: item.title,
                 name: item.name,
-                //url: item.url,
                 isChecked: true
             };
             state.list.push(tmpItem);
