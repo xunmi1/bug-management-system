@@ -8,34 +8,17 @@ const state = {
             imgName: ''
         },
         people: {
-            programmerList: [],
-            issuerList: [],
-            developerList: [],
-            dispenseList: [],
-            testerList: []
+            allList: [],           // 项目成员
+            ownerList: [],         // 管理人员
+            issuerList: [],        // 提交人员
+            developerList: [],     // 解决人员
+            dispenseList: [],      // 分配人员
+            testerList: []         // 测试人员
         },
         modules: {},
         versionList: [1, 1.1, 1.2, 2],
         issueList: []
-    }],
-    projectItem: {
-        info: {
-            id: '',
-            title: '',
-            desc: '',
-            imgName: ''
-        },
-        people: {
-            programmerList: [],    // 项目人员
-            issuerList: [],    // 提交人员
-            developerList: [],    // 解决人员
-            dispenseList: [],    // 分配人员
-            testerList: []    // 测试人员
-        },
-        modules: {},
-        versionList: [],
-        issueList: []
-    }
+    }]
 };
 
 const mutations = {
@@ -45,11 +28,8 @@ const mutations = {
         state.projectList[state.defaultIndex].info.imgName = info.imgName;
     },
     pushProject(state, item) {
-        state.projectItem.info = item.info;
-        state.projectItem.people = item.people;
-        state.projectItem.modules = item.modules;
-        state.projectItem.versionList = item.versionList;
-        state.projectList.push(state.projectItem);
+        item = Object.assign({}, item);
+        state.projectList.push(item);
     }
 };
 

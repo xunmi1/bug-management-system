@@ -46,7 +46,7 @@
 </template>
 
 <script>
-    import {mapMutations, mapState} from 'vuex';
+    import {mapState} from 'vuex';
 
     export default {
         name: "ProjectInfo",
@@ -61,11 +61,7 @@
         },
         data() {
             return {
-                projectInfo: {
-                    title: '',
-                    desc: '',
-                    imgName: ''
-                },
+                projectInfo: {},
                 ruleInfo: {
                     title: [
                         {required: true, message: '请输入项目标题', trigger: 'blur'}
@@ -81,11 +77,9 @@
             init() {
                 if (!this.data) {
                     const stateInfo = this.projectList[this.defaultIndex].info;
-                    this.projectInfo.title = stateInfo.title;
-                    this.projectInfo.desc = stateInfo.desc;
-                    this.projectInfo.imgName = stateInfo.imgName;
+                    this.projectInfo = Object.assign({}, stateInfo);
                 } else {
-                    this.$emit('update:data', this.projectInfo);
+                    this.projectInfo = Object.assign({}, this.data);
                 }
             },
             handleSubmit(name) {
