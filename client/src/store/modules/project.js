@@ -8,12 +8,27 @@ const state = {
             imgName: ''
         },
         people: {
-            allList: [],           // 项目成员
-            ownerList: [],         // 管理人员
-            issuerList: [],        // 提交人员
-            developerList: [],     // 解决人员
-            dispenseList: [],      // 分配人员
-            testerList: []         // 测试人员
+            allList: [
+                {userId: '14522683', name: '测试1', email: '1@cc.cc', desc: '', avatarId: ''},
+                {userId: '14522684', name: '测试2', email: '2@cc.cc', desc: '', avatarId: ''},
+                {userId: '14522685', name: '测试3', email: '2@cc.cc', desc: '', avatarId: ''},
+                {userId: '14522682', name: 'admin', email: '3@cc.cc', desc: '', avatarId: ''}
+            ],                     // 项目成员
+            ownerList: [
+                {userId: '14522682', name: 'admin', email: '3@cc.cc', desc: '', avatarId: ''}
+            ],                     // 管理人员
+            issuerList: [
+                {userId: '14522683', name: '测试1', email: '1@cc.cc', desc: '', avatarId: ''}
+            ],                     // 提交人员
+            developerList: [
+                {userId: '14522684', name: '测试2', email: '2@cc.cc', desc: '', avatarId: ''}
+            ],                     // 解决人员
+            dispenseList: [
+                {userId: '14522683', name: '测试1', email: '1@cc.cc', desc: '', avatarId: ''}
+            ],                     // 分配人员
+            testerList: [
+                {userId: '14522685', name: '测试3', email: '2@cc.cc', desc: '', avatarId: ''}
+            ]                      // 测试人员
         },
         modules: {},
         versionList: [1, 1.1, 1.2, 2],

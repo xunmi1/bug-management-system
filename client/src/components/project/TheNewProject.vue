@@ -8,7 +8,7 @@
                 <Step title="版本" content="项目的迭代和版本信息" @click.native="changeStep(3)"></Step>
             </Steps>
         </Card>
-        <Card>
+        <Card :padding="0">
             <Carousel id="123" v-model="current" dots="none" arrow="never">
                 <CarouselItem>
                     <project-info :isBordered=false :data.sync="newProject.info"

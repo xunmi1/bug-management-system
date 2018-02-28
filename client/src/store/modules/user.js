@@ -3,6 +3,7 @@ import userName from '../../userName';
 
 const state = {
     userInfo: {
+        userId: '',
         name: '',
         pwd: '',
         email: '',

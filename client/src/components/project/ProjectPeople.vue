@@ -2,10 +2,54 @@
     <div class="padding" :class="{ bordered: isBordered }">
         <slot name="header">
             <div class="header">
-                <Icon type="android-person-add fa-lg fa-fw" style="color: #2d8cf0"></Icon>
+                <Icon type="android-person-add fa-fw" style="color: #2d8cf0"></Icon>
                 成员管理
             </div>
         </slot>
+        <div class="layout">
+            <Card :padding="0" :style="{width:cardWidth +1 + 'px', margin: '6px'}">
+                <div slot="title">所有人员</div>
+                <div>
+                    <Table :columns="columns" :data="projectPeople.allList"
+                           size="small" height="272" :style="{width:cardWidth + 'px'}"></Table>
+                </div>
+            </Card>
+            <Card :padding="0" :style="{width:cardWidth +1 + 'px', margin: '6px'}">
+                <div slot="title">管理人员</div>
+                <div>
+                    <Table :columns="columns" :data="projectPeople.ownerList"
+                           size="small" height="272" :style="{width:cardWidth + 'px'}"></Table>
+                </div>
+            </Card>
+            <Card :padding="0" :style="{width:cardWidth +1 + 'px', margin: '6px'}">
+                <div slot="title">提交人员</div>
+                <div>
+                    <Table :columns="columns" :data="projectPeople.issuerList"
+                           size="small" height="272" :style="{width:cardWidth + 'px'}"></Table>
+                </div>
+            </Card>
+            <Card :padding="0" :style="{width:cardWidth +1 + 'px', margin: '6px'}">
+                <div slot="title">分配人员</div>
+                <div>
+                    <Table :columns="columns" :data="projectPeople.dispenseList"
+                           size="small" height="272" :style="{width:cardWidth + 'px'}"></Table>
+                </div>
+            </Card>
+            <Card :padding="0" :style="{width:cardWidth +1 + 'px', margin: '6px'}">
+                <div slot="title">解决人员</div>
+                <div>
+                    <Table :columns="columns" :data="projectPeople.developerList"
+                           size="small" height="272" :style="{width:cardWidth + 'px'}"></Table>
+                </div>
+            </Card>
+            <Card :padding="0" :style="{width:cardWidth +1 + 'px', margin: '6px'}">
+                <div slot="title">测试人员</div>
+                <div>
+                    <Table :columns="columns" :data="projectPeople.testerList"
+                           size="small" height="272" :style="{width:cardWidth + 'px'}"></Table>
+                </div>
+            </Card>
+        </div>
         <Form ref="projectPeople" :model="projectPeople" :rules="rulePeople">
             <FormItem class="content-info-box">
                 <div class="content-button">
@@ -23,7 +67,7 @@
     import {mapState} from 'vuex';
 
     export default {
-        name: "projectPeople",
+        name: "ProjectPeople",
         props: {
             isBordered: {
                 type: Boolean,
@@ -36,7 +80,33 @@
         data() {
             return {
                 projectPeople: {},
-                rulePeople: {}
+                rulePeople: {},
+                columns: [
+                    {
+                        type: 'index',
+                        width: 48,
+                        align: 'center'
+                    },
+                    {
+                        title: '头像', key: 'avatarId',
+                        width: 68,
+                        render: (h, params) => {
+                            return h('div', [
+                                h('Avatar', {
+                                    props: {
+                                        shape: 'square',
+                                        src: params.row.avatarId ?
+                                            `http://localhost:8000/public/images/${params.row.avatarId}` : null,
+                                        icon: 'person'
+                                    }
+                                })
+                            ]);
+                        }
+                    },
+                    {title: '用户名', key: 'name'},
+                    {title: '邮箱', key: 'email'}
+                ],
+                cardWidth: 528,
             }
         },
         methods: {
@@ -83,7 +153,7 @@
 
 <style scoped>
     .padding {
-        padding: 30px 24px;
+        padding: 30px 18px;
         background-color: #fff;
         border-radius: 4px;
     }
@@ -108,6 +178,14 @@
         line-height: 1;
     }
 
+    .layout {
+        position: relative;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-around;
+        align-items: flex-start;
+    }
+
     .content-info-box {
         margin: 0 6px 22px 6px;
     }
@@ -127,4 +205,5 @@
     .content-button button {
         width: 100px;
     }
+
 </style>

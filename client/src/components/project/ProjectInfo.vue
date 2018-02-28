@@ -2,7 +2,7 @@
     <div class="padding" :class="{ bordered: isBordered }">
         <slot name="header">
             <div class="header">
-                <Icon type="ios-paper fa-lg fa-fw" style="color: #2d8cf0"></Icon>
+                <Icon type="ios-paper fa-fw" style="color: #2d8cf0"></Icon>
                 项目信息
             </div>
         </slot>
