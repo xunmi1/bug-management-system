@@ -9,10 +9,22 @@ const state = {
         },
         people: {
             allList: [
-                {userId: '14522683', name: '测试1', email: '1@cc.cc', desc: '', avatarId: ''},
-                {userId: '14522684', name: '测试2', email: '2@cc.cc', desc: '', avatarId: ''},
-                {userId: '14522685', name: '测试3', email: '2@cc.cc', desc: '', avatarId: ''},
-                {userId: '14522682', name: 'admin', email: '3@cc.cc', desc: '', avatarId: ''}
+                {
+                    userId: '14522683', name: '测试1', email: '1@cc.cc', desc: '', avatarId: '',
+                    issue: 10, dispense: 6, solve: 0, test: 0
+                },
+                {
+                    userId: '14522684', name: '测试2', email: '2@cc.cc', desc: '', avatarId: '',
+                    issue: 0, dispense: 0, solve: 8, test: 0
+                },
+                {
+                    userId: '14522685', name: '测试3', email: '2@cc.cc', desc: '', avatarId: '',
+                    issue: 0, dispense: 0, solve: 0, test: 5
+                },
+                {
+                    userId: '14522682', name: 'admin', email: '3@cc.cc', desc: '', avatarId: '',
+                    issue: 0, dispense: 0, solve: 0, test: 0
+                }
             ],                     // 项目成员
             ownerList: [
                 {userId: '14522682', name: 'admin', email: '3@cc.cc', desc: '', avatarId: ''}
