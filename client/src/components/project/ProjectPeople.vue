@@ -8,19 +8,40 @@
         </slot>
         <Collapse class="collapse">
             <Panel>
-                所有人员
+                所有成员
                 <div slot="content">
                     <Table :columns="columns[0]" :data="tableAllList"
-                           size="small" :height="tableHeight" :style="tableStyle"></Table>
+                           size="small" :height="tableHeight1" :style="tableStyle"></Table>
                     <Page :total="total" size="small" show-total
                           style="margin: 10px 0; float: right" @on-change="changePage"></Page>
+                    <Form :label-width="0" class="table-button" inline
+                          ref="newPeopleEmail" :model="{newPeopleEmail}">
+                        <FormItem :rules="ruleEmail" prop="newPeopleEmail">
+                            <span style="font-size: 14px">人员添加：</span>
+                            <AutoComplete v-model="newPeopleEmail" :data="emailSuffix"
+                                          @on-search="searchEmail"
+                                          placeholder="输入邮箱地址" style="width:200px" placement="top">
+                            </AutoComplete>
+                            <Button @click="pushNewPeopleEmail">添加</Button>
+                        </FormItem>
+                        <FormItem>
+                            <span style="font-size: 14px">人员分配：</span>
+                            <ButtonGroup>
+                                <Button>管理人员</Button>
+                                <Button>提交人员</Button>
+                                <Button>分配人员</Button>
+                                <Button>解决人员</Button>
+                                <Button>测试人员</Button>
+                            </ButtonGroup>
+                        </FormItem>
+                    </Form>
                 </div>
             </Panel>
             <Panel>
                 管理人员
                 <div slot="content">
                     <Table :columns="columns[1]" :data="projectPeople.ownerList"
-                           size="small" height="272" :style="tableStyle"></Table>
+                           size="small" :height="tableHeight2" :style="tableStyle"></Table>
                 </div>
             </Panel>
         </Collapse>
@@ -30,7 +51,7 @@
                 <div slot="title">提交人员</div>
                 <div>
                     <Table :columns="columns[2]" :data="projectPeople.issuerList"
-                           size="small" height="272" :style="tableStyle"></Table>
+                           size="small" :height="tableHeight3" :style="tableStyle"></Table>
                 </div>
             </Card>
             <Card :padding="0" class="flex-item"
@@ -38,7 +59,7 @@
                 <div slot="title">分配人员</div>
                 <div>
                     <Table :columns="columns[3]" :data="projectPeople.dispenseList"
-                           size="small" height="272" :style="tableStyle"></Table>
+                           size="small" :height="tableHeight4" :style="tableStyle"></Table>
                 </div>
             </Card>
             <Card :padding="0" class="flex-item"
@@ -46,7 +67,7 @@
                 <div slot="title">解决人员</div>
                 <div>
                     <Table :columns="columns[4]" :data="projectPeople.developerList"
-                           size="small" height="272" :style="tableStyle"></Table>
+                           size="small" :height="tableHeight5" :style="tableStyle"></Table>
                 </div>
             </Card>
             <Card :padding="0" class="flex-item"
@@ -54,7 +75,7 @@
                 <div slot="title">测试人员</div>
                 <div>
                     <Table :columns="columns[5]" :data="projectPeople.testerList"
-                           size="small" height="272" :style="tableStyle"></Table>
+                           size="small" :height="tableHeight6" :style="tableStyle"></Table>
                 </div>
             </Card>
         </div>
@@ -83,9 +104,15 @@
         },
         data() {
             return {
+                newPeopleEmail: '',
+                emailSuffix: [],
+                ruleEmail: [
+                    {required: true, message: '请输入邮箱地址', trigger: 'blur'},
+                    {type: 'email', message: '邮箱地址不正确', trigger: 'blur'}
+                ],
                 projectPeople: {},
                 current: 1,          // 所有人员表格的当前页码
-                columns: [],
+                columns: [],         // 各个表格表头
                 cardWidth: 500,
                 tableStyle: {minWidth: this.cardWidth + 'px'}
             }
@@ -107,16 +134,14 @@
                     {
                         title: '头像', key: 'avatarId', width: 60,
                         render: (h, params) => {
-                            return h('div', [
-                                h('Avatar', {
-                                    props: {
-                                        shape: 'square',
-                                        src: params.row.avatarId ?
-                                            `http://localhost:8000/public/images/${params.row.avatarId}` : null,
-                                        icon: 'person'
-                                    }
-                                })
-                            ]);
+                            return h('Avatar', {
+                                props: {
+                                    shape: 'square',
+                                    src: params.row.avatarId ?
+                                        `http://localhost:8000/public/images/${params.row.avatarId}` : null,
+                                    icon: 'person'
+                                }
+                            });
                         }
                     },
                     {title: '用户名', key: 'name'},
@@ -130,104 +155,126 @@
                     {
                         title: '操作', key: 'action', width: 86,
                         render: (h, params) => {
-                            return h('div', [
-                                h('Button', {
-                                    props: {type: 'error', size: 'small'},
-                                    on: {
-                                        click: () => {
-                                            this.remove('allList', params.index)
-                                        }
+                            return h('Button', {
+                                props: {type: 'error', size: 'small'},
+                                on: {
+                                    click: () => {
+                                        this.remove('allList', params.index)
                                     }
-                                }, '移除')
-                            ]);
+                                }
+                            }, '移除');
                         }
                     }]);
                 this.columns[1] = column.concat({
                     title: '操作', key: 'action', width: 86,
                     render: (h, params) => {
-                        return h('div', [
-                            h('Button', {
-                                props: {type: 'error', size: 'small'},
-                                on: {
-                                    click: () => {
-                                        this.remove('ownerList', params.index)
-                                    }
+                        return h('Button', {
+                            props: {type: 'error', size: 'small'},
+                            on: {
+                                click: () => {
+                                    this.remove('ownerList', params.index)
                                 }
-                            }, '移除')
-                        ]);
+                            }
+                        }, '移除');
                     }
                 });
                 this.columns[2] = column.concat({
                     title: '操作', key: 'action', width: 86,
                     render: (h, params) => {
-                        return h('div', [
-                            h('Button', {
-                                props: {type: 'error', size: 'small'},
-                                on: {
-                                    click: () => {
-                                        this.remove('issuerList', params.index)
-                                    }
+                        return h('Button', {
+                            props: {type: 'error', size: 'small'},
+                            on: {
+                                click: () => {
+                                    this.remove('issuerList', params.index)
                                 }
-                            }, '移除')
-                        ]);
+                            }
+                        }, '移除');
                     }
                 });
                 this.columns[3] = column.concat({
                     title: '操作', key: 'action', width: 86,
                     render: (h, params) => {
-                        return h('div', [
-                            h('Button', {
-                                props: {type: 'error', size: 'small'},
-                                on: {
-                                    click: () => {
-                                        this.remove('dispenseList', params.index)
-                                    }
+                        return h('Button', {
+                            props: {type: 'error', size: 'small'},
+                            on: {
+                                click: () => {
+                                    this.remove('dispenseList', params.index)
                                 }
-                            }, '移除')
-                        ]);
+                            }
+                        }, '移除');
                     }
                 });
                 this.columns[4] = column.concat({
                     title: '操作', key: 'action', width: 86,
                     render: (h, params) => {
-                        return h('div', [
-                            h('Button', {
-                                props: {type: 'error', size: 'small'},
-                                on: {
-                                    click: () => {
-                                        this.remove('developerList', params.index)
-                                    }
+                        return h('Button', {
+                            props: {type: 'error', size: 'small'},
+                            on: {
+                                click: () => {
+                                    this.remove('developerList', params.index)
                                 }
-                            }, '移除')
-                        ]);
+                            }
+                        }, '移除');
                     }
                 });
                 this.columns[5] = column.concat({
                     title: '操作', key: 'action', width: 86,
                     render: (h, params) => {
-                        return h('div', [
-                            h('Button', {
-                                props: {type: 'error', size: 'small'},
-                                on: {
-                                    click: () => {
-                                        this.remove('testerList', params.index)
-                                    }
+                        return h('Button', {
+                            props: {type: 'error', size: 'small'},
+                            on: {
+                                click: () => {
+                                    this.remove('testerList', params.index)
                                 }
-                            }, '移除')
-                        ]);
+                            }
+                        }, '移除');
                     }
                 });
             },
-            remove(data, index) {
+            testHeight(data) {
+                if (this.projectPeople[data]) {
+                    if (data === 'allList') {
+                        return (this.total < 10 ? (this.total < 3 ? 3 : this.total) : 10) * 40 + 32;
+                    } else {
+                        const length = this.projectPeople[data].length;
+                        return (length < 6 ? (length < 3 ? 3 : length) : 10) * 40 + 32;
+                    }
+                }
+            },
+            changePage(index) {
+                this.current = index;
+            },
+            searchEmail(value) {
+                this.emailSuffix = !value || value.indexOf('@') >= 0 ? [] : [
+                    value + '@qq.com', value + '@163.com', value + '@sina.com',
+                    value + '@126.com', value + '@outlook.com'
+                ];
+            },
+            pushNewPeopleEmail() {         // 添加新成员
+                console.log(this.newPeopleEmail);
+                this.$refs.newPeopleEmail.validate((valid) => {
+                    if (valid) {
+                        /**
+                         * 1、验证用户是否存在，若存在，则返回此用户相关数据
+                         * 2、通过 userId 验证列表中是否已存在
+                         */
+                        this.projectPeople.allList.push({
+                            userId: '', name: '', email: this.newPeopleEmail, desc: '',
+                            avatarId: '', issue: 0, dispense: 0, solve: 0, test: 0
+                        });
+                        this.$Message.success('添加成功!');
+                    } else {
+                        this.$Message.error('格式错误!');
+                    }
+                })
+            },
+            remove(data, index) {            // 删除操作
                 if (data === 'allList') {
                     this.projectPeople[data].splice((this.current - 1) * 10 + index, 1);
                 } else {
                     this.projectPeople[data].splice(index, 1);
                 }
                 this.$Message.success('成员移除成功！');
-            },
-            changePage(index) {
-                this.current = index;
             },
             handleSubmit(name) {
                 if (!this.data) {
@@ -257,14 +304,30 @@
                     return this.projectPeople.allList.length;
                 }
             },
-            tableHeight() {
-                return this.total < 10 ? this.total * 40 + 32 : 432;
-            },
             tableAllList() {
                 if (this.projectPeople.allList) {
                     return this.projectPeople.allList.slice((this.current - 1) * 10,
                         this.current * 10 <= this.total ? this.current * 10 : this.total);
                 }
+            },
+            // 表格高度自适应设置
+            tableHeight1() {
+                return this.testHeight('allList');
+            },
+            tableHeight2() {
+                return this.testHeight('ownerList');
+            },
+            tableHeight3() {
+                return this.testHeight('issuerList');
+            },
+            tableHeight4() {
+                return this.testHeight('dispenseList');
+            },
+            tableHeight5() {
+                return this.testHeight('developerList');
+            },
+            tableHeight6() {
+                return this.testHeight('testerList');
             }
         },
         mounted() {
@@ -307,7 +370,6 @@
     }
 
     .layout {
-        position: relative;
         display: flex;
         flex-flow: row wrap;
         justify-content: space-around;
@@ -317,6 +379,15 @@
     .flex-item {
         flex-grow: 1;
         margin: 10px;
+    }
+
+    .table-button {
+        justify-content: flex-start;
+        margin: 48px 0 16px;
+    }
+
+    .table-button > div {
+        margin: 0 16px;
     }
 
     .content-button {
