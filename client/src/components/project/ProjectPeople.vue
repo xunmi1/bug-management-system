@@ -10,8 +10,9 @@
             <Panel>
                 所有成员
                 <div slot="content">
-                    <Table :columns="columns[0]" :data="tableAllList"
-                           size="small" :height="tableHeight1" :style="tableStyle"></Table>
+                    <Table :columns="columns[0]" :data="tableAllList" ref="selection"
+                           highlight-row size="small" :height="tableHeight1" :style="tableStyle"
+                           @on-selection-change="setSelectList"></Table>
                     <Page :total="total" size="small" show-total
                           style="margin: 10px 0; float: right" @on-change="changePage"></Page>
                     <Form :label-width="0" class="table-button" inline
@@ -22,16 +23,16 @@
                                           @on-search="searchEmail"
                                           placeholder="输入邮箱地址" style="width:200px" placement="top">
                             </AutoComplete>
-                            <Button @click="pushNewPeopleEmail">添加</Button>
+                            <Button type="primary" @click="pushNewPeopleEmail">添加</Button>
                         </FormItem>
                         <FormItem>
                             <span style="font-size: 14px">人员分配：</span>
                             <ButtonGroup>
-                                <Button>管理人员</Button>
-                                <Button>提交人员</Button>
-                                <Button>分配人员</Button>
-                                <Button>解决人员</Button>
-                                <Button>测试人员</Button>
+                                <Button @click="setTask('ownerList')">管理人员</Button>
+                                <Button @click="setTask('issuerList')">提交人员</Button>
+                                <Button @click="setTask('dispenseList')">分配人员</Button>
+                                <Button @click="setTask('developerList')">解决人员</Button>
+                                <Button @click="setTask('testerList')">测试人员</Button>
                             </ButtonGroup>
                         </FormItem>
                     </Form>
@@ -111,6 +112,7 @@
                     {type: 'email', message: '邮箱地址不正确', trigger: 'blur'}
                 ],
                 projectPeople: {},
+                selectList: [],       // 当选被选中行
                 current: 1,          // 所有人员表格的当前页码
                 columns: [],         // 各个表格表头
                 cardWidth: 500,
@@ -121,11 +123,9 @@
             // 初始化用户数据
             initData() {
                 if (!this.data) {
-                    const statePeople = this.projectList[this.defaultIndex].people;
-                    this.projectPeople = Object.assign({}, statePeople);
-                } else {
-                    this.projectPeople = Object.assign({}, this.data);
+                    this.projectPeople = JSON.parse(JSON.stringify(this.projectList[this.defaultIndex].people));
                 }
+                else this.projectPeople = this.data;
             },
             // 初始化表格表头
             initColumns() {
@@ -152,6 +152,7 @@
                     {title: '分配数', key: 'dispense', align: 'center', sortable: true},
                     {title: '解决数', key: 'solve', align: 'center', sortable: true},
                     {title: '测试数', key: 'test', align: 'center', sortable: true},
+                    {type: 'selection', width: 60, align: 'center'},
                     {
                         title: '操作', key: 'action', width: 86,
                         render: (h, params) => {
@@ -268,6 +269,18 @@
                     }
                 })
             },
+            // 获取选中行数据
+            setSelectList(rows) {
+                this.selectList = rows;
+            },
+            setTask(list) {
+                this.selectList.forEach(row => {
+                    if (this.projectPeople[list].every(item => {
+                            return item.userId !== row.userId;
+                        })
+                    ) this.projectPeople[list].push(row);
+                });
+            },
             remove(data, index) {            // 删除操作
                 if (data === 'allList') {
                     this.projectPeople[data].splice((this.current - 1) * 10 + index, 1);
@@ -285,13 +298,13 @@
                     }
                 } else {
                     if (true) {
-                        this.$emit('update:data', this.projectPeople);
+                        this.$emit('update:data', this[name]);
                         this.$emit('on-ok');
                     }
                 }
             },
             handleReset(name) {
-                this.$refs[name].resetFields();
+                this.initData();
             }
         },
         computed: {
@@ -382,12 +395,11 @@
     }
 
     .table-button {
-        justify-content: flex-start;
-        margin: 48px 0 16px;
+        margin: 48px 0 8px;
     }
 
-    .table-button > div {
-        margin: 0 16px;
+    .table-button > div:first-child {
+        margin-right: 30px;
     }
 
     .content-button {

@@ -55,7 +55,7 @@ const mutations = {
         state.projectList[state.defaultIndex].info.imgName = info.imgName;
     },
     pushProject(state, item) {
-        item = Object.assign({}, item);
+        item = JSON.parse(JSON.stringify(item));
         state.projectList.push(item);
     }
 };

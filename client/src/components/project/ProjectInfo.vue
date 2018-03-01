@@ -83,6 +83,7 @@
             init() {
                 if (!this.data) {
                     const stateInfo = this.projectList[this.defaultIndex].info;
+                    // Object.assign() 只适合复制子级是值类型
                     this.projectInfo = Object.assign({}, stateInfo);
                 } else {
                     this.projectInfo = Object.assign({}, this.data);
