@@ -11,13 +11,7 @@
 
 <script>
     export default {
-        name: 'App',
-        created() {
-            // 这里将根据用户浏览器本地存储，通过后台返回用户名
-            if (true) {
-                this.$store.commit('setUserName', {name: 'admin'});
-            }
-        }
+        name: 'App'
     };
     window.onbeforeunload = stopClose;
 
@@ -31,5 +25,5 @@
         color: #2c3e50;
     }
 </style>
-<style src="../assets/stylesheets/basestyle.css"></style>
-<style src="../assets/stylesheets/iviewstyle.css"></style>
+<style src="./assets/stylesheets/basestyle.css"></style>
+<style src="./assets/stylesheets/iviewstyle.css"></style>

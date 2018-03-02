@@ -3,7 +3,7 @@
  * 声明与其他组件的依赖关系
  */
 import Vue from 'vue';
-import App from './components/App';
+import App from './App';
 import router from './router';
 import store from './store';
 import iView from 'iview';

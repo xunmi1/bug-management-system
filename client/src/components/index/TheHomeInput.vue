@@ -21,10 +21,18 @@
              * 见 https://cn.vuejs.org/v2/api/#methods
              */
             toMain: function () {
-                this.$router.push({
-                    name: 'userProject',
-                    params: {userName: this.$store.state.user.userInfo.name}
-                });
+                if (this.$store.state.user.token) {
+                    this.$store.dispatch('getInfo').then(res => {
+                        this.$router.push({
+                            name: 'userProject', params: {userName: res}
+                        });
+                    })
+                } else {
+                    this.$Notice.warning({
+                        title: '<p style="font-size: 15px">请重新登录！</p>', duration: 3
+                    });
+                    this.toLogin();
+                }
             },
             toLogin: function () {
                 this.$router.push({name: 'login'});

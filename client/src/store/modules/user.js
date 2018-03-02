@@ -1,5 +1,5 @@
 import axios from "axios/index";
-import userName from '../../userName';
+import store from "../index";
 
 const state = {
     userInfo: {
@@ -10,14 +10,14 @@ const state = {
         desc: '',
         avatarId: '',
         localStating: '', // 当前页面判断依据
-        dbStating: '' // 将在后台判断用户是否同时在线
-    }
+        dbStating: '12345678' // 将在后台判断用户是否同时在线
+    },
+    token: ''  // 本地数据
 };
 
 const mutations = {
     setUserName(state, info) {
         state.userInfo.name = info.name;
-        userName.name = info.name;
     },
     setUserPwd(state, info) {
         state.userInfo.pwd = info.pwd;
@@ -25,14 +25,17 @@ const mutations = {
     setUserEmail(state, info) {
         state.userInfo.email = info.email;
     },
-    setUserLocalStating(state, info) {
-        state.userInfo.localStating = info.localStating;
-    },
     setUserAvatarId(state, info) {
         state.userInfo.avatarId = info.avatarId;
     },
     setUserDesc(state, info) {
         state.userInfo.desc = info.desc;
+    },
+    setUserLocalStating(state, localStating) {
+        state.userInfo.localStating = localStating;
+    },
+    setToken(state, token) {
+        state.token = token;
     }
 };
 
@@ -52,6 +55,11 @@ const actions = {
             context.commit('setUserPwd', info);
         }
     },
+    async getInfo(context) {
+        // 通过本地的 token，请求用户数据
+        context.commit('setUserName', {name: 'admin'});
+        return 'admin';
+    },
     async loginCheck(context, info) {
         context.commit('setUserName', info);
         context.commit('setUserPwd', info);
@@ -62,9 +70,8 @@ const actions = {
             .then((response) => {
                 // console.log(response.data);
                 if (!context.state.userInfo.dbStating) {
-                    context.commit('setUserLocalStating', {
-                        localStating: response.data
-                    });
+                    context.commit('setUserLocalStating', response.data.localStating);
+                    context.commit('setToken', response.data.token);
                 }
             })
             .catch(function (error) {

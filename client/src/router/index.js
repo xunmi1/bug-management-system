@@ -12,7 +12,7 @@ import TheNewProject from '@/project/TheNewProject';
 import ProjectInfo from '@/project/ProjectInfo';
 import ProjectPeople from '@/project/ProjectPeople';
 
-import userName from '../userName';
+import store from '../store';
 
 Vue.use(Router);
 
@@ -87,8 +87,15 @@ router.beforeEach((to, from, next) => {
     if (isOpen) {
         next();
     } else {
-        if (to.params.userName === userName.name) {
-            next();
+        // 如果本地有 token，进行验证，否则，转到 index 界面
+        if (store.state.user.token) {
+            // 发送本地数据，返回用户信息
+            store.dispatch('getInfo').then(res => {
+                if (to.params.userName === res) {
+                    console.log('router: ' + res);
+                    next();
+                }
+            })
         } else {
             console.log('用户拦截');
             next('/');
