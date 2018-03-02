@@ -58,7 +58,8 @@
                     },
                     modules: {},
                     versionList: [],
-                    issueList: []
+                    issueList: [],
+                    status: 0
                 },
                 current: 0,
                 maxCurrent: 0
@@ -88,6 +89,14 @@
                     });
                 }
             }
+        },
+        created() {
+            let owner = this.$store.state.user.userInfo;
+            owner = {
+                userId: owner.userId, name: owner.name, email: owner.email, desc: owner.name, avatarId: owner.avatarId
+            };
+            this.newProject.people.allList.push(owner);
+            this.newProject.people.ownerList.push(owner);
         }
     }
 </script>

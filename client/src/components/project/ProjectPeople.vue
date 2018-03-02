@@ -282,25 +282,33 @@
                 });
             },
             remove(data, index) {            // 删除操作
-                if (data === 'allList') {
-                    this.projectPeople[data].splice((this.current - 1) * 10 + index, 1);
-                } else {
-                    this.projectPeople[data].splice(index, 1);
+                const userId = this.$store.state.user.userInfo.userId;
+                const dataList = this.projectPeople[data];
+                switch (data) {
+                    case 'allList':
+                        if (dataList[(this.current - 1) * 10 + index].userId === userId) {
+                            this.$Message.error('禁止移除！');
+                        }
+                        else {
+                            dataList.splice((this.current - 1) * 10 + index, 1);
+                            this.$Message.success('成员移除成功！');
+                        }
+                        break;
+                    case 'ownerList':
+                        if (dataList[index].userId === userId) this.$Message.error('禁止移除！');
+                        break;
+                    default :
+                        dataList.splice((this.current - 1) * 10 + index, 1);
+                        this.$Message.success('成员移除成功！');
                 }
-                this.$Message.success('成员移除成功！');
             },
             handleSubmit(name) {
                 if (!this.data) {
-                    if (true) {
-                        this.$Message.success('修改成功！');
-                    } else {
-                        this.$Message.error('修改失败！');
-                    }
+                    this.$store.commit('setProjectPeople', this.projectPeople);
+                    this.$Message.success('修改成功！');
                 } else {
-                    if (true) {
-                        this.$emit('update:data', this[name]);
-                        this.$emit('on-ok');
-                    }
+                    this.$emit('update:data', this[name]);
+                    this.$emit('on-ok');
                 }
             },
             handleReset(name) {

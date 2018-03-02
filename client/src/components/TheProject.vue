@@ -7,30 +7,37 @@
                     <p slot="title">新建项目</p>
                     <Icon type="plus-round" class="plus-round" @click.native="newProject('newProject')"></Icon>
                 </Card>
-                <Card class="card">
-                    <p slot="title">Borderless card</p>
-                    <p>Content of card</p>
-                    <p>Content of card</p>
-                    <p>Content of card</p>
+                <Card class="card" v-for="project in ownerList" :key="project.info.id">
+                    <p slot="title">{{project.info.title}}</p>
+                    <p>{{project.info.desc}}</p>
                 </Card>
             </div>
         </Panel>
         <Panel name="2">
             参与的项目
             <div slot="content">
-
+                <Card class="card" v-for="project in partakeList" :key="project.info.id">
+                    <p slot="title">{{project.info.title}}</p>
+                    <p>{{project.info.desc}}</p>
+                </Card>
             </div>
         </Panel>
         <Panel name="3">
             已关闭项目
             <div slot="content">
-
+                <Card class="card" v-for="project in closedList" :key="project.info.id">
+                    <p slot="title">{{project.info.title}}</p>
+                    <p>{{project.info.desc}}</p>
+                </Card>
             </div>
         </Panel>
         <Panel name="4">
             删除的项目
             <div slot="content">
-
+                <Card class="card" v-for="project in deleteList" :key="project.info.id">
+                    <p slot="title">{{project.info.title}}</p>
+                    <p>{{project.info.desc}}</p>
+                </Card>
             </div>
         </Panel>
     </Collapse>
@@ -61,8 +68,21 @@
         },
         computed: {
             ...mapState({
-                menuItem: state => state.tagState.menuList
+                menuItem: state => state.tagState.menuList,
+                projectList: state => state.project.projectList
             }),
+            ownerList() {
+                return this.projectList.filter(project => project.status === 0);
+            },
+            partakeList() {
+                return this.projectList.filter(project => project.status === 1);
+            },
+            closedList() {
+                return this.projectList.filter(project => project.status === 2);
+            },
+            deleteList() {
+                return this.projectList.filter(project => project.status === 3);
+            }
         }
     }
 </script>
