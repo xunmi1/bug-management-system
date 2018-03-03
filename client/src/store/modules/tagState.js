@@ -9,9 +9,9 @@ const state = {
             title: '成员管理',
             name: 'ProjectPeople'
         },
-        mgmt3: {
+        projectModules: {
             title: '功能模块',
-            name: ''
+            name: 'ProjectModules'
         },
         mgmt4: {
             title: '版本管理',

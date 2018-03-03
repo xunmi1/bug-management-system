@@ -43,7 +43,22 @@ const state = {
                     {userId: '14522685', name: '测试3', email: '2@cc.cc', desc: '', avatarId: ''}
                 ]                      // 测试人员
             },
-            modules: {},
+            modules: [{
+                title: 'parent 1',
+                expand: true,
+                children: [
+                    {
+                        title: 'parent 1-1',
+                        expand: true,
+                        children: [{title: 'leaf 1-1-1'}, {title: 'leaf 1-1-2'}]
+                    },
+                    {
+                        title: 'parent 1-2',
+                        expand: true,
+                        children: [{title: 'leaf 1-2-1'}, {title: 'leaf 1-2-1'}]
+                    }
+                ]
+            }],
             versionList: [1, 1.1, 1.2, 2],
             issueList: [],
             // 0：拥有，1：参与，2：关闭，3：删除（7 天内）

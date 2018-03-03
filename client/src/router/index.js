@@ -11,6 +11,7 @@ import TheUserInfo from '@/TheUserInfo';
 import TheNewProject from '@/project/TheNewProject';
 import ProjectInfo from '@/project/ProjectInfo';
 import ProjectPeople from '@/project/ProjectPeople';
+import ProjectModules from '@/project/ProjectModules';
 
 import store from '../store';
 
@@ -70,6 +71,11 @@ const router = new Router({
                     component: ProjectPeople
                 },
                 {
+                    path: 'project/modules',
+                    name: 'projectModules',
+                    component: ProjectModules
+                },
+                {
                     path: 'user',
                     name: 'user',
                     component: TheUserInfo
@@ -94,6 +100,9 @@ router.beforeEach((to, from, next) => {
                 if (to.params.userName === res) {
                     console.log('router: ' + res);
                     next();
+                } else {
+                    console.log('校验失败，进行拦截');
+                    next('/');
                 }
             })
         } else {

@@ -1,5 +1,4 @@
 import axios from "axios/index";
-import store from "../index";
 
 const state = {
     userInfo: {
@@ -10,9 +9,9 @@ const state = {
         desc: '',
         avatarId: '',
         localStating: '', // 当前页面判断依据
-        dbStating: '12345678' // 将在后台判断用户是否同时在线
+        dbStating: '' // 将在后台判断用户是否同时在线
     },
-    token: ''  // 本地数据
+    token: '12345678'  // 本地数据
 };
 
 const mutations = {

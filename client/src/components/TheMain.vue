@@ -34,7 +34,7 @@
                                 <Icon type="android-person-add"></Icon>
                                 成员管理
                             </MenuItem>
-                            <MenuItem name="mgmt3">
+                            <MenuItem name="projectModules">
                                 <Icon type="cube"></Icon>
                                 功能模块
                             </MenuItem>

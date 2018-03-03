@@ -23,7 +23,10 @@
                     </project-people>
                 </CarouselItem>
                 <CarouselItem>
-                    <div>3</div>
+                    <project-modules :isBordered=false :data.sync="newProject.modules"
+                                     @on-ok="nextStep">
+                        <div slot="header"></div>
+                    </project-modules>
                 </CarouselItem>
                 <CarouselItem>
                     <div>4</div>
@@ -36,6 +39,7 @@
 <script>
     import ProjectInfo from './ProjectInfo';
     import ProjectPeople from './ProjectPeople';
+    import ProjectModules from './ProjectModules';
 
     export default {
         name: "TheNewProject",
@@ -56,7 +60,7 @@
                         dispenseList: [],      // 分配人员
                         testerList: []         // 测试人员
                     },
-                    modules: {},
+                    modules: [],
                     versionList: [],
                     issueList: [],
                     status: 0
@@ -67,7 +71,8 @@
         },
         components: {
             'project-info': ProjectInfo,
-            'project-people': ProjectPeople
+            'project-people': ProjectPeople,
+            'project-modules': ProjectModules
         },
         methods: {
             changeStep(index) {
