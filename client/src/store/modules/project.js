@@ -44,7 +44,7 @@ const state = {
                 ]                      // 测试人员
             },
             modules: [{
-                title: 'parent 1',
+                title: '测试模块',
                 expand: true,
                 children: [
                     {

@@ -7,6 +7,12 @@
             </div>
         </slot>
         <Tree :data="modules"></Tree>
+        <div class="content-button">
+            <ButtonGroup size="large">
+                <Button type="primary" @click="handleSubmit('projectModules')">确定</Button>
+                <Button @click="handleReset('projectModules')">取消</Button>
+            </ButtonGroup>
+        </div>
     </div>
 
 </template>
@@ -33,6 +39,17 @@
                 }
                 else this.modules = this.data;
             },
+            handleSubmit(name) {
+                if (!this.data) {
+                    this.$Message.success('修改成功！');
+                } else {
+                    this.$emit('update:data', this[name]);
+                    this.$emit('on-ok');
+                }
+            },
+            handleReset(name) {
+                this.initData();
+            }
         },
         computed: {
             ...mapState({
@@ -71,5 +88,17 @@
         top: -14px;
         padding-bottom: 16px;
         line-height: 1;
+    }
+
+    .content-button {
+        width: 100%;
+        height: 80px;
+        line-height: 80px;
+        display: inline-block;
+        text-align: center;
+    }
+
+    .content-button button {
+        width: 100px;
     }
 </style>
