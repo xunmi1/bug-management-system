@@ -3,9 +3,9 @@
         <Panel name="1">
             拥有的项目
             <div slot="content">
-                <Card class="card">
+                <Card class="card" @click.native="newProject('newProject')">
                     <p slot="title">新建项目</p>
-                    <Icon type="plus-round" class="plus-round" @click.native="newProject('newProject')"></Icon>
+                    <Icon type="plus-round" class="plus-round"></Icon>
                 </Card>
                 <Card class="card" v-for="project in ownerList" :key="project.info.id">
                     <p slot="title">{{project.info.title}}</p>

@@ -13,9 +13,9 @@ const state = {
             title: '功能模块',
             name: 'ProjectModules'
         },
-        mgmt4: {
+        projectVersions: {
             title: '版本管理',
-            name: ''
+            name: 'ProjectVersions'
         },
         userProject: {
             title: '我的项目',

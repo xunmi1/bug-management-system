@@ -12,6 +12,7 @@ import TheNewProject from '@/project/TheNewProject';
 import ProjectInfo from '@/project/ProjectInfo';
 import ProjectPeople from '@/project/ProjectPeople';
 import ProjectModules from '@/project/ProjectModules';
+import ProjectVersions from '@/project/ProjectVersions';
 
 import store from '../store';
 
@@ -74,6 +75,11 @@ const router = new Router({
                     path: 'project/modules',
                     name: 'projectModules',
                     component: ProjectModules
+                },
+                {
+                    path: 'project/versions',
+                    name: 'projectVersions',
+                    component: ProjectVersions
                 },
                 {
                     path: 'user',

@@ -2,42 +2,39 @@
     <div class="padding" :class="{ bordered: isBordered }">
         <slot name="header">
             <div class="header">
-                <Icon type="cube fa-fw" style="color: #2d8cf0"></Icon>
-                功能模块
+                <Icon type="pull-request fa-fw" style="color: #2d8cf0"></Icon>
+                项目版本
+            </div>
+            <div class="content-button">
+                <ButtonGroup size="large">
+                    <Button type="primary" @click="handleSubmit('versionList')">确定</Button>
+                    <Button @click="handleReset('versionList')">取消</Button>
+                </ButtonGroup>
             </div>
         </slot>
-        <Tree :data="modules"></Tree>
-        <div class="content-button">
-            <ButtonGroup size="large">
-                <Button type="primary" @click="handleSubmit('modules')">确定</Button>
-                <Button @click="handleReset('modules')">取消</Button>
-            </ButtonGroup>
-        </div>
     </div>
-
 </template>
 
 <script>
     import {mapState} from 'vuex';
 
     export default {
-        name: "ProjectModules",
+        name: "ProjectVersions",
         props: {
             isBordered: {type: Boolean, default: true},
             data: {type: Array}
         },
         data() {
             return {
-                modules: []
+                versionList: []
             }
         },
         methods: {
-            // 初始化用户数据
             initData() {
                 if (!this.data) {
-                    this.modules = [...this.projectList[this.defaultIndex].modules];
+                    this.versionList = [...this.projectList[this.defaultIndex].versionList];
                 }
-                else this.modules = this.data;
+                else this.versionList = this.data;
             },
             handleSubmit(name) {
                 if (!this.data) {

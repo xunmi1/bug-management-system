@@ -29,7 +29,10 @@
                     </project-modules>
                 </CarouselItem>
                 <CarouselItem>
-                    <div>4</div>
+                    <project-versions :isBordered=false :data.sync="newProject.versionList"
+                                      @on-ok="nextStep">
+                        <div slot="header"></div>
+                    </project-versions>
                 </CarouselItem>
             </Carousel>
         </Card>
@@ -40,6 +43,7 @@
     import ProjectInfo from './ProjectInfo';
     import ProjectPeople from './ProjectPeople';
     import ProjectModules from './ProjectModules';
+    import ProjectVersions from './ProjectVersions'
 
     export default {
         name: "TheNewProject",
@@ -70,9 +74,11 @@
             }
         },
         components: {
+            ProjectVersions,
             'project-info': ProjectInfo,
             'project-people': ProjectPeople,
-            'project-modules': ProjectModules
+            'project-modules': ProjectModules,
+            'project-versions': ProjectVersions
         },
         methods: {
             changeStep(index) {

@@ -38,7 +38,7 @@
                                 <Icon type="cube"></Icon>
                                 功能模块
                             </MenuItem>
-                            <MenuItem name="mgmt4">
+                            <MenuItem name="projectVersions">
                                 <Icon type="pull-request"></Icon>
                                 版本管理
                             </MenuItem>
