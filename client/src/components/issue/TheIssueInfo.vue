@@ -40,8 +40,8 @@
                 </FormItem>
             </iCol>
             <iCol span="10">
-                <FormItem label="版本号">
-                    <AutoComplete v-model="issueInfo.version" :data="versionList"
+                <FormItem label="版本号" prop="version">
+                    <AutoComplete v-model="issueInfo.version" :data="versionData"
                                   @on-search="versionSearch" placeholder="问题所在版本">
                     </AutoComplete>
                 </FormItem>
@@ -79,17 +79,32 @@
     export default {
         name: "theIssueInfo",
         data() {
+            const validateVersion = (rule, value, callback) => {
+                if (value) {
+                    const list = this.versionList.map(version => version.name);
+                    if (!list.includes(value)) {
+                        callback(new Error('该版本号不存在！'));
+                    } else {
+                        callback();
+                    }
+                }
+            };
             return {
                 ruleInfo: {
                     title: [
                         {required: true, message: '请输入标题', trigger: 'blur'},
                         {type: 'string', max: 30, message: '长度不超过30位', trigger: 'blur'},
                     ],
+                    version: [
+                        {required: true, message: '请确定版本', trigger: 'blur'},
+                        {validator: validateVersion, trigger: 'blur'}
+                    ],
                     text: [
                         {required: true, message: '请输入详细内容', trigger: 'blur'},
-                        {type: 'string', max: 3000, message: '长度不超过3000位', trigger: 'blur'},
+                        {type: 'string', max: 1024, message: '长度不超过1024位', trigger: 'blur'},
                     ]
                 },
+                versionData: []
             }
         },
         methods: {
@@ -108,14 +123,18 @@
                 }
             },
             versionSearch(val) {
-                this.versionList = !val ? [] : [
-                    value,
-                    val + '.1'
-                ];
+                if (val) {
+                    this.versionData = this.versionList.map(version => version.name)
+                        .filter(version => {
+                            if (version.search(val) >= 0) return true;
+                        })
+                        .slice(-5);
+                } else {
+                    this.versionData = [];
+                }
             },
             submit() {
                 this.$refs['issueInfo'].validate((valid) => {
-                    console.log(valid);
                     if (valid) {
                         this.$store.commit('setIssueInfo', this.issueInfo);
                         this.$Message.success('提交成功！');

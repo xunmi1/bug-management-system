@@ -59,7 +59,13 @@ const state = {
                     }
                 ]
             }],
-            versionList: [1, 1.1, 1.2, 2],
+            versionList: [
+                {name: '1.0.1', desc: '测试内容1'},
+                {name: '1.0.2', desc: '测试内容2'},
+                {name: '1.1.1', desc: '测试内容3'},
+                {name: '1.1.5', desc: '测试内容4'},
+                {name: '1.2.0', desc: '测试内容5'}
+            ],
             issueList: [],
             // 0：拥有，1：参与，2：关闭，3：删除（7 天内）
             status: 0
@@ -102,6 +108,9 @@ const mutations = {
     },
     setProjectPeople(state, people) {
         state.projectList[state.defaultIndex].people = JSON.parse(JSON.stringify(people));
+    },
+    pushProjectVersion(state, version) {
+        state.projectList[state.defaultIndex].versionList.push(Object.assign({}, version));
     },
     pushProject(state, item) {
         state.projectList.push(JSON.parse(JSON.stringify(item)));

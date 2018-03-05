@@ -29,7 +29,7 @@
                     </project-modules>
                 </CarouselItem>
                 <CarouselItem>
-                    <project-versions :isBordered=false :data.sync="newProject.versionList"
+                    <project-versions :isBordered=false :data.sync="newProject.versionList[0]"
                                       @on-ok="nextStep">
                         <div slot="header"></div>
                     </project-versions>
@@ -74,7 +74,6 @@
             }
         },
         components: {
-            ProjectVersions,
             'project-info': ProjectInfo,
             'project-people': ProjectPeople,
             'project-modules': ProjectModules,
@@ -99,15 +98,23 @@
                         desc: '切勿重复点击确认按钮！'
                     });
                 }
+            },
+            initData() {
+                let owner = this.$store.state.user.userInfo;
+                owner = {
+                    userId: owner.userId,
+                    name: owner.name,
+                    email: owner.email,
+                    desc: owner.name,
+                    avatarId: owner.avatarId
+                };
+                this.newProject.people.allList.push(owner);
+                this.newProject.people.ownerList.push(owner);
+                this.newProject.versionList.push({name: '1.0.0', desc: ''});
             }
         },
         created() {
-            let owner = this.$store.state.user.userInfo;
-            owner = {
-                userId: owner.userId, name: owner.name, email: owner.email, desc: owner.name, avatarId: owner.avatarId
-            };
-            this.newProject.people.allList.push(owner);
-            this.newProject.people.ownerList.push(owner);
+            this.initData();
         }
     }
 </script>
