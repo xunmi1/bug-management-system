@@ -23,7 +23,7 @@
                     </project-people>
                 </CarouselItem>
                 <CarouselItem>
-                    <project-modules :isBordered=false :data.sync="newProject.modules"
+                    <project-modules :isBordered=false :data.sync="newProject.moduleList"
                                      @on-ok="nextStep">
                         <div slot="header"></div>
                     </project-modules>
@@ -64,7 +64,7 @@
                         dispenseList: [],      // 分配人员
                         testerList: []         // 测试人员
                     },
-                    modules: [],
+                    moduleList: [],
                     versionList: [],
                     issueList: [],
                     status: 0
@@ -85,9 +85,12 @@
                     this.current = index;
                 }
             },
-            nextStep: function () {
+            nextStep() {
                 if (this.current < 3) {
                     this.current++;
+                    if (this.current === 1) {
+                        this.initModuleList();
+                    }
                     if (this.maxCurrent < this.current) {
                         this.maxCurrent = this.current;
                     }
@@ -114,6 +117,9 @@
                 this.newProject.people.allList.push(owner);
                 this.newProject.people.ownerList.push(owner);
                 this.newProject.versionList.push({name: '1.0.0', desc: ''});
+            },
+            initModuleList() {
+                this.newProject.moduleList.push({title: this.newProject.info.title});
             }
         },
         created() {

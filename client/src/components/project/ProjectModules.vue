@@ -6,11 +6,11 @@
                 功能模块
             </div>
         </slot>
-        <Tree :data="modules" :render="renderTree" class="tree"></Tree>
+        <Tree :data="moduleList" :render="renderTree" class="tree"></Tree>
         <div class="content-button">
             <ButtonGroup size="large">
-                <Button type="primary" @click="handleSubmit('modules')">确定</Button>
-                <Button @click="handleReset('modules')">取消</Button>
+                <Button type="primary" @click="handleSubmit('moduleList')">确定</Button>
+                <Button @click="handleReset('moduleList')">取消</Button>
             </ButtonGroup>
         </div>
         <Modal v-model="modal" width="360">
@@ -39,7 +39,7 @@
         },
         data() {
             return {
-                modules: [],
+                moduleList: [],
                 modal: false,
                 itemData: '',
                 title: '',
@@ -53,9 +53,9 @@
             // 初始化用户数据
             initData() {
                 if (!this.data) {
-                    this.modules = JSON.parse(JSON.stringify(this.projectList[this.defaultIndex].moduleList));
+                    this.moduleList = JSON.parse(JSON.stringify(this.projectList[this.defaultIndex].moduleList));
                 }
-                else this.modules = this.data;
+                else this.moduleList = this.data;
             },
             renderTree(h, {root, node, data}) {
                 return h('div', {
@@ -129,7 +129,7 @@
             },
             handleSubmit(name) {
                 if (!this.data) {
-                    this.$store.commit('setProjectModules', this.modules);
+                    this.$store.commit('setProjectModuleList', this.moduleList);
                     this.$Message.success('修改成功！');
                 } else {
                     this.$emit('update:data', this[name]);

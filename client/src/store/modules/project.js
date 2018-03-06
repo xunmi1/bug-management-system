@@ -107,7 +107,7 @@ const mutations = {
     setProjectPeople(state, people) {
         state.projectList[state.defaultIndex].people = JSON.parse(JSON.stringify(people));
     },
-    setProjectModules(state, modules) {
+    setProjectModuleList(state, modules) {
         state.projectList[state.defaultIndex].moduleList = JSON.parse(JSON.stringify(modules));
     },
     pushProjectVersion(state, version) {
