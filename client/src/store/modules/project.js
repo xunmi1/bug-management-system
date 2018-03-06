@@ -43,18 +43,15 @@ const state = {
                     {userId: '14522685', name: '测试3', email: '2@cc.cc', desc: '', avatarId: ''}
                 ]                      // 测试人员
             },
-            modules: [{
+            moduleList: [{
                 title: '测试模块',
-                expand: true,
                 children: [
                     {
                         title: 'parent 1-1',
-                        expand: true,
                         children: [{title: 'leaf 1-1-1'}, {title: 'leaf 1-1-2'}]
                     },
                     {
                         title: 'parent 1-2',
-                        expand: true,
                         children: [{title: 'leaf 1-2-1'}, {title: 'leaf 1-2-1'}]
                     }
                 ]
@@ -97,7 +94,8 @@ const state = {
                 imgName: ''
             },
             status: 3
-        }]
+        }
+    ]
 };
 
 const mutations = {
@@ -108,6 +106,9 @@ const mutations = {
     },
     setProjectPeople(state, people) {
         state.projectList[state.defaultIndex].people = JSON.parse(JSON.stringify(people));
+    },
+    setProjectModules(state, modules) {
+        state.projectList[state.defaultIndex].moduleList = JSON.parse(JSON.stringify(modules));
     },
     pushProjectVersion(state, version) {
         state.projectList[state.defaultIndex].versionList.push(Object.assign({}, version));

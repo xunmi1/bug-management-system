@@ -26,8 +26,8 @@
         </div>
         <div class="content-button">
             <ButtonGroup size="large">
-                <Button type="primary" @click="handleSubmit('versionList')">确定</Button>
-                <Button @click="handleReset('versionList')">取消</Button>
+                <Button type="primary" @click="handleSubmit('tmpVersion')">确定</Button>
+                <Button @click="handleReset('tmpVersion')">取消</Button>
             </ButtonGroup>
         </div>
     </div>
@@ -53,7 +53,8 @@
                 if (!this.data) {
                     this.versionList = this.projectList[this.defaultIndex].versionList;
                     if (this.versionList.length > 5) this.versionList = this.versionList.slice(-5);
-                    this.versionList = this.versionList.map(version => Object.assign({}, version)).reverse();
+                    this.versionList = this.versionList.map(version => Object.assign({}, version))
+                        .reverse();
                 }
                 else {
                     this.tmpVersion = this.data;
@@ -62,9 +63,9 @@
             handleSubmit(name) {
                 if (!this.data) {
                     console.log(this[name]);
-                    this.$store.commit('pushProjectVersion', this.tmpVersion);
+                    this.$store.commit('pushProjectVersion', this[name]);
                     this.versionList.pop();
-                    this.versionList.unshift(this.tmpVersion);
+                    this.versionList.unshift(this[name]);
                     this.$Message.success('修改成功！');
                 } else {
                     this.$emit('update:data', this[name]);

@@ -85,13 +85,16 @@
                     this.current = index;
                 }
             },
-            nextStep() {
+            nextStep: function () {
                 if (this.current < 3) {
                     this.current++;
                     if (this.maxCurrent < this.current) {
                         this.maxCurrent = this.current;
                     }
                 } else {
+                    // 暂时 id 为八位随机数
+                    this.newProject.info.id = Math.floor(Math.random() * 90000000 + 10000000)
+                        .toString();
                     this.$store.commit('pushProject', this.newProject);
                     this.$Notice.success({
                         title: '新项目添加成功！',
