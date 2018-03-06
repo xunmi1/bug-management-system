@@ -8,8 +8,7 @@ const state = {
         email: '',
         desc: '',
         avatarId: '',
-        localStating: '', // 当前页面判断依据
-        dbStating: '' // 将在后台判断用户是否同时在线
+        status: 0, // 0: 用户不存在，1: 密码错误，2: 同时登录，3: 登录成功
     },
     token: '12345678'  // 本地数据
 };
@@ -30,8 +29,8 @@ const mutations = {
     setUserDesc(state, info) {
         state.userInfo.desc = info.desc;
     },
-    setUserLocalStating(state, localStating) {
-        state.userInfo.localStating = localStating;
+    setUserStatus(state, status) {
+        state.userInfo.status = status;
     },
     setToken(state, token) {
         state.token = token;
@@ -47,35 +46,29 @@ const actions = {
             context.commit('setUserName', info);
         }
     },
-    pwdCheck(context, info) {
-        if (true) {
-
-        } else {
-            context.commit('setUserPwd', info);
-        }
-    },
     async getInfo(context) {
         // 通过本地的 token，请求用户数据
-        context.commit('setUserName', {name: 'admin'});
-        return 'admin';
+        if (context.state.token) {
+            // 开发调试模式，默认设为 123456
+            console.log('开发调试模式，默认设为 123456');
+            context.commit('setUserName', {name: '123456'});
+            return '123456';
+        }
     },
     async loginCheck(context, info) {
-        context.commit('setUserName', info);
-        context.commit('setUserPwd', info);
-        await axios.post('/api/login', {
-            username: context.state.userInfo.name,
-            password: context.state.userInfo.pwd
-        })
-            .then((response) => {
-                // console.log(response.data);
-                if (!context.state.userInfo.dbStating) {
-                    context.commit('setUserLocalStating', response.data.localStating);
-                    context.commit('setToken', response.data.token);
-                }
-            })
-            .catch(function (error) {
-                console.log(error.data);
-            });
+        const response = await axios.post('/api/login', {
+            username: info.name,
+            password: info.pwd
+        });
+        console.dir(response.data);
+        context.commit('setUserStatus', response.data.status);
+        context.commit('setToken', response.data.token);
+        if (context.state.token) {
+            if (context.state.userInfo.status === 3) {
+                context.commit('setUserName', info);
+                context.commit('setUserPwd', info);
+            }
+        }
     },
     async postInfo(context, info) {
         context.commit('setUserName', info);

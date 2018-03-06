@@ -22,16 +22,27 @@
         methods: {
             toMain: function () {
                 console.log('开始验证');
-                if (this.stating) {
-                    console.log('开始结束');
-                    this.$router.push({
-                        name: 'userProject',
-                        params: {userName: this.$store.state.user.userInfo.name}
-                    });
+                switch (this.status) {
+                    case 0:
+                        this.$Notice.warning({title: '该用户名不存在！', duration: 1.5});
+                        break;
+                    case 1:
+                        this.$Notice.warning({title: '密码错误！', duration: 1.5});
+                        break;
+                    case 2:
+                        this.$Notice.warning({title: '该用户已在其他地方登录！', duration: 1.5});
+                        break;
+                    case 3:
+                        this.$router.push({
+                            name: 'userProject',
+                            params: {userName: this.$store.state.user.userInfo.name}
+                        });
+                        break;
                 }
+                console.log('开始结束');
             },
             loginSubmit: function () {
-                this.$store.dispatch('loginCheck',{
+                this.$store.dispatch('loginCheck', {
                     name: this.userName,
                     pwd: this.userPwd
                 }).then(() => {
@@ -42,7 +53,7 @@
         },
         computed: {
             ...mapState({
-                stating: state => state.user.userInfo.localStating
+                status: state => state.user.userInfo.status
             })
 
         }
