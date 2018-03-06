@@ -100,12 +100,16 @@
                             });
                             this.$Message.success('修改成功！');
                         } else {
+                            this.$Loading.error();
                             this.$Message.error('修改失败！');
                         }
                     } else {
                         if (valid) {
                             this.$emit('update:data', this.projectInfo);
                             this.$emit('on-ok');
+                        } else {
+                            this.$Loading.error();
+                            this.$Message.error('请检查输入内容！');
                         }
                     }
                 })

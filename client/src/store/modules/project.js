@@ -45,6 +45,7 @@ const state = {
             },
             moduleList: [{
                 title: '测试模块',
+                expand: true,
                 children: [
                     {
                         title: 'parent 1-1',

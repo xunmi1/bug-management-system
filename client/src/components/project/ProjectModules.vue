@@ -67,7 +67,9 @@
                         }
                     },
                     [
-                        h('i', {class: `fa fa-fw ${data.children ? 'fa-folder' : 'fa-file'}`}),
+                        h('i', {
+                            class: `fa fa-fw ${data.children ? 'fa-folder' : 'fa-file'}`
+                        }),
                         h('Poptip', {
                             props: Object.assign({}, this.poptip),
                             style: {cursor: 'pointer'}

@@ -95,15 +95,19 @@
                         this.maxCurrent = this.current;
                     }
                 } else {
-                    // 暂时 id 为八位随机数
-                    this.newProject.info.id = Math.floor(Math.random() * 90000000 + 10000000)
-                        .toString();
-                    this.$store.commit('pushProject', this.newProject);
-                    this.$Notice.success({
-                        title: '新项目添加成功！',
-                        desc: '切勿重复点击确认按钮！'
-                    });
+                    this.pushNewProject();
                 }
+            },
+            pushNewProject() {
+                // 暂时 id 为八位随机数
+                this.newProject.info.id = Math.floor(Math.random() * 90000000 + 10000000)
+                    .toString();
+                this.$store.commit('pushProject', this.newProject);
+                this.$Loading.finish();
+                this.$Notice.success({
+                    title: '新项目添加成功！',
+                    desc: '切勿重复点击确认按钮！'
+                });
             },
             initData() {
                 let owner = this.$store.state.user.userInfo;
@@ -119,7 +123,11 @@
                 this.newProject.versionList.push({name: '1.0.0', desc: ''});
             },
             initModuleList() {
-                this.newProject.moduleList.push({title: this.newProject.info.title});
+                this.newProject.moduleList.splice(0, 1, {
+                    title: this.newProject.info.title,
+                    expand: true,
+                    children: []
+                });
             }
         },
         created() {

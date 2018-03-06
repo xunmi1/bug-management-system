@@ -7,22 +7,27 @@
             </div>
         </slot>
         <div class="content-layout">
-            <div class="content-input">
-                <p>新版本号：</p>
-                <Input v-model="tmpVersion.name" clearable style="width: 200px"></Input>
-                <p>简要描述：</p>
-                <Input v-model="tmpVersion.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
-                       style="width: 360px"></Input>
-            </div>
-            <Timeline pending class="content-line">
-                <TimelineItem v-for="version in versionList" :key="version.name">
-                    <p class="time-line-title">{{version.name}} 版本</p>
-                    <p class="time-line-content">{{version.desc}}</p>
-                </TimelineItem>
-                <TimelineItem>
-                    <p class="time-line-title">查看更多</p>
-                </TimelineItem>
-            </Timeline>
+            <Card>
+                <div class="content-input">
+                    <p>新版本号：</p>
+                    <Input v-model="tmpVersion.name" clearable
+                           style="width: 200px" placeholder="默认起始为：1.0.0"></Input>
+                    <p>简要描述：</p>
+                    <Input v-model="tmpVersion.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
+                           style="width: 360px"></Input>
+                </div>
+            </Card>
+            <Card>
+                <Timeline pending class="content-line">
+                    <TimelineItem v-for="version in versionList" :key="version.name">
+                        <p class="time-line-title">{{version.name}} 版本</p>
+                        <p class="time-line-content">{{version.desc}}</p>
+                    </TimelineItem>
+                    <TimelineItem>
+                        <p class="time-line-title">查看更多</p>
+                    </TimelineItem>
+                </Timeline>
+            </Card>
         </div>
         <div class="content-button">
             <ButtonGroup size="large">
