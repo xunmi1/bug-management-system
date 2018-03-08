@@ -1,5 +1,6 @@
 <template>
-    <Form ref="issueInfo" :model="issueInfo" :label-width="74" :rules="ruleInfo">
+    <Form ref="issueInfo" :model="issueInfo"
+          :label-width="74" :rules="ruleInfo">
         <Row>
             <iCol span="18">
                 <FormItem label="标题" prop="title">
@@ -20,14 +21,14 @@
         <Row>
             <iCol span="12">
                 <FormItem label="所属项目">
-                    <Select v-model="issueInfo.project">
+                    <Select v-model="issueInfo.project" transfer>
                         <Option value="project1">未知</Option>
                     </Select>
                 </FormItem>
             </iCol>
             <iCol span="12">
                 <FormItem label="模块">
-                    <Select v-model="issueInfo.module">
+                    <Select v-model="issueInfo.module" transfer>
                         <Option value="module1">未知</Option>
                     </Select>
                 </FormItem>
@@ -41,8 +42,11 @@
             </iCol>
             <iCol span="10">
                 <FormItem label="版本号" prop="version">
-                    <AutoComplete v-model="issueInfo.version" :data="versionData"
-                                  @on-search="versionSearch" placeholder="问题所在版本">
+                    <AutoComplete v-model="issueInfo.version"
+                                  transfer
+                                  :data="versionData"
+                                  @on-search="versionSearch"
+                                  placeholder="问题所在版本">
                     </AutoComplete>
                 </FormItem>
             </iCol>
@@ -104,7 +108,8 @@
                         {type: 'string', max: 1024, message: '长度不超过1024位', trigger: 'blur'},
                     ]
                 },
-                versionData: []
+                versionList: [],  // 当前项目全部版本数据
+                versionData: [],  // 搜索框列表临时版本数据
             }
         },
         methods: {
@@ -133,22 +138,30 @@
                     this.versionData = [];
                 }
             },
-            submit() {
+            submitIssue() {
                 this.$refs['issueInfo'].validate((valid) => {
                     if (valid) {
                         this.$store.commit('setIssueInfo', this.issueInfo);
                         this.$Message.success('提交成功！');
+                        this.$emit('closeIssue');
                     } else {
                         this.$Message.error('提交失败！');
                     }
                 });
+            },
+            resetIssue() {
+                this.$refs['issueInfo'].resetFields();
             }
         },
         computed: {
             ...mapState({
                 issueInfo: state => state.issue.issueInfo,
-                versionList: state => state.project.projectList[0].versionList
+                defaultIndex: state => state.project.defaultIndex,
+                projectList: state => state.project.projectList
             })
+        },
+        created() {
+            this.versionList = this.projectList[this.defaultIndex].versionList;
         }
     }
 </script>

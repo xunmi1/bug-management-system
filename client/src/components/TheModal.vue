@@ -1,14 +1,13 @@
 <template>
     <div>
-        <Modal v-model="modal.exit" width="380" :mask-closable=false :loading=true @on-ok="exit">
+        <Modal v-model="exitStatus" width="380" :mask-closable=false :loading=true @on-ok="exit">
             <p slot="header" class="header-font">
                 <i class="fa fa-exclamation-circle fa-lg fa-fw" style="color: #f90"></i>
                 <span>退出系统</span>
             </p>
             <p style="text-align:center; font-size: 15px">你确定要退出系统吗？</p>
         </Modal>
-        <Modal v-model="modal.issue" width="660" :styles="{top: '30px'}"
-               :mask-closable=false @on-ok="issue" @on-cancel="clearInfo">
+        <Modal v-model="issueStatus" width="660" :styles="{top: '30px'}" :mask-closable=false>
             <p slot="header" class="header-font">
                 <Icon type="compose" class="fa-lg fa-fw" style="color: #2d8cf0"></Icon>
                 <span>问题提交</span>
@@ -24,10 +23,15 @@
                 </ButtonGroup>
                 <div class="content">
                     <keep-alive>
-                        <component :is="contentView" ref="component">
+                        <component :is="contentView" ref="component"
+                                   @closeIssue="closeModalIssue">
                         </component>
                     </keep-alive>
                 </div>
+            </div>
+            <div slot="footer">
+                <Button type="text" size="large" @click="resetIssue">清空</Button>
+                <Button type="primary" size="large" @click="submitIssue">确定</Button>
             </div>
         </Modal>
     </div>
@@ -38,7 +42,7 @@
     import theIssuePlan from './issue/TheIssuePlan';
 
     export default {
-        name: "BaseModal",
+        name: "TheModal",
         props: {
             modal: {
                 type: Object,
@@ -63,16 +67,38 @@
                     this.$router.push({name: 'home'});
                 }, 1000);
             },
-            issue() {
-                this.$refs.component.submit();
+            submitIssue() {
+                this.$refs.component.submitIssue();
             },
-            clearInfo() {
-
+            resetIssue() {
+                this.$refs.component.resetIssue();
             },
             // 点击 issue 中切换按钮，切换表单
             changeBtn(bool) {
                 this.btnStyle = bool;
                 this.contentView = this.btnStyle ? theIssueInfo : theIssuePlan;
+            },
+            // 关闭 issue 对话框，由子组件触发事件
+            closeModalIssue() {
+                this.issueStatus = false;
+            }
+        },
+        computed: {
+            exitStatus: {
+                get() {
+                    return this.modal.exit;
+                },
+                set(bool) {
+                    this.modal.exit = bool;
+                }
+            },
+            issueStatus: {
+                get() {
+                    return this.modal.issue;
+                },
+                set(bool) {
+                    this.modal.issue = bool;
+                }
             }
         }
     }

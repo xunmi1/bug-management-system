@@ -2,9 +2,10 @@
     <Form ref="issuePlan" :model="issuePlan" :label-width="78">
         <Row>
             <iCol span="12">
-                <FormItem label="分配人员">
+                <FormItem label="分配人员" prop="dispense">
                     <AutoComplete v-model="issuePlan.dispense"
-                                  :data="people.dispenseList"
+                                  transfer
+                                  :data="dispenseData"
                                   :disabled="disabledState1"
                                   @on-search="dispenseSearch"
                                   placeholder="分配此问题的人员">
@@ -14,7 +15,8 @@
             <iCol span="12">
                 <FormItem label="解决人员">
                     <AutoComplete v-model="issuePlan.developer"
-                                  :data="people.developerList"
+                                  transfer
+                                  :data="developerData"
                                   :disabled="disabledState2"
                                   @on-search="developerSearch"
                                   placeholder="解决此问题的人员">
@@ -30,22 +32,26 @@
             </iCol>
             <iCol span="10">
                 <FormItem label="版本号">
-                    <AutoComplete v-model="issuePlan.versionEnd" :data="versionList"
-                                  @on-search="versionSearch" placeholder="预计解决时的版本">
-                    </AutoComplete>
+                    <Input v-model="issuePlan.versionEnd" placeholder="预计解决时的版本"></Input>
                 </FormItem>
             </iCol>
         </Row>
         <Row>
             <iCol span="12">
                 <FormItem label="起始日期">
-                    <DatePicker v-model="issuePlan.dateState" format="yyyy年 MM月 dd日" style="width: 100%"
+                    <DatePicker v-model="issuePlan.dateState"
+                                transfer
+                                format="yyyy年 MM月 dd日"
+                                style="width: 100%"
                                 placeholder="选择日期"></DatePicker>
                 </FormItem>
             </iCol>
             <iCol span="12">
                 <FormItem label="截止日期">
-                    <DatePicker v-model="issuePlan.dateEnd" format="yyyy年 MM月 dd日" style="width: 100%"
+                    <DatePicker v-model="issuePlan.dateEnd"
+                                transfer
+                                format="yyyy年 MM月 dd日"
+                                style="width: 100%"
                                 placeholder="选择日期"></DatePicker>
                 </FormItem>
             </iCol>
@@ -62,30 +68,36 @@
             return {
                 disabledState1: false,
                 disabledState2: false,
+                dispenseList: [],
+                dispenseData: [],
+                developerList: [],
+                developerData: []
             }
         },
         methods: {
             dispenseSearch(val) {
                 if (val) {
                     this.disabledState2 = true;
+                    this.dispenseData = this.dispenseList.filter(name => {
+                        if (name.search(val) >= 0) return true;
+                    })
+                        .slice(-5);
                 } else {
                     this.disabledState2 = false;
+                    this.dispenseData = [];
                 }
-                this.people.dispenseList = !val ? [] : [
-                    val,
-                    val + '测试'
-                ];
             },
             developerSearch(val) {
                 if (val) {
                     this.disabledState1 = true;
+                    this.developerData = this.developerList.filter(name => {
+                        if (name.search(val) >= 0) return true;
+                    })
+                        .slice(-5);
                 } else {
                     this.disabledState1 = false;
+                    this.developerData = [];
                 }
-                this.people.developerList = !val ? [] : [
-                    val,
-                    val + '测试'
-                ];
             },
             tipFormat(val) {
                 switch (val) {
@@ -101,13 +113,7 @@
                         return '紧急';
                 }
             },
-            versionSearch(val) {
-                this.versionList = !val ? [] : [
-                    value,
-                    val + '.1'
-                ];
-            },
-            submit() {
+            submitIssue() {
                 this.$refs['issuePlan'].validate((valid) => {
                     console.log(valid);
                     if (valid) {
@@ -117,14 +123,23 @@
                         this.$Message.error('提交失败！');
                     }
                 });
+            },
+            resetIssue() {
+                this.$refs['issuePlan'].resetFields();
             }
         },
         computed: {
             ...mapState({
                 issuePlan: state => state.issue.issuePlan,
-                people: state => state.project.projectList[0].people,
-                versionList: state => state.project.projectList[0].versionList
+                defaultIndex: state => state.project.defaultIndex,
+                projectList: state => state.project.projectList
             })
+        },
+        created() {
+            this.dispenseList = this.projectList[this.defaultIndex].people
+                .dispenseList.map(item => item.name);
+            this.developerList = this.projectList[this.defaultIndex].people
+                .developerList.map(item => item.name);
         }
     }
 </script>
