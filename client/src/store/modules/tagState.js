@@ -1,5 +1,6 @@
 const state = {
     list: [],
+    // 由于keep-alive清除缓存，因此需要保存组件名，即 name
     menuList: {
         projectInfo: {
             title: '项目信息',

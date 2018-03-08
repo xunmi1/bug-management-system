@@ -123,9 +123,19 @@
             // 初始化用户数据
             initData() {
                 if (!this.data) {
-                    this.projectPeople = JSON.parse(JSON.stringify(this.projectList[this.defaultIndex].people));
+                    if (this.defaultIndex >= 0) {
+                        this.projectPeople = JSON.parse(JSON.stringify(this.projectList[this.defaultIndex].people));
+                    } else {
+                        this.$router.push({name: 'userProject'});
+                        this.$root.Bus.$emit('closeComponent', 'ProjectPeople');
+                        this.$Notice.warning({
+                            title: '没有项目可打开！',
+                            desc: '请设置你的默认项目，或者创建新项目。'
+                        });
+                    }
+                } else {
+                    this.projectPeople = this.data;
                 }
-                else this.projectPeople = this.data;
             },
             // 初始化表格表头
             initColumns() {

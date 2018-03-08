@@ -56,10 +56,22 @@
         methods: {
             initData() {
                 if (!this.data) {
-                    this.versionList = this.projectList[this.defaultIndex].versionList;
-                    if (this.versionList.length > 5) this.versionList = this.versionList.slice(-5);
-                    this.versionList = this.versionList.map(version => Object.assign({}, version))
-                        .reverse();
+                    if (this.defaultIndex >= 0) {
+                        this.versionList = this.projectList[this.defaultIndex].versionList;
+                        if (this.versionList.length > 5) {
+                            this.versionList = this.versionList.slice(-5);
+                        }
+                        this.versionList = this.versionList.map(version => Object.assign({}, version))
+                            .reverse();
+                    } else {
+                        this.$router.push({name: 'userProject'});
+                        this.$root.Bus.$emit('closeComponent', 'ProjectVersions');
+                        this.$Notice.warning({
+                            title: '没有项目可打开！',
+                            desc: '请设置你的默认项目，或者创建新项目。'
+                        });
+                    }
+
                 }
                 else {
                     this.tmpVersion = this.data;

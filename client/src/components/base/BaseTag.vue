@@ -45,7 +45,7 @@
             /**
              * tag 标签切换
              * @param checked - 组件自带的 prop
-             * @param index - 元素的 name 值
+             * @param index - 元素的 name 值 (list 索引)
              */
             tagChange(checked, index) {
                 this.change({index});
@@ -71,6 +71,26 @@
                 isRedirect: state => state.tagState.isRedirect
             })
         },
+        created() {
+            /**
+             * 监听来自其他组件的事件
+             * closeComponent: 组件关闭自己 (name: 组件名);
+             */
+            this.$root.Bus.$on('closeComponent', name => {
+                let tmpIndex;
+                this.list.some((item, index) => {
+                    if (item.name === name) {
+                        tmpIndex = index;
+                        return true;
+                    }
+                });
+                this.tagClose({}, tmpIndex);
+            });
+        },
+        beforeDestroy() {
+            // 解除事件绑定
+            this.$root.Bus.$off('closeComponent');
+        }
     }
 </script>
 

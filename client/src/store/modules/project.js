@@ -1,5 +1,6 @@
 const state = {
-    defaultIndex: 0, //选中项目的索引号
+    //选中项目的索引号，-1: 没有默认项目
+    defaultIndex: 0,
     projectList: [
         {
             info: {

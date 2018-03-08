@@ -103,6 +103,9 @@
             },
             // toStatus 目标项目状态
             changeProjectStatus(project, toStatus) {
+                if (this.projectList[this.defaultIndex] === project) {
+                    this.setIndex();
+                }
                 this.change({project, toStatus});
             },
             setDefaultIndex(project) {
@@ -112,7 +115,8 @@
         computed: {
             ...mapState({
                 menuItem: state => state.tagState.menuList,
-                projectList: state => state.project.projectList
+                projectList: state => state.project.projectList,
+                defaultIndex: state => state.project.defaultIndex,
             }),
             ownerList() {
                 return this.projectList.filter(project => project.status === 0);

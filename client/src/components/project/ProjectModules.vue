@@ -53,9 +53,19 @@
             // 初始化用户数据
             initData() {
                 if (!this.data) {
-                    this.moduleList = JSON.parse(JSON.stringify(this.projectList[this.defaultIndex].moduleList));
+                    if (this.defaultIndex >= 0) {
+                        this.moduleList = JSON.parse(JSON.stringify(this.projectList[this.defaultIndex].moduleList));
+                    } else {
+                        this.$router.push({name: 'userProject'});
+                        this.$root.Bus.$emit('closeComponent', 'ProjectModules');
+                        this.$Notice.warning({
+                            title: '没有项目可打开！',
+                            desc: '请设置你的默认项目，或者创建新项目。'
+                        });
+                    }
+                } else {
+                    this.moduleList = this.data;
                 }
-                else this.moduleList = this.data;
             },
             renderTree(h, {root, node, data}) {
                 return h('div', {

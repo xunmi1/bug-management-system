@@ -82,9 +82,18 @@
         methods: {
             init() {
                 if (!this.data) {
-                    const stateInfo = this.projectList[this.defaultIndex].info;
-                    // Object.assign() 只适合复制子级是值类型
-                    this.projectInfo = Object.assign({}, stateInfo);
+                    if (this.defaultIndex >= 0) {
+                        const stateInfo = this.projectList[this.defaultIndex].info;
+                        // Object.assign() 只适合复制子级是值类型
+                        this.projectInfo = Object.assign({}, stateInfo);
+                    } else {
+                        this.$router.push({name: 'userProject'});
+                        this.$root.Bus.$emit('closeComponent', 'ProjectInfo');
+                        this.$Notice.warning({
+                            title: '没有项目可打开！',
+                            desc: '请设置你的默认项目，或者创建新项目。'
+                        });
+                    }
                 } else {
                     this.projectInfo = Object.assign({}, this.data);
                 }

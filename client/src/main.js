@@ -23,5 +23,9 @@ new Vue({
     router,
     store,
     components: { App },
-    template: '<App/>'
+    template: '<App/>',
+    data: {
+        // 使用空的 Vue 实例作为事件总线，解决非父子关系的组件间通信
+        Bus: new Vue()
+    }
 });
