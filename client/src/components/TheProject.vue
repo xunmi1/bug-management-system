@@ -9,7 +9,23 @@
                 </Card>
                 <Card class="card" v-for="project in ownerList" :key="project.info.id">
                     <p slot="title">{{project.info.title}}</p>
+                    <div slot="extra">
+                        <Poptip trigger="hover" placement="top-start" transfer>
+                            <Icon type="ios-settings-strong fa-lg" color="#2d8cf0"></Icon>
+                            <ButtonGroup slot="content" size="large">
+                                <Button type="info" @click="changeProjectStatus(project, 2)">
+                                    关闭项目
+                                </Button>
+                                <Button @click="changeProjectStatus(project, 3)">
+                                    删除项目
+                                </Button>
+                            </ButtonGroup>
+                        </Poptip>
+                    </div>
                     <p>{{project.info.desc}}</p>
+                    <div class="show-card-footer" @click="setDefaultIndex(project)">
+                        <span>设为默认</span>
+                    </div>
                 </Card>
             </div>
         </Panel>
@@ -27,6 +43,15 @@
             <div slot="content">
                 <Card class="card" v-for="project in closedList" :key="project.info.id">
                     <p slot="title">{{project.info.title}}</p>
+                    <div slot="extra">
+                        <Poptip trigger="hover" placement="top-start" transfer>
+                            <Icon type="ios-settings-strong fa-lg" style="color: #2d8cf0"></Icon>
+                            <ButtonGroup slot="content" size="large">
+                                <Button type="info" @click="changeProjectStatus(project, 0)">重新打开</Button>
+                                <Button @click="changeProjectStatus(project, 3)">删除项目</Button>
+                            </ButtonGroup>
+                        </Poptip>
+                    </div>
                     <p>{{project.info.desc}}</p>
                 </Card>
             </div>
@@ -36,6 +61,15 @@
             <div slot="content">
                 <Card class="card" v-for="project in deleteList" :key="project.info.id">
                     <p slot="title">{{project.info.title}}</p>
+                    <div slot="extra">
+                        <Poptip trigger="hover" placement="top-start" transfer>
+                            <Icon type="ios-settings-strong fa-lg" style="color: #2d8cf0"></Icon>
+                            <ButtonGroup slot="content" size="large">
+                                <Button type="info" @click="changeProjectStatus(project, 2)">关闭项目</Button>
+                                <Button @click="changeProjectStatus(project, 0)">重新打开</Button>
+                            </ButtonGroup>
+                        </Poptip>
+                    </div>
                     <p>{{project.info.desc}}</p>
                 </Card>
             </div>
@@ -53,7 +87,9 @@
         },
         methods: {
             ...mapMutations({
-                add: 'tagAdd'
+                add: 'tagAdd',
+                change: 'changeProjectStatus',
+                setIndex: 'setDefaultIndex'
             }),
             newProject(tag) {
                 if (this.menuItem[tag]) {
@@ -64,6 +100,13 @@
                     });
                     this.$router.push({name: tag});
                 }
+            },
+            // toStatus 目标项目状态
+            changeProjectStatus(project, toStatus) {
+                this.change({project, toStatus});
+            },
+            setDefaultIndex(project) {
+                this.setIndex(project);
             }
         },
         computed: {
@@ -91,15 +134,42 @@
     .card {
         width: 170px;
         height: 170px;
-        border: 1px solid #2d8cf0;
         margin: 14px;
-        background-color: rgba(220, 220, 220, 0.3);
+        background-color: #f1f1f1;
         float: left;
     }
 
     .plus-round {
         font-size: 86px;
         width: 100%;
+        text-align: center;
+    }
+
+    .show-card-footer {
+        width: 170px;
+        height: 0;
+        background-color: #f1f1f1;
+        position: absolute;
+        left: -1px;
+        bottom: 0;
+        cursor: pointer;
+        transition: all .5s;
+    }
+
+    .card:hover .show-card-footer {
+        height: 40px;
+        background-color: #f90;
+    }
+
+    .card:hover .show-card-footer > span {
+        display: block;
+        line-height: 40px;
+    }
+
+    .show-card-footer > span {
+        display: none;
+        font-size: 15px;
+        color: #fff;
         text-align: center;
     }
 </style>

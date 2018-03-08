@@ -3,7 +3,7 @@ const state = {
     projectList: [
         {
             info: {
-                id: '',
+                id: '11111110',
                 title: '测试内容测试内容',
                 desc: '测试内容\n测试内容\n测试内容\n测试内容\n测试内容\n测试内容',
                 imgName: ''
@@ -70,7 +70,7 @@ const state = {
         },
         {
             info: {
-                id: '',
+                id: '11111111',
                 title: '测试1',
                 desc: '测试内容\n测试内容\n测试内容\n测试内容\n测试内容\n测试内容',
                 imgName: ''
@@ -80,7 +80,7 @@ const state = {
         },
         {
             info: {
-                id: '',
+                id: '11111112',
                 title: '测试2',
                 desc: '测试内容\n测试内容\n测试内容\n测试内容\n测试内容\n测试内容',
                 imgName: ''
@@ -89,7 +89,7 @@ const state = {
         },
         {
             info: {
-                id: '',
+                id: '11111113',
                 title: '测试3',
                 desc: '测试内容\n测试内容\n测试内容\n测试内容\n测试内容\n测试内容',
                 imgName: ''
@@ -111,11 +111,19 @@ const mutations = {
     setProjectModuleList(state, modules) {
         state.projectList[state.defaultIndex].moduleList = JSON.parse(JSON.stringify(modules));
     },
+    changeProjectStatus(state, data) {
+        const index = state.projectList.indexOf(data.project);
+        state.projectList[index].status = data.toStatus;
+    },
     pushProjectVersion(state, version) {
         state.projectList[state.defaultIndex].versionList.push(Object.assign({}, version));
     },
     pushProject(state, item) {
         state.projectList.push(JSON.parse(JSON.stringify(item)));
+    },
+    // 改变默认项目
+    setDefaultIndex(state, project) {
+        state.defaultIndex = state.projectList.indexOf(project);
     }
 };
 
