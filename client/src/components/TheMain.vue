@@ -17,7 +17,7 @@
                                placeholder="搜索..." style="width: 180px"></Input>
                     </div>
                     <div class="menu-nav">
-                        <MenuItem name="issue" @click.native="setModal('issue')">
+                        <MenuItem name="issue" @click.native="setModal('issue', true)">
                             <Icon type="compose"></Icon>
                             问题提交
                         </MenuItem>
@@ -66,7 +66,7 @@
                                 <Avatar shape="square" :src="defaultAvatar" icon="person" id="avatar"/>
                             </template>
                             <MenuItem name="user">账号设置</MenuItem>
-                            <MenuItem name="exit" @click.native="setModal('exit')">退出系统</MenuItem>
+                            <MenuItem name="exit" @click.native="setModal('exit', true)">退出系统</MenuItem>
                         </Submenu>
                     </div>
                 </Menu>
@@ -118,14 +118,18 @@
                 </Layout>
             </Layout>
         </Layout>
-        <the-modal :modal="modal"></the-modal>
-        <BackTop></BackTop>
+        <div>
+            <issue-modal :modal-status="modal.issue" @on-close="setModal('issue', false)"></issue-modal>
+            <exit-modal :modal-status="modal.exit" @on-close="setModal('exit', false)"></exit-modal>
+            <BackTop></BackTop>
+        </div>
     </div>
 </template>
 <script>
     import {mapMutations, mapState} from 'vuex';
     import BaseTag from './base/BaseTag';
-    import TheModal from './TheModal';
+    import IssueModal from './issue/IssueModal';
+    import ExitModal from './ExitModal';
 
     export default {
         name: 'TheMain',
@@ -146,8 +150,9 @@
             }
         },
         components: {
-            'base-tag': BaseTag,
-            'the-modal': TheModal
+            BaseTag,
+            IssueModal,
+            ExitModal
         },
         methods: {
             ...mapMutations({
@@ -165,8 +170,8 @@
                     this.$router.push({name: tag});
                 }
             },
-            setModal(name) {
-                this.modal[name] = true;
+            setModal(name, bool) {
+                this.modal[name] = bool;
             },
 
             // 导航栏高度自适应 (页面兼容性)

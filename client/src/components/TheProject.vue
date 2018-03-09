@@ -35,6 +35,9 @@
                 <Card class="card" v-for="project in partakeList" :key="project.info.id">
                     <p slot="title">{{project.info.title}}</p>
                     <p>{{project.info.desc}}</p>
+                    <div class="show-card-footer" @click="setDefaultIndex(project)">
+                        <span>设为默认</span>
+                    </div>
                 </Card>
             </div>
         </Panel>
@@ -110,6 +113,10 @@
             },
             setDefaultIndex(project) {
                 this.setIndex(project);
+                this.$Message.success({
+                    content: '<span style="font-size: 14px">项目设置成功！</span>',
+                    duration: 2
+                });
             }
         },
         computed: {

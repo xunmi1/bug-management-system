@@ -68,6 +68,18 @@
             return {
                 disabledState1: false,
                 disabledState2: false,
+                issuePlan: {
+                    issuer: '',
+                    dispense: '',
+                    developer: '',
+                    tester: '',
+                    priority: 2,
+                    versionEnd: '',
+                    dateState: new Date(),
+                    dateEnd: ''
+                },
+                // 0: 已提交，1:已分配，2: 已解决，3: 已测试(结束)，4: 已拒绝(关闭)，5：已延期
+                issueStatus: 0,
                 dispenseList: [],
                 dispenseData: [],
                 developerList: [],
@@ -115,12 +127,13 @@
             },
             submitIssue() {
                 this.$refs['issuePlan'].validate((valid) => {
-                    console.log(valid);
                     if (valid) {
                         this.$store.commit('setIssuePlan', this.issuePlan);
-                        this.$Message.success('提交成功！');
+                        this.$emit('close-issue');
+                        this.$Message.success('<span style="font-size: 14px">提交成功！</span>');
+                        this.$refs['issuePlan'].resetFields();
                     } else {
-                        this.$Message.error('提交失败！');
+                        this.$Message.error('<span style="font-size: 14px">提交失败！</span>');
                     }
                 });
             },
@@ -130,7 +143,6 @@
         },
         computed: {
             ...mapState({
-                issuePlan: state => state.issue.issuePlan,
                 defaultIndex: state => state.project.defaultIndex,
                 projectList: state => state.project.projectList
             })

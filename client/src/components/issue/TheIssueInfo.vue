@@ -94,6 +94,16 @@
                 }
             };
             return {
+                issueInfo: {
+                    id: '',
+                    title: '',
+                    select: 'bug',
+                    severity: 2,
+                    version: '',
+                    project: '',
+                    module: '',
+                    text: ''
+                },
                 ruleInfo: {
                     title: [
                         {required: true, message: '请输入标题', trigger: 'blur'},
@@ -142,20 +152,19 @@
                 this.$refs['issueInfo'].validate((valid) => {
                     if (valid) {
                         this.$store.commit('setIssueInfo', this.issueInfo);
-                        this.$Message.success('提交成功！');
-                        this.$emit('closeIssue');
+                        this.$emit('change-modal', false);
                     } else {
-                        this.$Message.error('提交失败！');
+                        this.$Message.error('<span style="font-size: 14px">请检查提交内容！</span>');
                     }
                 });
             },
             resetIssue() {
                 this.$refs['issueInfo'].resetFields();
+                this.$emit('close-issue');
             }
         },
         computed: {
             ...mapState({
-                issueInfo: state => state.issue.issueInfo,
                 defaultIndex: state => state.project.defaultIndex,
                 projectList: state => state.project.projectList
             })

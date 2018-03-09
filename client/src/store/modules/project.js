@@ -32,15 +32,19 @@ const state = {
                     {userId: '14522682', name: 'admin', email: '3@cc.cc', desc: '', avatarId: ''}
                 ],                     // 管理人员
                 issuerList: [
+                    {userId: '14522682', name: 'admin', email: '3@cc.cc', desc: '', avatarId: ''},
                     {userId: '14522683', name: '测试1', email: '1@cc.cc', desc: '', avatarId: ''}
                 ],                     // 提交人员
                 developerList: [
+                    {userId: '14522682', name: 'admin', email: '3@cc.cc', desc: '', avatarId: ''},
                     {userId: '14522684', name: '测试2', email: '2@cc.cc', desc: '', avatarId: ''}
                 ],                     // 解决人员
                 dispenseList: [
+                    {userId: '14522682', name: 'admin', email: '3@cc.cc', desc: '', avatarId: ''},
                     {userId: '14522683', name: '测试1', email: '1@cc.cc', desc: '', avatarId: ''}
                 ],                     // 分配人员
                 testerList: [
+                    {userId: '14522682', name: 'admin', email: '3@cc.cc', desc: '', avatarId: ''},
                     {userId: '14522685', name: '测试3', email: '2@cc.cc', desc: '', avatarId: ''}
                 ]                      // 测试人员
             },
