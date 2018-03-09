@@ -2,8 +2,8 @@ import axios from "axios/index";
 
 const state = {
     userInfo: {
-        userId: '',
-        name: '',
+        userId: '11111111',
+        name: '123456',
         pwd: '',
         email: '',
         desc: '',

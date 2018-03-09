@@ -17,23 +17,27 @@
             <div class="content">
                 <keep-alive>
                     <component :is="contentView"
+                               :issue-info.sync="issue.issueInfo"
+                               :issue-plan.sync="issue.issuePlan"
                                ref="component"
                                @close-issue="closeIssue"
+                               @push-issue="pushIssue"
                                @change-modal="changeModal">
                     </component>
                 </keep-alive>
             </div>
         </div>
         <div slot="footer">
-            <Button type="text" size="large" @click="resetIssue">清空</Button>
+            <Button type="text" size="large" @click="resetIssue">取消</Button>
             <Button type="primary" size="large" @click="submitIssue">确定</Button>
         </div>
     </Modal>
 </template>
 
 <script>
-    import theIssueInfo from './TheIssueInfo';
-    import theIssuePlan from './TheIssuePlan';
+    import {mapState} from 'vuex';
+    import IssueInfo from './IssueInfo';
+    import IssuePlan from './IssuePlan';
 
     export default {
         name: "IssueModal",
@@ -45,8 +49,33 @@
         },
         data() {
             return {
-                contentView: theIssueInfo,
-                btnStyle: true
+                contentView: IssueInfo,     // 视图选择
+                btnStyle: true,             // 按钮样式
+                issue: {
+                    issueInfo: {
+                        id: '',
+                        title: '',
+                        select: 'bug',
+                        severity: 2,
+                        version: '',
+                        project: '',
+                        module: '',
+                        text: ''
+                    },
+                    issuePlan: {
+                        issuer: '',
+                        dispense: '',
+                        developer: '',
+                        tester: '',
+                        priority: 2,
+                        versionEnd: '',
+                        startDate: '',
+                        endDate: ''
+                    },
+                    // 0: 已提交，1:已分配，2: 已解决，3: 已测试(结束)，4: 已拒绝(关闭)，5：已延期
+                    issueStatus: 0
+                },
+                tmpIssue: {}                // 保存空对象，用于初始化
             }
         },
         methods: {
@@ -67,14 +96,35 @@
             },
             changeModal(bool) {
                 this.btnStyle = bool;
-                this.contentView = this.btnStyle ? theIssueInfo : theIssuePlan;
+                this.contentView = this.btnStyle ? IssueInfo : IssuePlan;
             },
             // 关闭 issue 对话框，由子组件触发事件
             closeIssue() {
                 // 由 TheMain 组件响应 on-close，更改 modalStatus 值
                 this.$emit('on-close');
                 this.btnStyle = true;
+                this.contentView = IssueInfo;
+                this.issue = JSON.parse(JSON.stringify(this.tmpIssue));
+            },
+            pushIssue() {
+                // 暂时 id 为八位随机数
+                this.issue.issueInfo.id = Math.floor(Math.random() * 90000000 + 10000000)
+                    .toString();
+                this.$store.commit('pushIssue', this.issue);
+                this.$Message.success({
+                    content: '<span style="font-size: 14px">提交成功！</span>',
+                    duration: 2
+                });
             }
+        },
+        computed: {
+            ...mapState({
+                userId: state => state.user.userInfo.userId
+            })
+        },
+        mounted() {
+            this.tmpIssue = JSON.parse(JSON.stringify(this.issue));
+            this.issue.issuePlan.issuer = this.userId;
         }
     }
 </script>

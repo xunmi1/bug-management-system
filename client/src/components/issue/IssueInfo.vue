@@ -21,8 +21,9 @@
         <Row>
             <iCol span="12">
                 <FormItem label="所属项目">
-                    <Select v-model="issueInfo.project" transfer>
-                        <Option value="project1">未知</Option>
+                    <Select v-model="issueInfo.project" transfer
+                            :placeholder="projectInfo.title +' [默认]'">
+                        <Option :value="projectInfo.id">{{projectInfo.title}}</Option>
                     </Select>
                 </FormItem>
             </iCol>
@@ -46,13 +47,13 @@
                                   transfer
                                   :data="versionData"
                                   @on-search="versionSearch"
-                                  placeholder="问题所在版本">
-                    </AutoComplete>
+                                  placeholder="问题所在版本"></AutoComplete>
                 </FormItem>
             </iCol>
         </Row>
         <FormItem label="描述" prop="text">
-            <Input v-model="issueInfo.text" type="textarea"
+            <Input v-model="issueInfo.text"
+                   type="textarea"
                    :autosize="{minRows: 4, maxRows: 12}"></Input>
         </FormItem>
         <FormItem label="附件">
@@ -69,7 +70,9 @@
                 </iCol>
                 <iCol span="6">
                     <Upload multiple action="">
-                        <Button type="ghost" icon="ios-cloud-upload-outline">其他附件</Button>
+                        <Button type="ghost" icon="ios-cloud-upload-outline">
+                            其他附件
+                        </Button>
                     </Upload>
                 </iCol>
             </Row>
@@ -82,6 +85,11 @@
 
     export default {
         name: "theIssueInfo",
+        props: {
+            'issue-info': {
+                type: Object
+            }
+        },
         data() {
             const validateVersion = (rule, value, callback) => {
                 if (value) {
@@ -94,16 +102,6 @@
                 }
             };
             return {
-                issueInfo: {
-                    id: '',
-                    title: '',
-                    select: 'bug',
-                    severity: 2,
-                    version: '',
-                    project: '',
-                    module: '',
-                    text: ''
-                },
                 ruleInfo: {
                     title: [
                         {required: true, message: '请输入标题', trigger: 'blur'},
@@ -151,7 +149,6 @@
             submitIssue() {
                 this.$refs['issueInfo'].validate((valid) => {
                     if (valid) {
-                        this.$store.commit('setIssueInfo', this.issueInfo);
                         this.$emit('change-modal', false);
                     } else {
                         this.$Message.error('<span style="font-size: 14px">请检查提交内容！</span>');
@@ -170,7 +167,10 @@
             })
         },
         created() {
+            this.projectInfo = this.projectList[this.defaultIndex].info;
             this.versionList = this.projectList[this.defaultIndex].versionList;
+            this.moduleList = this.projectList[this.defaultIndex].moduleList;
+            this.issueInfo.id = this.projectInfo.id;
         }
     }
 </script>

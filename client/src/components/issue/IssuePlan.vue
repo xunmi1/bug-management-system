@@ -39,18 +39,18 @@
         <Row>
             <iCol span="12">
                 <FormItem label="起始日期">
-                    <DatePicker v-model="issuePlan.dateState"
+                    <DatePicker v-model="issuePlan.startDate"
                                 transfer
-                                format="yyyy年 MM月 dd日"
+                                format=" yyyy年 MM月 dd日"
                                 style="width: 100%"
                                 placeholder="选择日期"></DatePicker>
                 </FormItem>
             </iCol>
             <iCol span="12">
                 <FormItem label="截止日期">
-                    <DatePicker v-model="issuePlan.dateEnd"
+                    <DatePicker v-model="issuePlan.endDate"
                                 transfer
-                                format="yyyy年 MM月 dd日"
+                                format=" yyyy年 MM月 dd日"
                                 style="width: 100%"
                                 placeholder="选择日期"></DatePicker>
                 </FormItem>
@@ -63,23 +63,16 @@
     import {mapState} from 'vuex';
 
     export default {
-        name: "theIssuePlan",
+        name: "IssuePlan",
+        props: {
+            'issue-plan': {
+                type: Object
+            }
+        },
         data() {
             return {
                 disabledState1: false,
                 disabledState2: false,
-                issuePlan: {
-                    issuer: '',
-                    dispense: '',
-                    developer: '',
-                    tester: '',
-                    priority: 2,
-                    versionEnd: '',
-                    dateState: new Date(),
-                    dateEnd: ''
-                },
-                // 0: 已提交，1:已分配，2: 已解决，3: 已测试(结束)，4: 已拒绝(关闭)，5：已延期
-                issueStatus: 0,
                 dispenseList: [],
                 dispenseData: [],
                 developerList: [],
@@ -128,10 +121,8 @@
             submitIssue() {
                 this.$refs['issuePlan'].validate((valid) => {
                     if (valid) {
-                        this.$store.commit('setIssuePlan', this.issuePlan);
+                        this.$emit('push-issue');
                         this.$emit('close-issue');
-                        this.$Message.success('<span style="font-size: 14px">提交成功！</span>');
-                        this.$refs['issuePlan'].resetFields();
                     } else {
                         this.$Message.error('<span style="font-size: 14px">提交失败！</span>');
                     }
@@ -139,6 +130,7 @@
             },
             resetIssue() {
                 this.$refs['issuePlan'].resetFields();
+                this.$emit('close-issue');
             }
         },
         computed: {
@@ -152,6 +144,9 @@
                 .dispenseList.map(item => item.name);
             this.developerList = this.projectList[this.defaultIndex].people
                 .developerList.map(item => item.name);
+        },
+        activated() {
+            this.issuePlan.startDate = new Date();
         }
     }
 </script>

@@ -1,33 +1,10 @@
 const state = {
-    issueInfo: {
-        id: '',
-        title: '',
-        select: 'bug',
-        severity: 2,
-        version: '',
-        project: '',
-        module: '',
-        text: ''
-    },
-    issuePlan: {
-        issuer: '',
-        dispense: '',
-        developer: '',
-        tester: '',
-        handle: '',
-        priority: 2,
-        versionEnd: '',
-        dateState: new Date(),
-        dateEnd: ''
-    }
+    issueList: []
 };
 
 const mutations = {
-    setIssueInfo(state, info) {
-        state.issueInfo = info;
-    },
-    setIssuePlan(state, info) {
-        state.issuePlan = info;
+    pushIssue(state, issue) {
+        state.issueList.push(issue);
     }
 };
 
