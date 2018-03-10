@@ -73,15 +73,17 @@
                         endDate: ''
                     },
                     // 0: 已提交，1:已分配，2: 已解决，3: 已测试(结束)，4: 已拒绝(关闭)，5：已延期
-                    issueStatus: 0
+                    status: 0
                 },
                 tmpIssue: {}                // 保存空对象，用于初始化
             }
         },
         methods: {
+            // 调用子组件 submitIssue 事件
             submitIssue() {
                 this.$refs.component.submitIssue();
             },
+            // 调用子组件 resetIssue 事件
             resetIssue() {
                 this.$refs.component.resetIssue();
             },
@@ -110,6 +112,10 @@
                 // 暂时 id 为八位随机数
                 this.issue.issueInfo.id = Math.floor(Math.random() * 90000000 + 10000000)
                     .toString();
+                this.issue.issuePlan.issuer = this.userId;
+                if (this.issue.issuePlan.developer) {
+                    this.issue.status = 1;
+                }
                 this.$store.commit('pushIssue', this.issue);
                 this.$Message.success({
                     content: '<span style="font-size: 14px">提交成功！</span>',
@@ -124,7 +130,6 @@
         },
         mounted() {
             this.tmpIssue = JSON.parse(JSON.stringify(this.issue));
-            this.issue.issuePlan.issuer = this.userId;
         }
     }
 </script>

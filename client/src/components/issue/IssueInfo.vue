@@ -1,6 +1,5 @@
 <template>
-    <Form ref="issueInfo" :model="issueInfo"
-          :label-width="74" :rules="ruleInfo">
+    <Form ref="issueInfo" :model="issueInfo" :label-width="74" :rules="ruleInfo">
         <Row>
             <iCol span="18">
                 <FormItem label="标题" prop="title">
@@ -29,11 +28,11 @@
             </iCol>
             <iCol span="12">
                 <FormItem label="模块" prop="module">
-                    <AutoComplete
-                        v-model="issueInfo.module"
-                        :data="moduleData"
-                        @on-search="handelSearch($event, 'moduleList', 'moduleData')"
-                        placeholder="问题所在模块"></AutoComplete>
+                    <AutoComplete v-model="issueInfo.module"
+                                  transfer
+                                  :data="moduleData"
+                                  @on-search="handelSearch($event, 'moduleList', 'moduleData')"
+                                  placeholder="问题所在模块"></AutoComplete>
                 </FormItem>
             </iCol>
         </Row>
@@ -174,6 +173,8 @@
             submitIssue() {
                 this.$refs['issueInfo'].validate((valid) => {
                     if (valid) {
+                        // 设置默认项目 id
+                        this.issueInfo.project = this.projectInfo.id;
                         this.$emit('change-modal', false);
                     } else {
                         this.$Message.error('<span style="font-size: 14px">请检查提交内容！</span>');
@@ -208,7 +209,6 @@
         created() {
             this.projectInfo = this.projectList[this.defaultIndex].info;
             this.versionList = this.projectList[this.defaultIndex].versionList;
-            this.issueInfo.id = this.projectInfo.id;
             this.inOrderRoot(this.projectList[this.defaultIndex].moduleList[0]);
         }
     }
