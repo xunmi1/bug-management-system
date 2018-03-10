@@ -10,7 +10,7 @@
             <Card>
                 <div class="content-input">
                     <p>新版本号：</p>
-                    <Input v-model="tmpVersion.name" clearable
+                    <Input v-model="tmpVersion.title" clearable
                            style="width: 200px" placeholder="默认起始为：1.0.0"></Input>
                     <p>简要描述：</p>
                     <Input v-model="tmpVersion.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
@@ -19,8 +19,8 @@
             </Card>
             <Card>
                 <Timeline pending class="content-line">
-                    <TimelineItem v-for="version in versionList" :key="version.name">
-                        <p class="time-line-title">{{version.name}} 版本</p>
+                    <TimelineItem v-for="version in versionList" :key="version.title">
+                        <p class="time-line-title">{{version.title}} 版本</p>
                         <p class="time-line-content">{{version.desc}}</p>
                     </TimelineItem>
                     <TimelineItem>
@@ -44,13 +44,18 @@
     export default {
         name: "ProjectVersions",
         props: {
-            isBordered: {type: Boolean, default: true},
-            data: {type: Object}
+            isBordered: {
+                type: Boolean,
+                default: true
+            },
+            data: {
+                type: Object
+            }
         },
         data() {
             return {
                 versionList: [],
-                tmpVersion: {name: '', desc: ''}
+                tmpVersion: {title: '', desc: ''}  //新版本号临时数据
             }
         },
         methods: {
@@ -58,12 +63,14 @@
                 if (!this.data) {
                     if (this.defaultIndex >= 0) {
                         this.versionList = this.projectList[this.defaultIndex].versionList;
+                        // 只显示最近5个版本
                         if (this.versionList.length > 5) {
                             this.versionList = this.versionList.slice(-5);
                         }
                         this.versionList = this.versionList.map(version => Object.assign({}, version))
                             .reverse();
                     } else {
+                        // 未设置默认项目
                         this.$router.push({name: 'userProject'});
                         this.$root.Bus.$emit('closeComponent', 'ProjectVersions');
                         this.$Notice.warning({
@@ -79,12 +86,13 @@
             },
             handleSubmit(name) {
                 if (!this.data) {
-                    console.log(this[name]);
+                    // 提交新版本
                     this.$store.commit('pushProjectVersion', this[name]);
                     this.versionList.pop();
                     this.versionList.unshift(this[name]);
                     this.$Message.success('修改成功！');
                 } else {
+                    // 保存到 TheNewProject 组件
                     this.$emit('update:data', this[name]);
                     this.$emit('on-ok');
                 }

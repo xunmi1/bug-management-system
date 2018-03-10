@@ -58,16 +58,19 @@ const state = {
                     },
                     {
                         title: 'parent 1-2',
-                        children: [{title: 'leaf 1-2-1'}, {title: 'leaf 1-2-1'}]
+                        children: [{title: 'leaf 1-2-1'}, {title: 'leaf 1-2-2'}]
+                    },
+                    {
+                        title: 'parent 1-3'
                     }
                 ]
             }],
             versionList: [
-                {name: '1.0.1', desc: '测试内容1'},
-                {name: '1.0.2', desc: '测试内容2'},
-                {name: '1.1.1', desc: '测试内容3'},
-                {name: '1.1.5', desc: '测试内容4'},
-                {name: '1.2.0', desc: '测试内容5'}
+                {title: '1.0.1', desc: '测试内容1'},
+                {title: '1.0.2', desc: '测试内容2'},
+                {title: '1.1.1', desc: '测试内容3'},
+                {title: '1.1.5', desc: '测试内容4'},
+                {title: '1.2.0', desc: '测试内容5'}
             ],
             issueList: [],
             // 0：拥有，1：参与，2：关闭，3：删除（7 天内）

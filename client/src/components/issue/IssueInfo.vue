@@ -28,10 +28,12 @@
                 </FormItem>
             </iCol>
             <iCol span="12">
-                <FormItem label="模块">
-                    <Select v-model="issueInfo.module" transfer>
-                        <Option value="module1">未知</Option>
-                    </Select>
+                <FormItem label="模块" prop="module">
+                    <AutoComplete
+                        v-model="issueInfo.module"
+                        :data="moduleData"
+                        @on-search="handelSearch($event, 'moduleList', 'moduleData')"
+                        placeholder="问题所在模块"></AutoComplete>
                 </FormItem>
             </iCol>
         </Row>
@@ -46,7 +48,7 @@
                     <AutoComplete v-model="issueInfo.version"
                                   transfer
                                   :data="versionData"
-                                  @on-search="versionSearch"
+                                  @on-search="handelSearch($event, 'versionList', 'versionData')"
                                   placeholder="问题所在版本"></AutoComplete>
                 </FormItem>
             </iCol>
@@ -91,9 +93,19 @@
             }
         },
         data() {
+            const validateModule = (rule, value, callback) => {
+                if (value) {
+                    const list = this.moduleList.map(item => item.title);
+                    if (!list.includes(value)) {
+                        callback(new Error('该模块不存在！'));
+                    } else {
+                        callback();
+                    }
+                }
+            };
             const validateVersion = (rule, value, callback) => {
                 if (value) {
-                    const list = this.versionList.map(version => version.name);
+                    const list = this.versionList.map(item => item.title);
                     if (!list.includes(value)) {
                         callback(new Error('该版本号不存在！'));
                     } else {
@@ -107,6 +119,10 @@
                         {required: true, message: '请输入标题', trigger: 'blur'},
                         {type: 'string', max: 30, message: '长度不超过30位', trigger: 'blur'},
                     ],
+                    module: [
+                        {required: true, message: '请确定模块', trigger: 'blur'},
+                        {validator: validateModule, trigger: 'blur'}
+                    ],
                     version: [
                         {required: true, message: '请确定版本', trigger: 'blur'},
                         {validator: validateVersion, trigger: 'blur'}
@@ -116,6 +132,8 @@
                         {type: 'string', max: 1024, message: '长度不超过1024位', trigger: 'blur'},
                     ]
                 },
+                moduleList: [],
+                moduleData: [],
                 versionList: [],  // 当前项目全部版本数据
                 versionData: [],  // 搜索框列表临时版本数据
             }
@@ -135,15 +153,22 @@
                         return '极高';
                 }
             },
-            versionSearch(val) {
+
+            /**
+             * 自助完成输入框搜索
+             * @param val 当前填写值
+             * @param list 完整来源数据
+             * @param data 当前下拉框数据
+             */
+            handelSearch(val, list, data) {
                 if (val) {
-                    this.versionData = this.versionList.map(version => version.name)
-                        .filter(version => {
-                            if (version.search(val) >= 0) return true;
+                    this[data] = this[list].map(item => item.title)
+                        .filter(item => {
+                            if (item.search(val) >= 0) return true;
                         })
                         .slice(-5);
                 } else {
-                    this.versionData = [];
+                    this[data] = [];
                 }
             },
             submitIssue() {
@@ -158,6 +183,20 @@
             resetIssue() {
                 this.$refs['issueInfo'].resetFields();
                 this.$emit('close-issue');
+            },
+            // 深度优先遍历项目模块, 只保存所有叶节点
+            inOrderRoot(node) {
+                if (node) {
+                    // 保存所有节点
+                    // this.moduleList.push({'title': node.title});
+                    if (node.children && node.children.length > 0) {
+                        for (let i = 0; i < node.children.length; i++) {
+                            this.inOrderRoot(node.children[i]);
+                        }
+                    } else {
+                        this.moduleList.push({'title': node.title});
+                    }
+                }
             }
         },
         computed: {
@@ -169,8 +208,8 @@
         created() {
             this.projectInfo = this.projectList[this.defaultIndex].info;
             this.versionList = this.projectList[this.defaultIndex].versionList;
-            this.moduleList = this.projectList[this.defaultIndex].moduleList;
             this.issueInfo.id = this.projectInfo.id;
+            this.inOrderRoot(this.projectList[this.defaultIndex].moduleList[0]);
         }
     }
 </script>
