@@ -1,4 +1,4 @@
-// 导入koa，koa2 导入的是一个 class，因此用大写的Koa表示
+// 导入 koa，koa2 导入的是一个 class，因此用大写的Koa表示
 const Koa = require('koa');
 //const router = require('koa-router')();
 const bodyParser = require('koa-bodyparser');
@@ -6,15 +6,19 @@ const staic = require('koa-static');
 const cors = require('koa2-cors');
 const logger = require('koa-logger');
 
+const jwtKoa = require('koa-jwt');
+
 const index = require('./routes/index');
 const login = require('./routes/login');
 const upload = require('./routes/upload');
 
-// 创建一个Koa对象表示 web app 本身
+const secret = 'bug';
+
+// 创建一个 Koa 对象表示 web app 本身
 const app = new Koa();
 
 app.use(staic(__dirname, 'public'));
-// bodypaser要在router之前加载才能生效
+// bodypaser 要在 router 之前加载才能生效
 app.use(bodyParser());
 // app.use(router.routes());
 // 以中间件形式绑定到路径上
@@ -34,6 +38,9 @@ app.use(cors({
     credentials: true,
     allowMethods: ['OPTIONS', 'GET', 'PUT', 'POST', 'DELETE'],
     allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
+}));
+app.use(jwtKoa({secret}).unless({
+    path: [/^\/api\/login/]         // 数组中的路径不需要通过 jwt 验证
 }));
 
 app.use(index.routes());

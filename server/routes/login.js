@@ -1,6 +1,8 @@
 const router = require('koa-router')();
 const msSqlDb = require('../databases/msSqlDb');
+const jwt = require('jsonwebtoken');
 
+const secret = 'bug';
 router.post('/api/login', async (ctx, next) => {
     console.log(ctx.request.body);
     let name = ctx.request.body.username || '',
@@ -19,9 +21,14 @@ router.post('/api/login', async (ctx, next) => {
             responseBody.status = 1;
             ctx.body = responseBody;
         } else {
+            let userToken = {
+                name
+            };
+            //token签名 有效期为1小时
+            const token = jwt.sign(userToken, secret, {expiresIn: '1h'});
             console.log(`用户 ${name}: 登录成功`);
             responseBody.status = 3;
-            responseBody.token = '12345678';
+            responseBody.token = token;
             ctx.body = responseBody;
         }
     }

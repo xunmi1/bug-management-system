@@ -31,7 +31,7 @@ class msSqlDb {
     async getLoginData(option) {
         return await this.getConnection()
             .then(conn => {
-                const sql = `select * from userSafe where userName = ${option.name}`;
+                const sql = `select * from [dbo].[user] where userName = ${option.name}`;
                 return conn.request().query(sql);
             })
             .then(result => {

@@ -8,13 +8,15 @@
     "start": "nodemon app.js"
   },
   "dependencies": {
-    "koa": "^2.4.1",
+    "jsonwebtoken": "^8.2.0",
+    "koa": "^2.5.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa2-cors": "^2.0.5",
+    "koa-jwt": "^3.3.0",
     "koa-logger": "^3.1.0",
     "koa-multer": "^1.0.2",
-    "koa-router": "^7.3.0",
-    "koa-bodyparser": "^4.2.0",
+    "koa-router": "^7.4.0",
     "koa-static": "^4.0.2",
-    "koa2-cors": "^2.0.5",
     "mssql": "^4.1.0"
   },
   "engines": {
