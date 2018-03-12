@@ -1,5 +1,7 @@
 import axios from "axios/index";
 
+axios.defaults.withCredentials = true;
+
 const state = {
     userInfo: {
         userId: '11111111',
@@ -10,7 +12,7 @@ const state = {
         avatarId: '',
         status: 0, // 0: 用户不存在，1: 密码错误，2: 同时登录，3: 登录成功
     },
-    token: '12345678'  // 本地数据
+    token: ''  // 本地数据
 };
 
 const mutations = {
@@ -46,11 +48,12 @@ const actions = {
             context.commit('setUserName', info);
         }
     },
-    async getInfo(context) {
+    async userCheck(context) {
         // 通过本地的 token，请求用户数据
         if (context.state.token) {
             // 开发调试模式，默认设为 123456
             console.log('开发调试模式，默认设为 123456');
+            //const response = await axios.post('/api/check');
             context.commit('setUserName', {name: '123456'});
             return '123456';
         }

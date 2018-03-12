@@ -33,6 +33,7 @@
                         this.$Notice.warning({title: '该用户已在其他地方登录！', duration: 1.5});
                         break;
                     case 3:
+                        this.$cookie.set('userToken', this.token, {expires: '120s'});
                         this.$router.push({
                             name: 'userProject',
                             params: {userName: this.$store.state.user.userInfo.name}
@@ -53,9 +54,9 @@
         },
         computed: {
             ...mapState({
-                status: state => state.user.userInfo.status
+                status: state => state.user.userInfo.status,
+                token: state => state.user.token
             })
-
         }
     }
 </script>

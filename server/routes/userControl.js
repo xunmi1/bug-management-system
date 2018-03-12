@@ -1,8 +1,12 @@
 const router = require('koa-router')();
-const msSqlDb = require('../databases/msSqlDb');
 const jwt = require('jsonwebtoken');
 
+const msSqlDb = require('../databases/msSqlDb');
+const tokenSecret = require('../config/tokenSecret');
+
 const secret = 'bug';
+
+// 用户登录
 router.post('/api/login', async (ctx, next) => {
     console.log(ctx.request.body);
     let name = ctx.request.body.username || '',
@@ -21,11 +25,12 @@ router.post('/api/login', async (ctx, next) => {
             responseBody.status = 1;
             ctx.body = responseBody;
         } else {
-            let userToken = {
-                name
+            const payload = {
+                userId: result.userId.trim(),
+                userName: result.userName.trim()
             };
             //token签名 有效期为1小时
-            const token = jwt.sign(userToken, secret, {expiresIn: '1h'});
+            const token = jwt.sign(payload, secret, {expiresIn: '1h'});
             console.log(`用户 ${name}: 登录成功`);
             responseBody.status = 3;
             responseBody.token = token;
@@ -33,5 +38,12 @@ router.post('/api/login', async (ctx, next) => {
         }
     }
 });
-
+// 验证身份
+router.post('/api/check', async (ctx, next) => {
+    const userToken = ctx.request.header.cookie.slice(10);
+    console.log(userToken);
+    console.log(tokenSecret.value);
+    // 解密 payload，获取用户名和 id
+    //let payload = await jwt.verify(userToken, tokenSecret.value);
+});
 module.exports = router;

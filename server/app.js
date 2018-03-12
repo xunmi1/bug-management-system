@@ -5,11 +5,12 @@ const bodyParser = require('koa-bodyparser');
 const staic = require('koa-static');
 const cors = require('koa2-cors');
 const logger = require('koa-logger');
-
 const jwtKoa = require('koa-jwt');
 
+const tokenSecret = require('./config/tokenSecret');
+
 const index = require('./routes/index');
-const login = require('./routes/login');
+const userControl = require('./routes/userControl');
 const upload = require('./routes/upload');
 
 const secret = 'bug';
@@ -39,12 +40,15 @@ app.use(cors({
     allowMethods: ['OPTIONS', 'GET', 'PUT', 'POST', 'DELETE'],
     allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
 }));
-app.use(jwtKoa({secret}).unless({
-    path: [/^\/api\/login/]         // 数组中的路径不需要通过 jwt 验证
-}));
+app.use(jwtKoa({
+        secret: tokenSecret.value
+    }).unless({
+        path: [/^\/api\/*/]         // 数组中的路径不需要通过 jwt 验证
+    })
+);
 
 app.use(index.routes());
-app.use(login.routes());
+app.use(userControl.routes());
 app.use(upload.routes());
 
 // 监听端口

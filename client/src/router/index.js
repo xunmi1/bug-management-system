@@ -15,6 +15,7 @@ import ProjectModules from '@/project/ProjectModules';
 import ProjectVersions from '@/project/ProjectVersions';
 
 import store from '../store';
+import VueCookie from 'vue-cookie';
 
 Vue.use(Router);
 
@@ -96,16 +97,18 @@ const router = new Router({
 });
 router.beforeEach((to, from, next) => {
     const isOpen = (
-        to.name === '' || to.name === 'home' || to.name === 'login' || to.name === 'register' ||
-        from.name === 'home'
+        to.name === '' || to.name === 'home' || to.name === 'login' || to.name === 'register'
     );
     if (isOpen) {
         next();
     } else {
         // 如果本地有 token，进行验证，否则，转到 index 界面
+        if (!store.state.user.token) {
+            store.state.user.token = VueCookie.get('userToken');
+        }
         if (store.state.user.token) {
             // 发送本地数据，返回用户信息
-            store.dispatch('getInfo').then(res => {
+            store.dispatch('userCheck').then(res => {
                 // 开发调试模式，不进行拦截
                 to.params.userName = '123456';
                 if (to.params.userName === res) {
