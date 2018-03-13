@@ -9,6 +9,9 @@
 </template>
 
 <script>
+    import {mapState} from 'vuex';
+    import {Base64} from 'js-base64';
+
     export default {
         name: 'TheHomeInput',
         data() {
@@ -21,12 +24,12 @@
              * 见 https://cn.vuejs.org/v2/api/#methods
              */
             toMain: function () {
-                if (this.$store.state.user.token) {
-                    this.$store.dispatch('getInfo').then(res => {
-                        this.$router.push({
-                            name: 'userProject', params: {userName: res}
-                        });
-                    })
+                if (this.token) {
+                    const user = JSON.parse(Base64.decode(this.token.split('.')[1]));
+                    this.$router.push({
+                        name: 'userProject',
+                        params: {userName: user.userName}
+                    });
                 } else {
                     this.$Notice.warning({
                         title: '<p style="font-size: 15px">请重新登录！</p>', duration: 3
@@ -40,6 +43,11 @@
             toRegister: function () {
                 this.$router.push({name: 'register'});
             }
+        },
+        computed: {
+            ...mapState({
+                token: state => state.user.token
+            })
         }
     }
 </script>

@@ -1,5 +1,5 @@
 const mssql = require('mssql');
-dbConfig = require('./config');
+dbConfig = require('../config/dbConfig');
 
 const config = {
     user: dbConfig.user,

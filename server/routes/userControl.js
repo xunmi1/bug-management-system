@@ -4,8 +4,6 @@ const jwt = require('jsonwebtoken');
 const msSqlDb = require('../databases/msSqlDb');
 const tokenSecret = require('../config/tokenSecret');
 
-const secret = 'bug';
-
 // 用户登录
 router.post('/api/login', async (ctx, next) => {
     console.log(ctx.request.body);
@@ -17,33 +15,54 @@ router.post('/api/login', async (ctx, next) => {
         status: 0, // 0: 用户不存在，1: 密码错误，2: 同时登录，3: 登录成功
         token: ''
     };
+    ctx.body = responseBody;
     if (!result) {
-        ctx.body = responseBody;
+        responseBody.status = 0;
     } else {
         if (password !== result.userPwd.trim()) {
             console.log(`用户 ${name}: 登录失败`);
             responseBody.status = 1;
-            ctx.body = responseBody;
         } else {
             const payload = {
                 userId: result.userId.trim(),
                 userName: result.userName.trim()
             };
             //token签名 有效期为1小时
-            const token = jwt.sign(payload, secret, {expiresIn: '1h'});
+            const token = jwt.sign(payload, tokenSecret.value, {expiresIn: '5h'});
             console.log(`用户 ${name}: 登录成功`);
             responseBody.status = 3;
             responseBody.token = token;
-            ctx.body = responseBody;
         }
     }
 });
 // 验证身份
 router.post('/api/check', async (ctx, next) => {
+    const responseBody = {
+        status: 0, // 0: 用户不存在，1: 密码错误，2: 同时登录，3: 登录成功
+        token: ''
+    };
+    ctx.body = responseBody;
     const userToken = ctx.request.header.cookie.slice(10);
     console.log(userToken);
-    console.log(tokenSecret.value);
-    // 解密 payload，获取用户名和 id
-    //let payload = await jwt.verify(userToken, tokenSecret.value);
+    // 验证 payload，获取用户名和 id
+    await jwt.verify(userToken, tokenSecret.value, {algorithms: ['HS256']}, (err, decoded) => {
+        if (err) {
+            ctx.response.status = 401;
+        } else {
+            const date = Math.round(new Date() / 1000);
+            if (decoded.exp > date) {
+                console.log('用户身份正常');
+                responseBody.status = 3;
+                responseBody.token = userToken;
+            } else {
+                const payload = {
+                    userId: decoded.userId,
+                    userName: decoded.userName
+                };
+                responseBody.status = 3;
+                responseBody.token = jwt.sign(payload, tokenSecret.value, {expiresIn: '5h'});
+            }
+        }
+    });
 });
 module.exports = router;

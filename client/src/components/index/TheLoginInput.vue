@@ -33,7 +33,8 @@
                         this.$Notice.warning({title: '该用户已在其他地方登录！', duration: 1.5});
                         break;
                     case 3:
-                        this.$cookie.set('userToken', this.token, {expires: '120s'});
+                        // expires 不能使用 d 表示天数，只能用 D
+                        this.$cookie.set('userToken', this.token, {expires: '7D'});
                         this.$router.push({
                             name: 'userProject',
                             params: {userName: this.$store.state.user.userInfo.name}

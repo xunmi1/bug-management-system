@@ -53,7 +53,7 @@ const actions = {
         if (context.state.token) {
             // 开发调试模式，默认设为 123456
             console.log('开发调试模式，默认设为 123456');
-            //const response = await axios.post('/api/check');
+            const response = await axios.post('/api/check');
             context.commit('setUserName', {name: '123456'});
             return '123456';
         }
