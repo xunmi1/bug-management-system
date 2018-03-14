@@ -27,7 +27,7 @@ router.post('/api/login', async (ctx, next) => {
                 userId: result.userId.trim(),
                 userName: result.userName.trim()
             };
-            //token签名 有效期为1小时
+            //token签名 有效期为5小时
             const token = jwt.sign(payload, tokenSecret.value, {expiresIn: '5h'});
             console.log(`用户 ${name}: 登录成功`);
             responseBody.status = 3;
@@ -42,27 +42,32 @@ router.post('/api/check', async (ctx, next) => {
         token: ''
     };
     ctx.body = responseBody;
-    const userToken = ctx.request.header.cookie.slice(10);
-    console.log(userToken);
-    // 验证 payload，获取用户名和 id
-    await jwt.verify(userToken, tokenSecret.value, {algorithms: ['HS256']}, (err, decoded) => {
-        if (err) {
-            ctx.response.status = 401;
-        } else {
-            const date = Math.round(new Date() / 1000);
-            if (decoded.exp > date) {
-                console.log('用户身份正常');
-                responseBody.status = 3;
-                responseBody.token = userToken;
+    try {
+        const userToken = ctx.request.header.cookie.slice(10);
+        console.log(userToken);
+        // 验证 payload，获取用户名和 id
+        await jwt.verify(userToken, tokenSecret.value, {algorithms: ['HS256']}, (err, decoded) => {
+            if (err) {
+                ctx.response.status = 401;
             } else {
-                const payload = {
-                    userId: decoded.userId,
-                    userName: decoded.userName
-                };
+                const date = Math.round(new Date() / 1000);
                 responseBody.status = 3;
-                responseBody.token = jwt.sign(payload, tokenSecret.value, {expiresIn: '5h'});
+                if (decoded.exp > date) {
+                    console.log('用户身份正常');
+                    responseBody.token = userToken;
+                } else {
+                    // 如果过期，发送新的 JWT
+                    const payload = {
+                        userId: decoded.userId,
+                        userName: decoded.userName
+                    };
+                    responseBody.token = jwt.sign(payload, tokenSecret.value, {expiresIn: '5h'});
+                }
             }
-        }
-    });
+        });
+    }
+    catch (e) {
+        ctx.response.status = 401;
+    }
 });
 module.exports = router;

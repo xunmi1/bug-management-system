@@ -49,21 +49,20 @@ const actions = {
         }
     },
     async userCheck(context) {
-        // 通过本地的 token，请求用户数据
-        if (context.state.token) {
-            // 开发调试模式，默认设为 123456
-            console.log('开发调试模式，默认设为 123456');
-            const response = await axios.post('/api/check');
-            context.commit('setUserName', {name: '123456'});
-            return '123456';
+        // 通过请求所携带的 cookie，请求用户数据
+        const res = await axios.post(process.env.API_HOST + '/check');
+        if (res.data.status === 3) {
+            context.commit('setToken', res.data.token);
+            return true;
+        } else {
+            return false;
         }
     },
     async loginCheck(context, info) {
-        const response = await axios.post('/api/login', {
+        const response = await axios.post(process.env.API_HOST + '/login', {
             username: info.name,
             password: info.pwd
         });
-        console.dir(response.data);
         context.commit('setUserStatus', response.data.status);
         context.commit('setToken', response.data.token);
         if (context.state.token) {
@@ -77,7 +76,7 @@ const actions = {
         context.commit('setUserName', info);
         context.commit('setUserEmail', info);
         context.commit('setUserDesc', info);
-        await axios.post('/api/user', info)
+        await axios.post(process.env.API_HOST + '/user', info)
             .then((response) => {
                 console.log(response.data);
             })
@@ -87,7 +86,7 @@ const actions = {
     },
     async postSafe(context, info) {
         context.commit('setUserPwd', info);
-        await axios.post('/api/user', info)
+        await axios.post(process.env.API_HOST + '/user', info)
             .then((response) => {
                 console.log(response.data);
             })

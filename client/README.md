@@ -7,8 +7,9 @@
 
 ### 1. 跨域
 
-> 1. 将所有 axios 的请求地址改为相对应的完整 url 。
-> 2. 删掉 config/index.js 中的 dev 下的 proxyTable 内容。
+> ~~1. 将所有 axios 的请求地址改为相对应的完整 url 。~~
+> ~~2. 删掉 config/index.js 中的 dev 下的 proxyTable 内容。~~
+> 无需任何修改，打包时，会根据当前环境 process.env，自动替换成对应的 url。
 
 ## Build Setup
 

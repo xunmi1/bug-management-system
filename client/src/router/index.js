@@ -16,6 +16,7 @@ import ProjectVersions from '@/project/ProjectVersions';
 
 import store from '../store';
 import VueCookie from 'vue-cookie';
+import {Base64} from 'js-base64';
 
 Vue.use(Router);
 
@@ -97,9 +98,8 @@ const router = new Router({
 });
 router.beforeEach((to, from, next) => {
     console.log('路由验证');
-    if (!store.state.user.token) {
-        store.state.user.token = VueCookie.get('userToken');
-    }
+    let userToken = VueCookie.get('userToken');
+    store.commit('setToken', userToken);
     const isOpen = (
         to.name === '' || to.name === 'home' || to.name === 'login' || to.name === 'register'
     );
@@ -107,10 +107,14 @@ router.beforeEach((to, from, next) => {
         next();
     } else {
         // 如果本地有 token，进行验证，否则，转到 index 界面
-        if (store.state.user.token) {
+        if (userToken) {
             // 发送本地数据，返回用户信息
             store.dispatch('userCheck').then(res => {
-                if (to.params.userName === res) {
+                if (res) {
+                    // 更新 token 值
+                    userToken = store.state.user.token;
+                    const user = JSON.parse(Base64.decode(userToken.split('.')[1]));
+                    if (to.params.userName === user.userName)
                     next();
                 } else {
                     console.log('校验失败，进行拦截');

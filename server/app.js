@@ -13,8 +13,6 @@ const index = require('./routes/index');
 const userControl = require('./routes/userControl');
 const upload = require('./routes/upload');
 
-const secret = 'bug';
-
 // 创建一个 Koa 对象表示 web app 本身
 const app = new Koa();
 
@@ -28,16 +26,11 @@ app.use(bodyParser());
 app.use(logger());
 
 app.use(cors({
-    origin: function (ctx) {
-        if (ctx.url === '/test') {
-            return "*";
-        }
-        return 'http://localhost:8080';
-    },
+    origin: 'http://localhost:8080',
     exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
     maxAge: 5,
     credentials: true,
-    allowMethods: ['OPTIONS', 'GET', 'PUT', 'POST', 'DELETE'],
+    allowMethods: ['GET', 'PUT', 'POST', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
     allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
 }));
 app.use(jwtKoa({
