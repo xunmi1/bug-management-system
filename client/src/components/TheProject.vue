@@ -2,7 +2,7 @@
     <Collapse value="1" style="font-size: 14px">
         <Panel name="1">
             拥有的项目
-            <div slot="content">
+            <div slot="content" class="card-layout">
                 <Card class="card" @click.native="newProject('newProject')">
                     <p slot="title">新建项目</p>
                     <Icon type="plus-round" class="plus-round"></Icon>
@@ -31,7 +31,7 @@
         </Panel>
         <Panel name="2">
             参与的项目
-            <div slot="content">
+            <div slot="content" class="card-layout">
                 <Card class="card" v-for="project in partakeList" :key="project.info.id">
                     <p slot="title">{{project.info.title}}</p>
                     <p>{{project.info.desc}}</p>
@@ -43,7 +43,7 @@
         </Panel>
         <Panel name="3">
             已关闭项目
-            <div slot="content">
+            <div slot="content" class="card-layout">
                 <Card class="card" v-for="project in closedList" :key="project.info.id">
                     <p slot="title">{{project.info.title}}</p>
                     <div slot="extra">
@@ -61,7 +61,7 @@
         </Panel>
         <Panel name="4">
             删除的项目
-            <div slot="content">
+            <div slot="content" class="card-layout">
                 <Card class="card" v-for="project in deleteList" :key="project.info.id">
                     <p slot="title">{{project.info.title}}</p>
                     <div slot="extra">
@@ -142,6 +142,10 @@
 </script>
 
 <style scoped>
+    .card-layout {
+        overflow: hidden;
+    }
+
     .card {
         width: 170px;
         height: 170px;
