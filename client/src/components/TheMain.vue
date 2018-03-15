@@ -2,7 +2,9 @@
     <div id="background-height">
         <Layout>
             <Header :style="{ height: headerHeight + 'px' }" class="layout-header">
-                <Menu mode="horizontal" theme="light" accordion ref="menu"
+                <Menu mode="horizontal"
+                      theme="light" accordion
+                      ref="horizontalMenu"
                       :active-name="$route.name"
                       @on-select="tagAdd"
                       :style="{ height: headerHeight + 'px' }">
@@ -73,8 +75,12 @@
             </Header>
             <Layout :style="{marginTop: headerHeight + 'px'}">
                 <Sider :style="{background: '#fff'}" width="180">
-                    <Menu theme="light" @on-select="tagAdd" width="auto">
-                        <MenuItem name="console">
+                    <Menu theme="light"
+                          @on-select="tagAdd"
+                          width="auto"
+                          :active-name="$route.name"
+                          ref="verticalMenu">
+                        <MenuItem name="viewProject">
                             <Icon type="compose"></Icon>
                             项目概况
                         </MenuItem>
@@ -226,8 +232,11 @@
         },
         updated() {
             this.$nextTick(() => {
-                if (this.$refs.menu) {
-                    this.$refs.menu.updateActiveName();
+                if (this.$refs.horizontalMenu) {
+                    this.$refs.horizontalMenu.updateActiveName();
+                }
+                if (this.$refs.verticalMenu) {
+                    this.$refs.verticalMenu.updateActiveName();
                 }
             })
         }

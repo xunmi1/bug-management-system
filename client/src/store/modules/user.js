@@ -1,4 +1,5 @@
 import axios from "axios/index";
+import VueCookie from 'vue-cookie';
 
 axios.defaults.withCredentials = true;
 
@@ -51,8 +52,11 @@ const actions = {
     async userCheck(context) {
         // 通过请求所携带的 cookie，请求用户数据
         const res = await axios.post(process.env.API_HOST + '/check');
-        if (res.data.status === 3) {
-            context.commit('setToken', res.data.token);
+        if (res.data.status >= 3) {
+            if (res.data.status === 4) {
+                context.commit('setToken', res.data.token);
+                VueCookie.set('userToken', res.data.token, {expires: '7D'});
+            }
             return true;
         } else {
             return false;

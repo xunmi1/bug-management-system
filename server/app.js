@@ -36,7 +36,7 @@ app.use(cors({
 app.use(jwtKoa({
         secret: tokenSecret.value
     }).unless({
-        path: [/^\/api\/*/]         // 数组中的路径不需要通过 jwt 验证
+    path: [/^\/(?:api|public|user)\/*/]         // 数组中的路径不需要通过 jwt 验证
     })
 );
 

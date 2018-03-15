@@ -8,6 +8,7 @@ import TheRegisterInput from '@/index/TheRegisterInput';
 import TheMain from '@/TheMain';
 import MyProject from '@/MyProject';
 import TheUserInfo from '@/TheUserInfo';
+import ViewProject from '@/ViewProject';
 import TheNewProject from '@/project/TheNewProject';
 import ProjectInfo from '@/project/ProjectInfo';
 import ProjectPeople from '@/project/ProjectPeople';
@@ -89,8 +90,9 @@ const router = new Router({
                     component: TheUserInfo
                 },
                 {
-                    path: 'console',
-                    name: 'console'
+                    path: 'project/view',
+                    name: 'viewProject',
+                    component: ViewProject
                 }
             ]
         }
@@ -114,8 +116,12 @@ router.beforeEach((to, from, next) => {
                     // 更新 token 值
                     userToken = store.state.user.token;
                     const user = JSON.parse(Base64.decode(userToken.split('.')[1]));
-                    if (to.params.userName === user.userName)
-                    next();
+                    if (to.params.userName === user.userName) {
+                        next();
+                    } else {
+                        console.log('导航错误，进行拦截');
+                        next('/');
+                    }
                 } else {
                     console.log('校验失败，进行拦截');
                     next('/');

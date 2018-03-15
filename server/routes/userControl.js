@@ -55,7 +55,7 @@ router.post('/api/check', async (ctx, next) => {
                     userId: decoded.userId,
                     userName: decoded.userName
                 };
-                responseBody.status = 3;
+                responseBody.status = 4;
                 responseBody.token = jwt.sign(payload, tokenSecret.value, {expiresIn: '5h'});
                 console.log('用户身份过期，重新发放');
             } else {

@@ -34,10 +34,9 @@ const state = {
             title: '新建项目',
             name: 'TheNewProject'
         },
-        console: {
+        viewProject: {
             title: '项目概况',
-            name: ''
-
+            name: 'ViewProject'
         }
     },
     tagIndex: Number,
