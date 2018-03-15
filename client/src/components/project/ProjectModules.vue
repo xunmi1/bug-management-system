@@ -56,7 +56,7 @@
                     if (this.defaultIndex >= 0) {
                         this.moduleList = JSON.parse(JSON.stringify(this.projectList[this.defaultIndex].moduleList));
                     } else {
-                        this.$router.push({name: 'userProject'});
+                        this.$router.push({name: 'myProject'});
                         this.$root.Bus.$emit('closeComponent', 'ProjectModules');
                         this.$Notice.warning({
                             title: '没有项目可打开！',

@@ -27,7 +27,7 @@
                 if (this.token) {
                     const user = JSON.parse(Base64.decode(this.token.split('.')[1]));
                     this.$router.push({
-                        name: 'userProject',
+                        name: 'myProject',
                         params: {userName: user.userName}
                     });
                 } else {

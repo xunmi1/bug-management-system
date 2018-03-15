@@ -25,7 +25,7 @@
                     this.$store.commit('setUserPwd', {name: this.userPwd});
                     this.$store.commit('setUserEmail', {email: this.userName});
                     this.$router.push({
-                        name: 'userProject',
+                        name: 'myProject',
                         params: {userName: this.$store.state.user.userInfo.name}
                     });
                 }

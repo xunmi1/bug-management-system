@@ -43,7 +43,7 @@
                                 版本管理
                             </MenuItem>
                         </Submenu>
-                        <MenuItem name="userProject">
+                        <MenuItem name="myProject">
                             <Icon type="folder"></Icon>
                             我的项目
                         </MenuItem>

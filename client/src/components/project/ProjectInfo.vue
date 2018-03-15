@@ -87,7 +87,7 @@
                         // Object.assign() 只适合复制子级是值类型
                         this.projectInfo = Object.assign({}, stateInfo);
                     } else {
-                        this.$router.push({name: 'userProject'});
+                        this.$router.push({name: 'myProject'});
                         this.$root.Bus.$emit('closeComponent', 'ProjectInfo');
                         this.$Notice.warning({
                             title: '没有项目可打开！',

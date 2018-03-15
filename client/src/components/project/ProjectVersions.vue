@@ -71,7 +71,7 @@
                             .reverse();
                     } else {
                         // 未设置默认项目
-                        this.$router.push({name: 'userProject'});
+                        this.$router.push({name: 'myProject'});
                         this.$root.Bus.$emit('closeComponent', 'ProjectVersions');
                         this.$Notice.warning({
                             title: '没有项目可打开！',

@@ -6,7 +6,7 @@ import TheHomeInput from '@/index/TheHomeInput';
 import TheLoginInput from '@/index/TheLoginInput';
 import TheRegisterInput from '@/index/TheRegisterInput';
 import TheMain from '@/TheMain';
-import TheProject from '@/TheProject';
+import MyProject from '@/MyProject';
 import TheUserInfo from '@/TheUserInfo';
 import TheNewProject from '@/project/TheNewProject';
 import ProjectInfo from '@/project/ProjectInfo';
@@ -54,8 +54,8 @@ const router = new Router({
             children: [
                 {
                     path: 'project/user',
-                    name: 'userProject',
-                    component: TheProject,
+                    name: 'myProject',
+                    component: MyProject,
                     alias: 'project'
                 },
                 {

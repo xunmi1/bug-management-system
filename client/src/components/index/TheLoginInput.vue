@@ -36,7 +36,7 @@
                         // expires 不能使用 d 表示天数，只能用 D
                         this.$cookie.set('userToken', this.token, {expires: '7D'});
                         this.$router.push({
-                            name: 'userProject',
+                            name: 'myProject',
                             params: {userName: this.$store.state.user.userInfo.name}
                         });
                         break;

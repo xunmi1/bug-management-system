@@ -84,7 +84,7 @@
     import {mapMutations, mapState} from 'vuex';
 
     export default {
-        name: "TheProject",
+        name: "MyProject",
         data() {
             return {}
         },

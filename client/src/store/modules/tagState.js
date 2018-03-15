@@ -18,9 +18,9 @@ const state = {
             title: '版本管理',
             name: 'ProjectVersions'
         },
-        userProject: {
+        myProject: {
             title: '我的项目',
-            name: 'TheProject'
+            name: 'MyProject'
         },
         retrieval: {
             title: 'BUG 检索',
