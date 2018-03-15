@@ -35,6 +35,7 @@ router.post('/api/login', async (ctx, next) => {
         }
     }
 });
+
 // 验证身份
 router.post('/api/check', async (ctx, next) => {
     const responseBody = {
@@ -42,32 +43,30 @@ router.post('/api/check', async (ctx, next) => {
         token: ''
     };
     ctx.body = responseBody;
-    try {
-        const userToken = ctx.request.header.cookie.slice(10);
-        console.log(userToken);
-        // 验证 payload，获取用户名和 id
-        await jwt.verify(userToken, tokenSecret.value, {algorithms: ['HS256']}, (err, decoded) => {
-            if (err) {
-                ctx.response.status = 401;
-            } else {
-                const date = Math.round(new Date() / 1000);
+    const userToken = ctx.request.header.cookie.slice(10);
+    console.log(userToken);
+    // 验证 payload，获取用户名和 id
+    await jwt.verify(userToken, tokenSecret.value, {algorithms: ['HS256']}, (err, decoded) => {
+        if (err) {
+            if (err.name === 'TokenExpiredError') {
+                // 由于 decoded = undefined, 因此使用非验证的 decode() 获取
+                const decoded = jwt.decode(userToken);
+                const payload = {
+                    userId: decoded.userId,
+                    userName: decoded.userName
+                };
                 responseBody.status = 3;
-                if (decoded.exp > date) {
-                    console.log('用户身份正常');
-                    responseBody.token = userToken;
-                } else {
-                    // 如果过期，发送新的 JWT
-                    const payload = {
-                        userId: decoded.userId,
-                        userName: decoded.userName
-                    };
-                    responseBody.token = jwt.sign(payload, tokenSecret.value, {expiresIn: '5h'});
-                }
+                responseBody.token = jwt.sign(payload, tokenSecret.value, {expiresIn: '5h'});
+                console.log('用户身份过期，重新发放');
+            } else {
+                ctx.response.status = 401;
             }
-        });
-    }
-    catch (e) {
-        ctx.response.status = 401;
-    }
+        } else {
+            responseBody.status = 3;
+            responseBody.token = userToken;
+            console.log('用户身份正常');
+        }
+    });
 });
+
 module.exports = router;
