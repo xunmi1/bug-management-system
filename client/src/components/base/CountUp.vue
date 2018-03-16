@@ -1,25 +1,27 @@
 <template>
     <div>
         <p :class="className"
-           :style="{textAlign: 'center', color: color, fontSize: countSize, fontWeight: countWeight}"><span v-cloak
-                                                                                                            :id="idName">{{ startVal }}</span><span>{{ unit }}</span>
+           :style="{color: color, fontSize: countSize, fontWeight: countWeight}"
+           class="text-align">
+            <span v-cloak :id="idName">{{ startVal }}</span>
+            <span>{{ unit }}</span>
         </p>
         <slot name="intro"></slot>
     </div>
 </template>
 
 <script>
-    import Countup from 'countup';
+    import CountUp from 'countUp';
 
     function transformValue(val) {
         let endVal = 0;
         let unit = '';
-        if (val < 1000) {
+        if (val < 10000) {
             endVal = val;
-        } else if (val >= 1000 && val < 1000000) {
+        } else if (val >= 10000 && val < 10000000) {
             endVal = parseInt(val / 1000);
             unit = 'K+';
-        } else if (val >= 1000000 && val < 10000000000) {
+        } else if (val >= 10000000 && val < 10000000000) {
             endVal = parseInt(val / 1000000);
             unit = 'M+';
         } else {
@@ -34,12 +36,6 @@
 
     export default {
         name: 'CountUp',
-        data() {
-            return {
-                unit: '',
-                demo: {}
-            };
-        },
         props: {
             idName: String,
             className: String,
@@ -77,13 +73,19 @@
             color: String,
             countSize: {
                 type: String,
-                default: '30px'
+                default: '36px'
             },
             countWeight: {
                 type: Number,
-                default: 700
+                default: 500
             },
             introText: [String, Number]
+        },
+        data() {
+            return {
+                unit: '',
+                demo: {}
+            };
         },
         mounted() {
             this.$nextTick(() => {
@@ -91,8 +93,8 @@
                     let res = transformValue(this.endVal);
                     let endVal = res.val;
                     this.unit = res.unit;
-                    let demo = {};
-                    this.demo = demo = new Countup(this.idName, this.startVal, endVal, this.decimals, this.duration, this.options);
+                    let demo = new CountUp(this.idName, this.startVal, endVal, this.decimals, this.duration, this.options);
+                    this.demo = demo;
                     if (!demo.error) {
                         demo.start();
                     }
@@ -101,11 +103,17 @@
         },
         watch: {
             endVal(val) {
-                let res = transformValue(val);
-                let endVal = res.val;
+                const res = transformValue(val);
+                const endVal = res.val;
                 this.unit = res.unit;
                 this.demo.update(endVal);
             }
         }
     };
 </script>
+
+<style scoped>
+    .text-align {
+        text-align: center;
+    }
+</style>
