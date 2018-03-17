@@ -15,8 +15,10 @@
                         </router-link>
                     </div>
                     <div class="menu-search">
-                        <Input v-model="SearchValue" icon="ios-search-strong"
-                               placeholder="搜索..." style="width: 180px"></Input>
+                        <Input v-model="SearchValue"
+                               icon="ios-search-strong"
+                               placeholder="搜索..."
+                               style="width: 180px"></Input>
                     </div>
                     <div class="menu-nav">
                         <MenuItem name="issue" @click.native="setModal('issue', true)">
@@ -81,7 +83,7 @@
                           :active-name="$route.name"
                           ref="verticalMenu">
                         <MenuItem name="viewProject">
-                            <Icon type="compose"></Icon>
+                            <Icon type="ios-paper-outline" size="17"></Icon>
                             项目概况
                         </MenuItem>
                         <MenuGroup title="未完成">
