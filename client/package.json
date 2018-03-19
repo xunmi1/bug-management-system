@@ -16,6 +16,7 @@
     "dependencies": {
         "axios": "^0.18.0",
         "countup": "^1.8.2",
+        "echarts": "^4.0.4",
         "iview": "^2.11.0",
         "js-base64": "^2.4.3",
         "vue": "^2.5.16",
