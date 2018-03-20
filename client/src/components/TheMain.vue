@@ -86,6 +86,10 @@
                             <Icon type="ios-paper-outline" size="17"></Icon>
                             项目概况
                         </MenuItem>
+                        <MenuItem name="viewIssue">
+                            <Icon type="clipboard" size="17"></Icon>
+                            问题概况
+                        </MenuItem>
                         <MenuGroup title="未完成">
                             <MenuItem name="1">
                                 <Icon type="compose"></Icon>

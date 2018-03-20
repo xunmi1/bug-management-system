@@ -37,6 +37,10 @@ const state = {
         viewProject: {
             title: '项目概况',
             name: 'ViewProject'
+        },
+        viewIssue: {
+            title: '问题概况',
+            name: 'ViewIssue'
         }
     },
     tagIndex: Number,

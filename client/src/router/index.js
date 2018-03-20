@@ -8,7 +8,8 @@ import TheRegisterInput from '@/index/TheRegisterInput';
 import TheMain from '@/TheMain';
 import MyProject from '@/MyProject';
 import TheUserInfo from '@/TheUserInfo';
-import ViewProject from '@/ViewProject';
+import ViewProject from '@/views/ViewProject';
+import ViewIssue from '@/views/ViewIssue';
 import TheNewProject from '@/project/TheNewProject';
 import ProjectInfo from '@/project/ProjectInfo';
 import ProjectPeople from '@/project/ProjectPeople';
@@ -90,9 +91,14 @@ const router = new Router({
                     component: TheUserInfo
                 },
                 {
-                    path: 'project/view',
+                    path: 'view/project',
                     name: 'viewProject',
                     component: ViewProject
+                },
+                {
+                    path: 'view/issue',
+                    name: 'viewIssue',
+                    component: ViewIssue
                 }
             ]
         }

@@ -99,8 +99,8 @@
 </template>
 
 <script>
-    import BaseCard from './base/BaseCard';
-    import BarChart from './base/BarChart';
+    import BaseCard from '../base/BaseCard';
+    import BarChart from '../base/BarChart';
 
     export default {
         name: "ViewProject",
