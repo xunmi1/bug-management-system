@@ -1,12 +1,13 @@
 <template>
-    <Collapse v-model="defaultPanel" style="font-size: 14px">
-        <Panel name="1">
-            已提交问题
-            <div slot="content">
-                <Table :columns="columns" :data="submitData"></Table>
-            </div>
-        </Panel>
-    </Collapse>
+    <Card>
+        <p slot="title">
+            <Icon type="ios-film-outline"></Icon>
+            问题列表
+        </p>
+        <div>
+            <Table :columns="columns" :data="submitData"></Table>
+        </div>
+    </Card>
 </template>
 
 <script>
