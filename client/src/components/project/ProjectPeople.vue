@@ -242,7 +242,13 @@
                     }
                 });
             },
-            testHeight(data) {
+
+            /**
+             * 设置表的高度
+             * @param data 当前数据列表的名称
+             * @returns {number} 表高度的值
+             */
+            checkHeight(data) {
                 if (this.projectPeople[data]) {
                     if (data === 'allList') {
                         return (this.total < 10 ? (this.total < 3 ? 3 : this.total) : 10) * 40 + 32;
@@ -261,7 +267,10 @@
                     value + '@126.com', value + '@outlook.com'
                 ];
             },
-            pushNewPeopleEmail() {         // 添加新成员
+            /**
+             * 新成员添加（主表）
+             */
+            pushNewPeopleEmail() {
                 console.log(this.newPeopleEmail);
                 this.$refs.newPeopleEmail.validate((valid) => {
                     if (valid) {
@@ -279,10 +288,14 @@
                     }
                 })
             },
-            // 获取选中行数据
+            // 获取所有选中行（数组）
             setSelectList(rows) {
                 this.selectList = rows;
             },
+            /**
+             * 成员添加
+             * @param data 当前数据列表的名称
+             */
             setTask(list) {
                 this.selectList.forEach(row => {
                     if (this.projectPeople[list].every(item => {
@@ -291,7 +304,12 @@
                     ) this.projectPeople[list].push(row);
                 });
             },
-            remove(data, index) {            // 删除操作
+            /**
+             * 成员移除
+             * @param data 当前数据列表的名称
+             * @param index 准备移除的行的索引
+             */
+            remove(data, index) {
                 const userId = this.$store.state.user.userInfo.userId;
                 const dataList = this.projectPeople[data];
                 switch (data) {
@@ -312,6 +330,7 @@
                         this.$Message.success('成员移除成功！');
                 }
             },
+
             handleSubmit(name) {
                 if (!this.data) {
                     this.$store.commit('setProjectPeople', this.projectPeople);
@@ -343,22 +362,22 @@
             },
             // 表格高度自适应设置
             tableHeight1() {
-                return this.testHeight('allList');
+                return this.checkHeight('allList');
             },
             tableHeight2() {
-                return this.testHeight('ownerList');
+                return this.checkHeight('ownerList');
             },
             tableHeight3() {
-                return this.testHeight('issuerList');
+                return this.checkHeight('issuerList');
             },
             tableHeight4() {
-                return this.testHeight('dispenseList');
+                return this.checkHeight('dispenseList');
             },
             tableHeight5() {
-                return this.testHeight('developerList');
+                return this.checkHeight('developerList');
             },
             tableHeight6() {
-                return this.testHeight('testerList');
+                return this.checkHeight('testerList');
             }
         },
         mounted() {

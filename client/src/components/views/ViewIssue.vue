@@ -1,11 +1,14 @@
 <template>
-    <Card>
-        <p slot="title">
+    <Card class="min-height">
+        <div slot="title">
             <Icon type="ios-film-outline"></Icon>
-            问题列表
-        </p>
+            <span>问题列表</span>
+        </div>
         <div>
-            <Table :columns="columns" :data="submitData"></Table>
+            <Table :columns="columns"
+                   :data="submitData"
+                   :height="tableHeight"
+                   highlight-row></Table>
         </div>
     </Card>
 </template>
@@ -19,6 +22,53 @@
                 columns: [
                     {type: 'index', width: 52, align: 'center'},
                     {title: '标题', key: 'title'},
+                    {
+                        title: '状态',
+                        key: 'status',
+                        filters: [
+                            {
+                                label: '待分配',
+                                value: 0
+                            },
+                            {
+                                label: '待解决',
+                                value: 1
+                            },
+                            {
+                                label: '待测试',
+                                value: 2
+                            },
+                            {
+                                label: '完成',
+                                value: 3
+                            },
+                            {
+                                label: '已拒绝',
+                                value: 4
+                            },
+                            {
+                                label: '延期中',
+                                value: 5
+                            },
+                        ],
+                        filterMultiple: true,
+                        filterMethod(value, row) {
+                            switch (value) {
+                                case 0:
+                                    return row.status === 0;
+                                case 1:
+                                    return row.status === 1;
+                                case 2:
+                                    return row.status === 2;
+                                case 3:
+                                    return row.status === 3;
+                                case 4:
+                                    return row.status === 4;
+                                case 5:
+                                    return row.status === 5;
+                            }
+                        }
+                    },
                     {title: '模块', key: 'module'},
                     {title: '版本号', key: 'version', sortable: true},
                     {title: '优先级', key: 'priority', sortable: true},
@@ -44,14 +94,29 @@
                     versionEnd: '',
                     startDate: '',
                     endDate: '',
-                    // 0: 已提交，1:已分配，2: 已解决，3: 已测试(结束)，4: 已拒绝(关闭)，5：已延期
+                    // 0: 待分配，1:待解决，2: 待测试，3: 完成，4: 已拒绝(关闭)，5：延期中
                     status: 0
                 }]
+            }
+        },
+        methods: {
+            /**
+             * 设置表的高度
+             */
+            checkHeight() {
+
+            }
+        },
+        computed: {
+            tableHeight() {
+                return this.checkHeight();
             }
         }
     }
 </script>
 
 <style scoped>
-
+    .min-height {
+        min-height: 500px;
+    }
 </style>
