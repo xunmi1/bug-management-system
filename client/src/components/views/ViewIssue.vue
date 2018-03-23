@@ -9,6 +9,10 @@
                    :data="submitData"
                    :height="tableHeight"
                    highlight-row></Table>
+            <Page :total="total"
+                  show-total
+                  show-elevator
+                  class="page-margin"></Page>
         </div>
     </Card>
 </template>
@@ -26,48 +30,15 @@
                         title: '状态',
                         key: 'status',
                         filters: [
-                            {
-                                label: '待分配',
-                                value: 0
-                            },
-                            {
-                                label: '待解决',
-                                value: 1
-                            },
-                            {
-                                label: '待测试',
-                                value: 2
-                            },
-                            {
-                                label: '完成',
-                                value: 3
-                            },
-                            {
-                                label: '已拒绝',
-                                value: 4
-                            },
-                            {
-                                label: '延期中',
-                                value: 5
-                            },
+                            {label: '待分配', value: 0},
+                            {label: '待解决', value: 1},
+                            {label: '待测试', value: 2},
+                            {label: '完成', value: 3},
+                            {label: '已拒绝', value: 4},
+                            {label: '延期中', value: 5}
                         ],
                         filterMultiple: true,
-                        filterMethod(value, row) {
-                            switch (value) {
-                                case 0:
-                                    return row.status === 0;
-                                case 1:
-                                    return row.status === 1;
-                                case 2:
-                                    return row.status === 2;
-                                case 3:
-                                    return row.status === 3;
-                                case 4:
-                                    return row.status === 4;
-                                case 5:
-                                    return row.status === 5;
-                            }
-                        }
+                        filterMethod: this.filterMethod
                     },
                     {title: '模块', key: 'module'},
                     {title: '版本号', key: 'version', sortable: true},
@@ -96,7 +67,7 @@
                     endDate: '',
                     // 0: 待分配，1:待解决，2: 待测试，3: 完成，4: 已拒绝(关闭)，5：延期中
                     status: 0
-                }]
+                }],
             }
         },
         methods: {
@@ -105,12 +76,26 @@
              */
             checkHeight() {
 
+            },
+            /**
+             *  表数据筛选
+             * @param value 筛选条件
+             * @param row 行数据
+             * @returns {boolean} true: 显示, false: 过滤掉
+             */
+            filterMethod(value, row) {
+                return row.status === value;
             }
         },
         computed: {
             tableHeight() {
                 return this.checkHeight();
-            }
+            },
+            total() {
+                if (this.submitData) {
+                    return this.submitData.length;
+                }
+            },
         }
     }
 </script>
@@ -118,5 +103,10 @@
 <style scoped>
     .min-height {
         min-height: 500px;
+    }
+
+    .page-margin {
+        margin: 16px 0;
+        float: right;
     }
 </style>

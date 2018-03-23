@@ -310,20 +310,23 @@
              * @param index 准备移除的行的索引
              */
             remove(data, index) {
-                const userId = this.$store.state.user.userInfo.userId;
                 const dataList = this.projectPeople[data];
                 switch (data) {
                     case 'allList':
-                        if (dataList[(this.current - 1) * 10 + index].userId === userId) {
+                        if (dataList[(this.current - 1) * 10 + index].userId === this.userId) {
                             this.$Message.error('禁止移除！');
-                        }
-                        else {
+                        } else {
                             dataList.splice((this.current - 1) * 10 + index, 1);
                             this.$Message.success('成员移除成功！');
                         }
                         break;
                     case 'ownerList':
-                        if (dataList[index].userId === userId) this.$Message.error('禁止移除！');
+                        if (dataList[index].userId === this.userId) {
+                            this.$Message.error('禁止移除！');
+                        } else {
+                            dataList.splice((this.current - 1) * 10 + index, 1);
+                            this.$Message.success('成员移除成功！');
+                        }
                         break;
                     default :
                         dataList.splice((this.current - 1) * 10 + index, 1);
@@ -347,7 +350,8 @@
         computed: {
             ...mapState({
                 defaultIndex: state => state.project.defaultIndex,
-                projectList: state => state.project.projectList
+                projectList: state => state.project.projectList,
+                userId: state => state.user.userInfo.userId
             }),
             total() {
                 if (this.projectPeople.allList) {
