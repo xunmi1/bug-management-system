@@ -31,10 +31,16 @@
                         params: {userName: user.userName}
                     });
                 } else {
-                    this.$Notice.warning({
-                        title: '<p style="font-size: 15px">请重新登录！</p>', duration: 3
+                    // 用于预览，暂时取消拦截
+                    this.$Notice.destroy();
+                    this.$router.push({
+                        name: 'myProject',
+                        params: {userName: '123456'}
                     });
-                    this.toLogin();
+                    /* this.$Notice.warning({
+                         title: '<p style="font-size: 15px">请重新登录！</p>', duration: 3
+                     });
+                     this.toLogin();*/
                 }
             },
             toLogin: function () {
@@ -48,6 +54,13 @@
             ...mapState({
                 token: state => state.user.token
             })
+        },
+        mounted() {
+            this.$Notice.open({
+                title: '预览 - 直接点击进入',
+                desc: '将使用样本数据，用户名为 "123456"',
+                duration: 0
+            });
         }
     }
 </script>

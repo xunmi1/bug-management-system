@@ -135,7 +135,9 @@ router.beforeEach((to, from, next) => {
             })
         } else {
             console.log('用户拦截');
-            next('/');
+            // 用于预览，暂时取消拦截 next('/')
+            to.params.userName = '123456';
+            next();
         }
     }
 });
