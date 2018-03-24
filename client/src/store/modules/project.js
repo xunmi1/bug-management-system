@@ -9,45 +9,34 @@ const state = {
                 desc: '测试内容\n测试内容\n测试内容\n测试内容\n测试内容\n测试内容',
                 imgName: ''
             },
-            people: {
-                allList: [
-                    {
-                        userId: '14522683', name: '测试1', email: '1@cc.cc', desc: '', avatarId: '',
-                        issue: 10, dispense: 6, solve: 0, test: 0
-                    },
-                    {
-                        userId: '14522684', name: '测试2', email: '2@cc.cc', desc: '', avatarId: '',
-                        issue: 0, dispense: 0, solve: 8, test: 0
-                    },
-                    {
-                        userId: '14522685', name: '测试3', email: '2@cc.cc', desc: '', avatarId: '',
-                        issue: 0, dispense: 0, solve: 0, test: 5
-                    },
-                    {
-                        userId: '14522682', name: 'admin', email: '3@cc.cc', desc: '', avatarId: '',
-                        issue: 0, dispense: 0, solve: 0, test: 0
-                    }
-                ],                     // 项目成员
-                ownerList: [
-                    {userId: '14522682', name: 'admin', email: '3@cc.cc', desc: '', avatarId: ''}
-                ],                     // 管理人员
-                issuerList: [
-                    {userId: '14522682', name: 'admin', email: '3@cc.cc', desc: '', avatarId: ''},
-                    {userId: '14522683', name: '测试1', email: '1@cc.cc', desc: '', avatarId: ''}
-                ],                     // 提交人员
-                developerList: [
-                    {userId: '14522682', name: 'admin', email: '3@cc.cc', desc: '', avatarId: ''},
-                    {userId: '14522684', name: '测试2', email: '2@cc.cc', desc: '', avatarId: ''}
-                ],                     // 解决人员
-                dispenseList: [
-                    {userId: '14522682', name: 'admin', email: '3@cc.cc', desc: '', avatarId: ''},
-                    {userId: '14522683', name: '测试1', email: '1@cc.cc', desc: '', avatarId: ''}
-                ],                     // 分配人员
-                testerList: [
-                    {userId: '14522682', name: 'admin', email: '3@cc.cc', desc: '', avatarId: ''},
-                    {userId: '14522685', name: '测试3', email: '2@cc.cc', desc: '', avatarId: ''}
-                ]                      // 测试人员
-            },
+            people: [
+                {
+                    userId: '11111111', name: '123456', email: '3@cc.cc', desc: '', avatarId: '',
+                    issue: 6, dispense: 2, solve: 5, test: 2,
+                    // 项目成员 管理 提交 分配 解决 测试
+                    permission: '111111'
+                },
+                {
+                    userId: '14522683', name: '测试1', email: '1@cc.cc', desc: '', avatarId: '',
+                    issue: 12, dispense: 0, solve: 0, test: 0,
+                    permission: '101000'
+                },
+                {
+                    userId: '14522684', name: '测试2', email: '2@cc.cc', desc: '', avatarId: '',
+                    issue: 0, dispense: 20, solve: 0, test: 0,
+                    permission: '100100'
+                },
+                {
+                    userId: '14522685', name: '测试3', email: '3@cc.cc', desc: '', avatarId: '',
+                    issue: 0, dispense: 0, solve: 8, test: 0,
+                    permission: '100010'
+                },
+                {
+                    userId: '14522686', name: '测试4', email: '4@cc.cc', desc: '', avatarId: '',
+                    issue: 0, dispense: 0, solve: 0, test: 5,
+                    permission: '100001'
+                }
+            ],
             moduleList: [{
                 title: '测试模块',
                 expand: true,

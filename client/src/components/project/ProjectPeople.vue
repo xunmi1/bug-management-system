@@ -10,11 +10,11 @@
             <Panel>
                 所有成员
                 <div slot="content">
-                    <Table :columns="columns[0]" :data="tableAllList" ref="selection"
+                    <Table :columns="columns[0]" :data="allList" ref="selection"
                            highlight-row size="small" :height="tableHeight1" :style="tableStyle"
                            @on-selection-change="setSelectList"></Table>
                     <Page :total="total" size="small" show-total
-                          style="margin: 10px 0; float: right" @on-change="changePage"></Page>
+                          class="page-margin" @on-change="changePage"></Page>
                     <Form :label-width="0" class="table-button" inline
                           ref="newPeopleEmail" :model="{newPeopleEmail}">
                         <FormItem :rules="ruleEmail" prop="newPeopleEmail">
@@ -28,11 +28,11 @@
                         <FormItem>
                             <span style="font-size: 14px">人员分配：</span>
                             <ButtonGroup>
-                                <Button @click="setTask('ownerList')">管理人员</Button>
-                                <Button @click="setTask('issuerList')">提交人员</Button>
-                                <Button @click="setTask('dispenseList')">分配人员</Button>
-                                <Button @click="setTask('developerList')">解决人员</Button>
-                                <Button @click="setTask('testerList')">测试人员</Button>
+                                <Button @click="setTask(1)">管理人员</Button>
+                                <Button @click="setTask(2)">提交人员</Button>
+                                <Button @click="setTask(3)">分配人员</Button>
+                                <Button @click="setTask(4)">解决人员</Button>
+                                <Button @click="setTask(5)">测试人员</Button>
                             </ButtonGroup>
                         </FormItem>
                     </Form>
@@ -41,7 +41,7 @@
             <Panel>
                 管理人员
                 <div slot="content">
-                    <Table :columns="columns[1]" :data="projectPeople.ownerList"
+                    <Table :columns="columns[1]" :data="ownerList"
                            size="small" :height="tableHeight2" :style="tableStyle"></Table>
                 </div>
             </Panel>
@@ -51,7 +51,7 @@
                   :style="{width: cardWidth +1 + 'px'}">
                 <div slot="title">提交人员</div>
                 <div>
-                    <Table :columns="columns[2]" :data="projectPeople.issuerList"
+                    <Table :columns="columns[2]" :data="issuerList"
                            size="small" :height="tableHeight3" :style="tableStyle"></Table>
                 </div>
             </Card>
@@ -59,7 +59,7 @@
                   :style="{width: cardWidth +1 + 'px'}">
                 <div slot="title">分配人员</div>
                 <div>
-                    <Table :columns="columns[3]" :data="projectPeople.dispenseList"
+                    <Table :columns="columns[3]" :data="dispenseList"
                            size="small" :height="tableHeight4" :style="tableStyle"></Table>
                 </div>
             </Card>
@@ -67,7 +67,7 @@
                   :style="{width: cardWidth +1 + 'px'}">
                 <div slot="title">解决人员</div>
                 <div>
-                    <Table :columns="columns[4]" :data="projectPeople.developerList"
+                    <Table :columns="columns[4]" :data="developerList"
                            size="small" :height="tableHeight5" :style="tableStyle"></Table>
                 </div>
             </Card>
@@ -75,15 +75,15 @@
                   :style="{width: cardWidth +1 + 'px'}">
                 <div slot="title">测试人员</div>
                 <div>
-                    <Table :columns="columns[5]" :data="projectPeople.testerList"
+                    <Table :columns="columns[5]" :data="testerList"
                            size="small" :height="tableHeight6" :style="tableStyle"></Table>
                 </div>
             </Card>
         </div>
         <div class="content-button">
             <ButtonGroup size="large">
-                <Button type="primary" @click="handleSubmit('projectPeople')">确定</Button>
-                <Button @click="handleReset('projectPeople')">取消</Button>
+                <Button type="primary" @click="handleSubmit('people')">确定</Button>
+                <Button @click="handleReset('people')">取消</Button>
             </ButtonGroup>
         </div>
     </div>
@@ -100,7 +100,7 @@
                 default: true
             },
             data: {
-                type: Object
+                type: Array
             }
         },
         data() {
@@ -111,10 +111,10 @@
                     {required: true, message: '请输入邮箱地址', trigger: 'blur'},
                     {type: 'email', message: '邮箱地址不正确', trigger: 'blur'}
                 ],
-                projectPeople: {},
-                selectList: [],       // 当选被选中行
-                current: 1,          // 所有人员表格的当前页码
-                columns: [],         // 各个表格表头
+                people: [],
+                selectList: [],       // 主表中被选中行
+                current: 1,           // 主表的当前页码
+                columns: [],          // 各个表格表头
                 cardWidth: 500,
                 tableStyle: {minWidth: this.cardWidth + 'px'}
             }
@@ -124,7 +124,7 @@
             initData() {
                 if (!this.data) {
                     if (this.defaultIndex >= 0) {
-                        this.projectPeople = JSON.parse(JSON.stringify(this.projectList[this.defaultIndex].people));
+                        this.people = JSON.parse(JSON.stringify(this.projectList[this.defaultIndex].people));
                     } else {
                         this.$router.push({name: 'myProject'});
                         this.$root.Bus.$emit('closeComponent', 'ProjectPeople');
@@ -134,7 +134,7 @@
                         });
                     }
                 } else {
-                    this.projectPeople = this.data;
+                    this.people = this.data;
                 }
             },
             // 初始化表格表头
@@ -170,7 +170,7 @@
                                 props: {type: 'error', size: 'small'},
                                 on: {
                                     click: () => {
-                                        this.remove('allList', params.index)
+                                        this.remove(0, params.index)
                                     }
                                 }
                             }, '移除');
@@ -183,7 +183,7 @@
                             props: {type: 'error', size: 'small'},
                             on: {
                                 click: () => {
-                                    this.remove('ownerList', params.index)
+                                    this.remove(1, params.index)
                                 }
                             }
                         }, '移除');
@@ -196,7 +196,7 @@
                             props: {type: 'error', size: 'small'},
                             on: {
                                 click: () => {
-                                    this.remove('issuerList', params.index)
+                                    this.remove(2, params.index)
                                 }
                             }
                         }, '移除');
@@ -209,7 +209,7 @@
                             props: {type: 'error', size: 'small'},
                             on: {
                                 click: () => {
-                                    this.remove('dispenseList', params.index)
+                                    this.remove(3, params.index)
                                 }
                             }
                         }, '移除');
@@ -222,7 +222,7 @@
                             props: {type: 'error', size: 'small'},
                             on: {
                                 click: () => {
-                                    this.remove('developerList', params.index)
+                                    this.remove(4, params.index)
                                 }
                             }
                         }, '移除');
@@ -235,7 +235,7 @@
                             props: {type: 'error', size: 'small'},
                             on: {
                                 click: () => {
-                                    this.remove('testerList', params.index)
+                                    this.remove(5, params.index)
                                 }
                             }
                         }, '移除');
@@ -249,11 +249,11 @@
              * @returns {number} 表高度的值
              */
             checkHeight(data) {
-                if (this.projectPeople[data]) {
+                if (this[data]) {
                     if (data === 'allList') {
                         return (this.total < 10 ? (this.total < 3 ? 3 : this.total) : 10) * 40 + 32;
                     } else {
-                        const length = this.projectPeople[data].length;
+                        const length = this[data].length;
                         return (length < 6 ? (length < 3 ? 3 : length) : 10) * 40 + 32;
                     }
                 }
@@ -278,7 +278,7 @@
                          * 1、验证用户是否存在，若存在，则返回此用户相关数据
                          * 2、通过 userId 验证列表中是否已存在
                          */
-                        this.projectPeople.allList.push({
+                        this.people.push({
                             userId: '', name: '', email: this.newPeopleEmail, desc: '',
                             avatarId: '', issue: 0, dispense: 0, solve: 0, test: 0
                         });
@@ -294,49 +294,57 @@
             },
             /**
              * 成员添加
-             * @param data 当前数据列表的名称
+             * @param tableIndex 当前表的索引
              */
-            setTask(list) {
+            setTask(tableIndex) {
+                const table = ['allList', 'ownerList', 'issuerList', 'dispenseList', 'developerList', 'testerList'];
                 this.selectList.forEach(row => {
-                    if (this.projectPeople[list].every(item => {
-                            return item.userId !== row.userId;
-                        })
-                    ) this.projectPeople[list].push(row);
+                    if (this[table[tableIndex]].every(item => item.userId !== row.userId)) {
+                        const tmp = row.permission.split('');
+                        tmp.splice(tableIndex, 1, '1');
+                        row.permission = tmp.join('');
+                    }
                 });
             },
             /**
              * 成员移除
-             * @param data 当前数据列表的名称
-             * @param index 准备移除的行的索引
+             * @param tableIndex 当前表的索引
+             * @param rowIndex 准备移除的行的索引
              */
-            remove(data, index) {
-                const dataList = this.projectPeople[data];
-                switch (data) {
-                    case 'allList':
-                        if (dataList[(this.current - 1) * 10 + index].userId === this.userId) {
+            remove(tableIndex, rowIndex) {
+                const table = ['allList', 'ownerList', 'issuerList', 'dispenseList', 'developerList', 'testerList'];
+                rowIndex = this.people.indexOf(this[table[tableIndex]][rowIndex]);
+                switch (tableIndex) {
+                    case 0:
+                        if (this.people[rowIndex].userId === this.userId) {
                             this.$Message.error('禁止移除！');
                         } else {
-                            dataList.splice((this.current - 1) * 10 + index, 1);
+                            this.people.splice((this.current - 1) * 10 + rowIndex, 1);
                             this.$Message.success('成员移除成功！');
                         }
                         break;
-                    case 'ownerList':
-                        if (dataList[index].userId === this.userId) {
+                    case 1:
+
+                        if (this.people[rowIndex].userId === this.userId) {
                             this.$Message.error('禁止移除！');
                         } else {
-                            dataList.splice((this.current - 1) * 10 + index, 1);
+                            const tmp = this.people[rowIndex].permission.split('');
+                            tmp.splice(1, 1, '0');
+                            this.people[(this.current - 1) * 10 + rowIndex].permission = tmp.join('');
                             this.$Message.success('成员移除成功！');
                         }
                         break;
                     default :
-                        dataList.splice((this.current - 1) * 10 + index, 1);
+                        const tmp = this.people[rowIndex].permission.split('');
+                        tmp.splice(tableIndex, 1, '0');
+                        this.people[rowIndex].permission = tmp.join('');
                         this.$Message.success('成员移除成功！');
                 }
             },
 
             handleSubmit(name) {
                 if (!this.data) {
-                    this.$store.commit('setProjectPeople', this.projectPeople);
+                    this.$store.commit('setProjectPeople', this.people);
                     this.$Message.success('修改成功！');
                 } else {
                     this.$emit('update:data', this[name]);
@@ -353,15 +361,32 @@
                 projectList: state => state.project.projectList,
                 userId: state => state.user.userInfo.userId
             }),
-            total() {
-                if (this.projectPeople.allList) {
-                    return this.projectPeople.allList.length;
-                }
+            allList() {
+                return this.people.slice((this.current - 1) * 10, Math.min(this.current * 10, this.total));
             },
-            tableAllList() {
-                if (this.projectPeople.allList) {
-                    return this.projectPeople.allList.slice((this.current - 1) * 10,
-                        this.current * 10 <= this.total ? this.current * 10 : this.total);
+            // 管理人员
+            ownerList() {
+                return this.people.filter(item => item.permission[1] === '1');
+            },
+            // 提交人员
+            issuerList() {
+                return this.people.filter(item => item.permission[2] === '1');
+            },
+            // 分配人员
+            dispenseList() {
+                return this.people.filter(item => item.permission[3] === '1');
+            },
+            // 解决人员
+            developerList() {
+                return this.people.filter(item => item.permission[4] === '1');
+            },
+            // 测试人员
+            testerList() {
+                return this.people.filter(item => item.permission[5] === '1');
+            },
+            total() {
+                if (this.people) {
+                    return this.people.length;
                 }
             },
             // 表格高度自适应设置
@@ -441,6 +466,11 @@
 
     .table-button > div:first-child {
         margin-right: 30px;
+    }
+
+    .page-margin {
+        margin: 10px 0;
+        float: right;
     }
 
     .content-button {
