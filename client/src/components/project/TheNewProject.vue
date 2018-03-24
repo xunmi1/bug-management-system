@@ -56,14 +56,7 @@
                         desc: '',
                         imgName: ''
                     },
-                    people: {
-                        allList: [],           // 项目成员
-                        ownerList: [],         // 管理人员
-                        issuerList: [],        // 提交人员
-                        developerList: [],     // 解决人员
-                        dispenseList: [],      // 分配人员
-                        testerList: []         // 测试人员
-                    },
+                    people: [],
                     moduleList: [],
                     versionList: [],
                     issueList: [],
@@ -74,10 +67,10 @@
             }
         },
         components: {
-            'project-info': ProjectInfo,
-            'project-people': ProjectPeople,
-            'project-modules': ProjectModules,
-            'project-versions': ProjectVersions
+            ProjectInfo,
+            ProjectPeople,
+            ProjectModules,
+            ProjectVersions
         },
         methods: {
             changeStep(index) {
@@ -116,10 +109,10 @@
                     name: owner.name,
                     email: owner.email,
                     desc: owner.name,
-                    avatarId: owner.avatarId
+                    avatarId: owner.avatarId,
+                    permission: '110000'
                 };
-                this.newProject.people.allList.push(owner);
-                this.newProject.people.ownerList.push(owner);
+                this.newProject.people.push(owner);
                 this.newProject.versionList.push({name: '1.0.0', desc: ''});
             },
             initModuleList() {

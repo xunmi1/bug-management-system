@@ -11,7 +11,7 @@
                 所有成员
                 <div slot="content">
                     <Table :columns="columns[0]" :data="allList" ref="selection"
-                           highlight-row size="small" :height="tableHeight1" :style="tableStyle"
+                           highlight-row size="small" :height="tableHeight0" :style="tableStyle"
                            @on-selection-change="setSelectList"></Table>
                     <Page :total="total" size="small" show-total
                           class="page-margin" @on-change="changePage"></Page>
@@ -42,7 +42,7 @@
                 管理人员
                 <div slot="content">
                     <Table :columns="columns[1]" :data="ownerList"
-                           size="small" :height="tableHeight2" :style="tableStyle"></Table>
+                           size="small" :height="tableHeight1" :style="tableStyle"></Table>
                 </div>
             </Panel>
         </Collapse>
@@ -52,7 +52,7 @@
                 <div slot="title">提交人员</div>
                 <div>
                     <Table :columns="columns[2]" :data="issuerList"
-                           size="small" :height="tableHeight3" :style="tableStyle"></Table>
+                           size="small" :height="tableHeight2" :style="tableStyle"></Table>
                 </div>
             </Card>
             <Card :padding="0" class="flex-item"
@@ -60,7 +60,7 @@
                 <div slot="title">分配人员</div>
                 <div>
                     <Table :columns="columns[3]" :data="dispenseList"
-                           size="small" :height="tableHeight4" :style="tableStyle"></Table>
+                           size="small" :height="tableHeight3" :style="tableStyle"></Table>
                 </div>
             </Card>
             <Card :padding="0" class="flex-item"
@@ -68,7 +68,7 @@
                 <div slot="title">解决人员</div>
                 <div>
                     <Table :columns="columns[4]" :data="developerList"
-                           size="small" :height="tableHeight5" :style="tableStyle"></Table>
+                           size="small" :height="tableHeight4" :style="tableStyle"></Table>
                 </div>
             </Card>
             <Card :padding="0" class="flex-item"
@@ -76,7 +76,7 @@
                 <div slot="title">测试人员</div>
                 <div>
                     <Table :columns="columns[5]" :data="testerList"
-                           size="small" :height="tableHeight6" :style="tableStyle"></Table>
+                           size="small" :height="tableHeight5" :style="tableStyle"></Table>
                 </div>
             </Card>
         </div>
@@ -114,7 +114,7 @@
                 people: [],
                 selectList: [],       // 主表中被选中行
                 current: 1,           // 主表的当前页码
-                columns: [],          // 各个表格表头
+                columns: new Array(6),          // 各个表格表头
                 cardWidth: 500,
                 tableStyle: {minWidth: this.cardWidth + 'px'}
             }
@@ -175,72 +175,24 @@
                                 }
                             }, '移除');
                         }
-                    }]);
-                this.columns[1] = column.concat({
-                    title: '操作', key: 'action', width: 86,
-                    render: (h, params) => {
-                        return h('Button', {
-                            props: {type: 'error', size: 'small'},
-                            on: {
-                                click: () => {
-                                    this.remove(1, params.index)
-                                }
-                            }
-                        }, '移除');
                     }
-                });
-                this.columns[2] = column.concat({
-                    title: '操作', key: 'action', width: 86,
-                    render: (h, params) => {
-                        return h('Button', {
-                            props: {type: 'error', size: 'small'},
-                            on: {
-                                click: () => {
-                                    this.remove(2, params.index)
+                ]);
+                // 设置其他表的表头
+                for (let index = 1; index < 6; index++) {
+                    this.columns[index] = column.concat({
+                        title: '操作', key: 'action', width: 86,
+                        render: (h, params) => {
+                            return h('Button', {
+                                props: {type: 'error', size: 'small'},
+                                on: {
+                                    click: () => {
+                                        this.remove(index, params.index)
+                                    }
                                 }
-                            }
-                        }, '移除');
-                    }
-                });
-                this.columns[3] = column.concat({
-                    title: '操作', key: 'action', width: 86,
-                    render: (h, params) => {
-                        return h('Button', {
-                            props: {type: 'error', size: 'small'},
-                            on: {
-                                click: () => {
-                                    this.remove(3, params.index)
-                                }
-                            }
-                        }, '移除');
-                    }
-                });
-                this.columns[4] = column.concat({
-                    title: '操作', key: 'action', width: 86,
-                    render: (h, params) => {
-                        return h('Button', {
-                            props: {type: 'error', size: 'small'},
-                            on: {
-                                click: () => {
-                                    this.remove(4, params.index)
-                                }
-                            }
-                        }, '移除');
-                    }
-                });
-                this.columns[5] = column.concat({
-                    title: '操作', key: 'action', width: 86,
-                    render: (h, params) => {
-                        return h('Button', {
-                            props: {type: 'error', size: 'small'},
-                            on: {
-                                click: () => {
-                                    this.remove(5, params.index)
-                                }
-                            }
-                        }, '移除');
-                    }
-                });
+                            }, '移除');
+                        }
+                    });
+                }
             },
 
             /**
@@ -324,7 +276,6 @@
                         }
                         break;
                     case 1:
-
                         if (this.people[rowIndex].userId === this.userId) {
                             this.$Message.error('禁止移除！');
                         } else {
@@ -390,22 +341,22 @@
                 }
             },
             // 表格高度自适应设置
-            tableHeight1() {
+            tableHeight0() {
                 return this.checkHeight('allList');
             },
-            tableHeight2() {
+            tableHeight1() {
                 return this.checkHeight('ownerList');
             },
-            tableHeight3() {
+            tableHeight2() {
                 return this.checkHeight('issuerList');
             },
-            tableHeight4() {
+            tableHeight3() {
                 return this.checkHeight('dispenseList');
             },
-            tableHeight5() {
+            tableHeight4() {
                 return this.checkHeight('developerList');
             },
-            tableHeight6() {
+            tableHeight5() {
                 return this.checkHeight('testerList');
             }
         },

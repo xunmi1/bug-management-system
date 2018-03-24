@@ -191,11 +191,13 @@
         },
         created() {
             this.dispenseList = this.projectList[this.defaultIndex].people
-                .dispenseList.map(item => {
+                .filter(item => item.permission[3] === '1')
+                .map(item => {
                     return {'title': item.name, 'id': item.userId}
                 });
             this.developerList = this.projectList[this.defaultIndex].people
-                .developerList.map(item => {
+                .filter(item => item.permission[4] === '1')
+                .map(item => {
                     return {'title': item.name, 'id': item.userId}
                 });
         },
