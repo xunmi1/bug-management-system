@@ -8,7 +8,9 @@
             <Table :columns="columns"
                    :data="submitData"
                    :height="tableHeight"
-                   highlight-row></Table>
+                   highlight-row
+                   stripe
+                   @on-row-dblclick="showIssue"></Table>
             <Page :total="total"
                   show-total
                   show-elevator
@@ -33,12 +35,41 @@
                             {label: '待分配', value: 0},
                             {label: '待解决', value: 1},
                             {label: '待测试', value: 2},
-                            {label: '完成', value: 3},
+                            {label: '已完成', value: 3},
                             {label: '已拒绝', value: 4},
                             {label: '延期中', value: 5}
                         ],
                         filterMultiple: true,
-                        filterMethod: this.filterMethod
+                        filterMethod: this.filterMethod,
+                        render: (h, params) => {
+                            const status = params.row.status;
+                            let color, text;
+                            switch (status) {
+                                case 0:
+                                    [color, text] = ['#f90', '待分配'];
+                                    break;
+                                case 1:
+                                    [color, text] = ['#ed3f14', '待解决'];
+                                    break;
+                                case 2:
+                                    [color, text] = ['#2d8cf0', '待测试'];
+                                    break;
+                                case 3:
+                                    [color, text] = ['#19be6b', '已完成'];
+                                    break;
+                                case 4:
+                                    [color, text] = ['#80848f', '已拒绝'];
+                                    break;
+                                case 5:
+                                    [color, text] = ['#ef6Aff', '延期中'];
+                                    break;
+                            }
+                            return h('Tag', {
+                                props: {
+                                    color: color
+                                }
+                            }, text);
+                        }
                     },
                     {title: '模块', key: 'module'},
                     {title: '版本号', key: 'version', sortable: true},
@@ -85,6 +116,14 @@
              */
             filterMethod(value, row) {
                 return row.status === value;
+            },
+            showIssue(data, index) {
+                this.$Modal.info({
+                    title: '详细信息',
+                    render: h => {
+                        return h('h3', {}, data.title);
+                    }
+                });
             }
         },
         computed: {
