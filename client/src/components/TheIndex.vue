@@ -30,7 +30,7 @@
             };
         },
         components: {
-            'base-background': BaseBackground
+            BaseBackground
         }
     }
 </script>

@@ -106,7 +106,7 @@
              * 设置表的高度
              */
             checkHeight() {
-
+                return Math.min(Math.max(this.total, 5), 10) * 48 + 40;
             },
             /**
              *  表数据筛选
@@ -118,10 +118,10 @@
                 return row.status === value;
             },
             showIssue(data, index) {
-                this.$Modal.info({
+                this.$Modal.confirm({
                     title: '详细信息',
                     render: h => {
-                        return h('h3', {}, data.title);
+                        return h('p', {}, `标题： ${data.title}`);
                     }
                 });
             }
@@ -141,7 +141,7 @@
 
 <style scoped>
     .min-height {
-        min-height: 500px;
+        min-height: 530px;
     }
 
     .page-margin {
