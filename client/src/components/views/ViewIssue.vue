@@ -6,15 +6,24 @@
         </div>
         <div>
             <Table :columns="columns"
-                   :data="submitData"
+                   :data="issueList"
                    :height="tableHeight"
+                   ref="table"
                    highlight-row
                    stripe
-                   @on-row-dblclick="showIssue"></Table>
+                   @on-row-click="showIssue"></Table>
             <Page :total="total"
+                  :current="current"
+                  :page-size="10"
                   show-total
                   show-elevator
                   class="page-margin"></Page>
+        </div>
+        <div class="button-margin">
+            <Button type="primary" size="large" @click="exportData">
+                <Icon type="ios-download-outline"></Icon>
+                数据导出
+            </Button>
         </div>
     </Card>
 </template>
@@ -24,9 +33,9 @@
         name: "ViewIssue",
         data() {
             return {
-                defaultPanel: '1',
+                current: 1,
                 columns: [
-                    {type: 'index', width: 52, align: 'center'},
+                    {type: 'index', width: 48, align: 'center'},
                     {title: '标题', key: 'title'},
                     {
                         title: '状态',
@@ -71,16 +80,17 @@
                             }, text);
                         }
                     },
+                    {title: '类型', key: 'select'},
                     {title: '模块', key: 'module'},
                     {title: '版本号', key: 'version', sortable: true},
                     {title: '优先级', key: 'priority', sortable: true},
-                    {title: '提交人员', key: 'issuer', sortable: true},
-                    {title: '分配人员', key: 'dispense', sortable: true},
-                    {title: '解决人员', key: 'developer', sortable: true},
-                    {title: '测试人员', key: 'tester', sortable: true}
+                    {title: '提交', key: 'issuer', sortable: true},
+                    {title: '分配', key: 'dispense', sortable: true},
+                    {title: '解决', key: 'developer', sortable: true},
+                    {title: '测试', key: 'tester', sortable: true}
                 ],
-                submitData: [{
-                    id: '',
+                issueData: [{
+                    id: '12121212',
                     title: '123',
                     select: 'bug',
                     severity: 2,
@@ -118,11 +128,35 @@
                 return row.status === value;
             },
             showIssue(data, index) {
-                this.$Modal.confirm({
-                    title: '详细信息',
+                let issues = [], value;
+                for (let key in data) {
+                    value = data[key];
+                    issues.push({key, value});
+                }
+                this.$Modal.info({
+                    width: 520,
                     render: h => {
-                        return h('p', {}, `标题： ${data.title}`);
+                        return h('Table', {
+                            props: {
+                                data: issues.slice(1),
+                                columns: [
+                                    {key: 'key'},
+                                    {key: 'value'}
+                                ],
+                                size: 'small',
+                                height: 400,
+                                width: 480,
+                                border: true,
+                                showHeader: false,
+                            }
+                        });
                     }
+                });
+            },
+            // 问题列表导出
+            exportData() {
+                this.$refs.table.exportCsv({
+                    filename: '问题列表'
                 });
             }
         },
@@ -131,9 +165,12 @@
                 return this.checkHeight();
             },
             total() {
-                if (this.submitData) {
-                    return this.submitData.length;
+                if (this.issueData) {
+                    return this.issueData.length;
                 }
+            },
+            issueList() {
+                return this.issueData.slice((this.current - 1) * 10, Math.min(this.current * 10, this.total));
             },
         }
     }
@@ -147,5 +184,9 @@
     .page-margin {
         margin: 16px 0;
         float: right;
+    }
+
+    .button-margin {
+        margin: 16px 0;
     }
 </style>
