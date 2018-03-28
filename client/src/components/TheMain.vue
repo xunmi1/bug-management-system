@@ -76,7 +76,7 @@
                 </Menu>
             </Header>
             <Layout :style="{marginTop: headerHeight + 'px'}">
-                <Sider :style="{background: '#fff'}" width="180">
+                <Sider :style="{background: '#fff'}" :width="sidebarWidth">
                     <Menu theme="light"
                           @on-select="tagAdd"
                           width="auto"
@@ -91,8 +91,8 @@
                             问题概况
                         </MenuItem>
                         <MenuGroup title="未完成">
-                            <MenuItem name="1">
-                                <Icon type="compose"></Icon>
+                            <MenuItem name="setDispense">
+                                <Icon type="log-out" size="17"></Icon>
                                 待分配
                             </MenuItem>
                             <MenuItem name="2">
@@ -120,7 +120,7 @@
                         </MenuGroup>
                     </Menu>
                 </Sider>
-                <Layout :style="{padding: '0 24px 0 24px', margin:'0 0 0 180px'}">
+                <Layout :style="{padding: '0 24px 0 24px', margin:`0 0 0 ${sidebarWidth}px`}">
                     <base-tag :style="{padding: '4px 0'}"></base-tag>
                     <Content :style="{padding: '0'}">
                         <keep-alive :include="aliveList">
@@ -150,6 +150,7 @@
                 SearchValue: '',
                 screenWidth: document.body.clientWidth,
                 headerHeight: 60,
+                sidebarWidth: 180,
 
                 avatar: {
                     name: '',

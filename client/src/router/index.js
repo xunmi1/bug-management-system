@@ -10,6 +10,7 @@ import MyProject from '@/MyProject';
 import TheUserInfo from '@/TheUserInfo';
 import ViewProject from '@/views/ViewProject';
 import ViewIssue from '@/views/ViewIssue';
+import SetDispense from '@/views/SetDispense';
 import TheNewProject from '@/project/TheNewProject';
 import ProjectInfo from '@/project/ProjectInfo';
 import ProjectPeople from '@/project/ProjectPeople';
@@ -93,12 +94,18 @@ const router = new Router({
                 {
                     path: 'view/project',
                     name: 'viewProject',
-                    component: ViewProject
+                    component: ViewProject,
+                    alias: 'view'
                 },
                 {
                     path: 'view/issue',
                     name: 'viewIssue',
                     component: ViewIssue
+                },
+                {
+                    path: 'view/dispense',
+                    name: 'setDispense',
+                    component: SetDispense
                 }
             ]
         }

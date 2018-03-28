@@ -41,6 +41,10 @@ const state = {
         viewIssue: {
             title: '问题概况',
             name: 'ViewIssue'
+        },
+        setDispense: {
+            title: '问题分配',
+            name: 'SetDispense'
         }
     },
     tagIndex: Number,
