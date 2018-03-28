@@ -12,14 +12,14 @@
                    highlight-row
                    stripe
                    @on-row-click="showIssue"></Table>
+        </div>
+        <div class="button-margin">
             <Page :total="total"
                   :current="current"
                   :page-size="10"
                   show-total
                   show-elevator
-                  class="page-margin"></Page>
-        </div>
-        <div class="button-margin">
+                  style="float: right"></Page>
             <Button type="primary" size="large" @click="exportData">
                 <Icon type="ios-download-outline"></Icon>
                 数据导出
@@ -179,11 +179,6 @@
 <style scoped>
     .min-height {
         min-height: 530px;
-    }
-
-    .page-margin {
-        margin: 16px 0;
-        float: right;
     }
 
     .button-margin {
