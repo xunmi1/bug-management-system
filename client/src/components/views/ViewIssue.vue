@@ -55,21 +55,24 @@
                             let color, text;
                             switch (status) {
                                 case 0:
-                                    [color, text] = ['#f90', '待分配'];
+                                    [color, text] = ['#fa2', '待分配'];
                                     break;
                                 case 1:
                                     [color, text] = ['#ed3f14', '待解决'];
                                     break;
                                 case 2:
-                                    [color, text] = ['#2d8cf0', '待测试'];
+                                    [color, text] = ['#805d14', '待分配'];
                                     break;
                                 case 3:
-                                    [color, text] = ['#19be6b', '已完成'];
+                                    [color, text] = ['#2d8cf0', '待测试'];
                                     break;
                                 case 4:
-                                    [color, text] = ['#80848f', '已拒绝'];
+                                    [color, text] = ['#19be6b', '已完成'];
                                     break;
                                 case 5:
+                                    [color, text] = ['#80848f', '已拒绝'];
+                                    break;
+                                case 6:
                                     [color, text] = ['#ef6Aff', '延期中'];
                                     break;
                             }
@@ -106,7 +109,7 @@
                     versionEnd: '',
                     startDate: '',
                     endDate: '',
-                    // 0: 待分配，1:待解决，2: 待测试，3: 完成，4: 已拒绝(关闭)，5：延期中
+                    // 0: 待分配(解决)，1:待解决，2:待分配(测试)，3: 待测试，4: 完成，5: 已拒绝(关闭)，6：延期中
                     status: 0
                 }],
             }
