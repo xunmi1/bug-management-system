@@ -27,7 +27,6 @@
         props: {
             columns: Array,
             data: Array,
-            current: Number,
             pageSize: Number
         },
         data() {
@@ -45,7 +44,7 @@
             // 问题列表导出
             exportData() {
                 this.$refs.table.exportCsv({
-                    filename: 'list'
+                    filename: 'list.csv'
                 });
             }
         },
