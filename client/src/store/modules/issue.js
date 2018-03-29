@@ -1,5 +1,26 @@
 const state = {
-    issueList: []
+    issueList: [
+        {
+            id: '12121212',
+            title: '123',
+            select: 'bug',
+            severity: 2,
+            version: '',
+            project: '',
+            module: '',
+            text: '',
+            issuer: '',
+            dispense: '',
+            developer: '',
+            tester: '',
+            priority: 2,
+            versionEnd: '',
+            startDate: '',
+            endDate: '',
+            // 0: 待分配(解决)，1:待解决，2:待分配(测试)，3: 待测试，4: 完成，5: 已拒绝(关闭)，6：延期中
+            status: 0
+        }
+    ]
 };
 
 const mutations = {

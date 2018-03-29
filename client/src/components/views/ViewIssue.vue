@@ -29,6 +29,8 @@
 </template>
 
 <script>
+    import {mapState} from 'vuex';
+
     export default {
         name: "ViewIssue",
         data() {
@@ -91,27 +93,7 @@
                     {title: '分配', key: 'dispense', sortable: true},
                     {title: '解决', key: 'developer', sortable: true},
                     {title: '测试', key: 'tester', sortable: true}
-                ],
-                issueData: [{
-                    id: '12121212',
-                    title: '123',
-                    select: 'bug',
-                    severity: 2,
-                    version: '',
-                    project: '',
-                    module: '',
-                    text: '',
-                    issuer: '',
-                    dispense: '',
-                    developer: '',
-                    tester: '',
-                    priority: 2,
-                    versionEnd: '',
-                    startDate: '',
-                    endDate: '',
-                    // 0: 待分配(解决)，1:待解决，2:待分配(测试)，3: 待测试，4: 完成，5: 已拒绝(关闭)，6：延期中
-                    status: 0
-                }],
+                ]
             }
         },
         methods: {
@@ -133,8 +115,10 @@
             showIssue(data, index) {
                 let issues = [], value;
                 for (let key in data) {
-                    value = data[key];
-                    issues.push({key, value});
+                    if (data.hasOwnProperty(key) && typeof data[key] !== 'function') {
+                        value = data[key];
+                        issues.push({key, value});
+                    }
                 }
                 this.$Modal.info({
                     width: 520,
@@ -164,6 +148,9 @@
             }
         },
         computed: {
+            ...mapState({
+                issueData: state => state.issue.issueList
+            }),
             tableHeight() {
                 return this.checkHeight();
             },
