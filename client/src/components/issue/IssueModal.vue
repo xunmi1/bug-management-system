@@ -1,7 +1,7 @@
 <template>
-    <Modal v-model="modalStatus" width="660" :styles="{top: '30px'}" :mask-closable=false>
+    <Modal v-model="modalStatus" width="660" :styles="{top: '30px'}" :mask-closable="false">
         <div slot="header" class="header-font">
-            <Icon type="compose" class="fa-lg fa-fw" style="color: #2d8cf0"></Icon>
+            <Icon type="compose" class="fa-lg fa-fw icon-color"></Icon>
             <span>问题提交</span>
         </div>
         <div slot="close"></div>
@@ -136,8 +136,12 @@
 
 <style scoped>
     .header-font {
-        font-weight: normal;
+        font-weight: 500;
         font-size: 16px;
+    }
+
+    .icon-color {
+        color: #2d8cf0;
     }
 
     .issue-btn-group {

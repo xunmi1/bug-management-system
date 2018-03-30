@@ -3,6 +3,7 @@
         <Table :columns="columns"
                :data="data"
                :height="tableHeight"
+               @on-row-click="onRowClick"
                ref="table"
                highlight-row
                stripe></Table>
@@ -15,7 +16,7 @@
                   style="float: right"></Page>
             <Button type="primary" size="large" @click="exportData()">
                 <Icon type="ios-download-outline"></Icon>
-                数据导出
+                <span>数据导出</span>
             </Button>
         </div>
     </div>
@@ -35,6 +36,9 @@
             }
         },
         methods: {
+            onRowClick(row, index) {
+                this.$emit('on-row-click', row, index);
+            },
             changePage(index) {
                 this.current = index;
             },
