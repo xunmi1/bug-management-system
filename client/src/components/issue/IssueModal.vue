@@ -116,7 +116,8 @@
                 if (this.issue.issuePlan.developer) {
                     this.issue.status = 1;
                 }
-                this.$store.commit('pushIssue', this.issue);
+                const issueData = Object.assign({}, this.issue.issueInfo, this.issue.issuePlan, this.issue.status);
+                this.$store.commit('pushIssue', issueData);
                 this.$Message.success({
                     content: '<span style="font-size: 14px">提交成功！</span>',
                     duration: 2
