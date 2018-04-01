@@ -9,7 +9,7 @@ const state = {
             project: '',
             module: '',
             text: '',
-            issuer: '',
+            issuer: '11111111',
             dispense: '',
             developer: '',
             tester: '',

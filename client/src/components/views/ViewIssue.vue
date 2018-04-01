@@ -145,11 +145,32 @@
                 this.$refs.table.exportCsv({
                     filename: '问题列表'
                 });
+            },
+            /**
+             * 成员 id 转换为昵称
+             * @param data 旧对象
+             * @returns {object} 新对象
+             */
+            userIdToName(oldData) {
+                const attributes = ['issuer', 'dispense', 'developer', 'tester'];
+                const peopleData = this.projectList[this.defaultIndex].people;
+                oldData.forEach(item => {
+                    peopleData.forEach(i => {
+                        for (let j = 0; j < attributes.length; j++) {
+                            if (i.userId === item[attributes[j]]) {
+                                item[attributes[j]] = i.name;
+                            }
+                        }
+                    })
+                });
+                return oldData;
             }
         },
         computed: {
             ...mapState({
-                issueData: state => state.issue.issueList
+                projectList: state => state.project.projectList,
+                defaultIndex: state => state.project.defaultIndex,
+                issues: state => state.issue.issueList,
             }),
             tableHeight() {
                 return this.checkHeight();
@@ -158,6 +179,9 @@
                 if (this.issueData) {
                     return this.issueData.length;
                 }
+            },
+            issueData() {
+                return this.userIdToName(this.issues.map(item => Object.assign({}, item)));
             },
             issueList() {
                 return this.issueData.slice((this.current - 1) * 10, Math.min(this.current * 10, this.total));
