@@ -11,7 +11,7 @@
                    ref="table"
                    highlight-row
                    stripe
-                   @on-row-click="showIssue"></Table>
+                   @on-row-click="showModal"></Table>
         </div>
         <div class="button-margin">
             <Page :total="total"
@@ -25,6 +25,16 @@
                 数据导出
             </Button>
         </div>
+        <Modal v-model="modal" width="600" :styles="{top: '50px'}">
+            <div>
+                <Table :columns="columnsModal"
+                       :data="rowData"
+                       height=440
+                       size="small"
+                       :border="true"
+                       :showHeader="false"></Table>
+            </div>
+        </Modal>
     </Card>
 </template>
 
@@ -35,6 +45,8 @@
         name: "ViewIssue",
         data() {
             return {
+                modal: false,
+                rowData: [],
                 current: 1,
                 columns: [
                     {type: 'index', width: 48, align: 'center'},
@@ -93,6 +105,10 @@
                     {title: '分配', key: 'dispense', sortable: true},
                     {title: '解决', key: 'developer', sortable: true},
                     {title: '测试', key: 'tester', sortable: true}
+                ],
+                columnsModal: [
+                    {key: 'keyName', width: 120},
+                    {key: 'value'}
                 ]
             }
         },
@@ -112,43 +128,49 @@
             filterMethod(value, row) {
                 return row.status === value;
             },
-            showIssue(data, index) {
-                let issues = [], value;
-                for (let key in data) {
-                    if (data.hasOwnProperty(key) && typeof data[key] !== 'function') {
-                        value = data[key];
-                        issues.push({key, value});
+            /**
+             *  单击某行，显示对话框
+             * @param data 行数据
+             * @param index 行索引
+             */
+            showModal(data, index) {
+                let issues = [], keyName, value;
+                const keyNames = {
+                    title: '标题',
+                    select: '类型',
+                    project: '项目',
+                    module: '模块',
+                    severity: '严重程度',
+                    priority: '优先级',
+                    status: '问题状态',
+                    startDate: '提交日期',
+                    endDate: '结束日期',
+                    version: '所在版本',
+                    versionEnd: '结束版本',
+                    text: '详细信息',
+                    issuer: '提交人员',
+                    dispense: '分配人员',
+                    developer: '解决人员',
+                    tester: '测试人员'
+                };
+                for (let key in keyNames) {
+                    if (keyNames.hasOwnProperty(key) && typeof keyNames[key] !== 'function') {
+                        [keyName, value] = [keyNames[key], data[key]];
+                        issues.push({keyName, value});
                     }
                 }
-                this.$Modal.info({
-                    width: 520,
-                    render: h => {
-                        return h('Table', {
-                            props: {
-                                data: issues.slice(1),
-                                columns: [
-                                    {key: 'key'},
-                                    {key: 'value'}
-                                ],
-                                size: 'small',
-                                height: 400,
-                                width: 480,
-                                border: true,
-                                showHeader: false,
-                            }
-                        });
-                    }
-                });
+                this.rowData = issues;
+                this.modal = true;
             },
             // 问题列表导出
             exportData() {
                 this.$refs.table.exportCsv({
-                    filename: '问题列表'
+                    filename: '问题列表.csv'
                 });
             },
             /**
              * 成员 id 转换为昵称
-             * @param data 旧对象
+             * @param oldData 旧对象
              * @returns {object} 新对象
              */
             userIdToName(oldData) {
