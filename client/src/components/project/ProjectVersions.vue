@@ -31,8 +31,8 @@
         </div>
         <div class="content-button">
             <ButtonGroup size="large">
-                <Button type="primary" @click="handleSubmit('tmpVersion')">确定</Button>
                 <Button @click="handleReset('tmpVersion')">取消</Button>
+                <Button type="primary" @click="handleSubmit('tmpVersion')">确定</Button>
             </ButtonGroup>
         </div>
     </div>

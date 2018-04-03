@@ -9,8 +9,8 @@
         <Tree :data="moduleList" :render="renderTree" class="tree"></Tree>
         <div class="content-button">
             <ButtonGroup size="large">
-                <Button type="primary" @click="handleSubmit('moduleList')">确定</Button>
                 <Button @click="handleReset('moduleList')">取消</Button>
+                <Button type="primary" @click="handleSubmit('moduleList')">确定</Button>
             </ButtonGroup>
         </div>
         <Modal v-model="modal" width="360">

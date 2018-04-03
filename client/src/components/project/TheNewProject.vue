@@ -11,25 +11,29 @@
         <Card :padding="0">
             <Carousel id="123" v-model="current" dots="none" arrow="never">
                 <CarouselItem>
-                    <project-info :isBordered=false :data.sync="newProject.info"
+                    <project-info :isBordered="false"
+                                  :data.sync="newProject.info"
                                   @on-ok="nextStep">
                         <div slot="header"></div>
                     </project-info>
                 </CarouselItem>
                 <CarouselItem>
-                    <project-people :isBordered=false :data.sync="newProject.people"
+                    <project-people :isBordered="false"
+                                    :data.sync="newProject.people"
                                     @on-ok="nextStep">
                         <div slot="header"></div>
                     </project-people>
                 </CarouselItem>
                 <CarouselItem>
-                    <project-modules :isBordered=false :data.sync="newProject.moduleList"
+                    <project-modules :isBordered="false"
+                                     :data.sync="newProject.moduleList"
                                      @on-ok="nextStep">
                         <div slot="header"></div>
                     </project-modules>
                 </CarouselItem>
                 <CarouselItem>
-                    <project-versions :isBordered=false :data.sync="newProject.versionList[0]"
+                    <project-versions :isBordered="false"
+                                      :data.sync="newProject.versionList[0]"
                                       @on-ok="nextStep">
                         <div slot="header"></div>
                     </project-versions>

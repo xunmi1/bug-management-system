@@ -82,8 +82,8 @@
         </div>
         <div class="content-button">
             <ButtonGroup size="large">
-                <Button type="primary" @click="handleSubmit('people')">确定</Button>
                 <Button @click="handleReset('people')">取消</Button>
+                <Button type="primary" @click="handleSubmit('people')">确定</Button>
             </ButtonGroup>
         </div>
     </div>

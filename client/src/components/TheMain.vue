@@ -11,7 +11,7 @@
                     <div class="menu-logo">
                         <router-link to="/home">
                             <img src="../assets/images/logo.png" alt="logo" width="40" height="40"/>
-                            bug-mgmt
+                            <span>bug-mgmt</span>
                         </router-link>
                     </div>
                     <div class="menu-search">
@@ -83,16 +83,16 @@
                           :active-name="$route.name"
                           ref="verticalMenu">
                         <MenuItem name="viewProject">
-                            <Icon type="ios-paper-outline" size="17"></Icon>
+                            <Icon type="ios-paper-outline" size="16"></Icon>
                             项目概况
                         </MenuItem>
                         <MenuItem name="viewIssue">
-                            <Icon type="clipboard" size="17"></Icon>
+                            <Icon type="clipboard" size="16"></Icon>
                             问题概况
                         </MenuItem>
                         <MenuGroup title="未完成">
                             <MenuItem name="setDispense">
-                                <Icon type="log-out" size="17"></Icon>
+                                <Icon type="log-out" size="16"></Icon>
                                 待分配
                             </MenuItem>
                             <MenuItem name="2">

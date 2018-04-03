@@ -22,8 +22,8 @@
                     <FormItem class="content-info-box">
                         <div class="content-button">
                             <ButtonGroup size="large">
-                                <Button type="primary" @click="handleSubmit('projectInfo')">确定</Button>
                                 <Button @click="handleReset('projectInfo')">取消</Button>
+                                <Button type="primary" @click="handleSubmit('projectInfo')">确定</Button>
                             </ButtonGroup>
                         </div>
                     </FormItem>

@@ -50,8 +50,8 @@
                     </div>
                     <div class="content-info content-button">
                         <ButtonGroup size="large">
-                            <Button type="primary" @click="commitInfo">确定</Button>
                             <Button @click="handleReset('userInfo')">取消</Button>
+                            <Button type="primary" @click="commitInfo">确定</Button>
                         </ButtonGroup>
                     </div>
                 </div>
@@ -82,8 +82,8 @@
                     </div>
                     <div class="content-info content-button">
                         <ButtonGroup size="large">
-                            <Button type="primary" @click="commitSafe">确定</Button>
                             <Button @click="handleReset('userSafe')">取消</Button>
+                            <Button type="primary" @click="commitSafe">确定</Button>
                         </ButtonGroup>
                     </div>
                 </div>

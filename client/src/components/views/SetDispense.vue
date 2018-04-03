@@ -75,7 +75,7 @@
             },
             /**
              * 成员 id 转换为昵称
-             * @param data 旧对象
+             * @param oldData 旧对象
              * @returns {object} 新对象
              */
             userIdToName(oldData) {
@@ -120,6 +120,6 @@
 
     .icon-color {
         color: #2d8cf0;
-        font-size: 17px;
+        font-size: 16px;
     }
 </style>
