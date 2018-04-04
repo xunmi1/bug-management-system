@@ -1,6 +1,6 @@
 <template>
     <Card>
-        <Tabs value="1" type="card">
+        <Tabs v-model="tab" type="card">
             <TabPane label="解决人员分配" name="1">
                 <base-table :columns="columns[0]"
                             :data="dataList0"
@@ -20,6 +20,17 @@
                 <span>分配</span>
             </div>
             <div slot="close"></div>
+            <Form ref="form" :modal="{people}" label-position="top">
+                <FormItem :label="inputName" prop="people">
+                    <AutoComplete v-model="people"
+                                  transfer
+                                  @on-search="peopleSearch">
+                        <Option v-for="item in optionData" :value="item.name" :key="item.id">
+                            {{ item.name }}
+                        </Option>
+                    </AutoComplete>
+                </FormItem>
+            </Form>
             <div slot="footer">
                 <Button type="text" size="large" @click="resetIssue">取消</Button>
                 <Button type="primary" size="large" @click="submitIssue">确定</Button>
@@ -39,6 +50,7 @@
         },
         data() {
             return {
+                tab: '1',
                 columns: [
                     [
                         {type: 'index', width: 48, align: 'center'},
@@ -60,7 +72,12 @@
                         {title: '解决', key: 'developer', sortable: true}
                     ]
                 ],
-                modal: false
+                modal: false,
+                people: '',
+                rules: [],
+                optionData: [],    // 下拉列表实际显示的数据
+                optionList: [],    // 下拉列表总数据
+                inputName: ''
             }
         },
         methods: {
@@ -71,7 +88,37 @@
                 this.modal = false;
             },
             showModal(row, index) {
+                const peopleData = this.projectList[this.defaultIndex].people;
+                if (this.tab === '1') {
+                    this.inputName = '问题解决人员';
+                    this.optionList = peopleData.filter(item => item.permission[4] === '1')
+                        .map(item => {
+                            return {
+                                'name': item.name,
+                                'id': item.userId
+                            }
+                        })
+                } else if (this.tab === '2') {
+                    this.inputName = '问题测试人员';
+                    this.optionList = peopleData.filter(item => item.permission[5] === '1')
+                        .map(item => {
+                            return {
+                                'name': item.name,
+                                'id': item.userId
+                            }
+                        })
+                }
                 this.modal = true;
+            },
+            peopleSearch(val) {
+                if (val) {
+                    this.optionData = this.optionList.filter(item => {
+                        if (item.title.search(val) >= 0) return true;
+                    })
+                        .slice(-5);
+                } else {
+                    this.optionData = [];
+                }
             },
             /**
              * 成员 id 转换为昵称
@@ -102,6 +149,7 @@
             issueData() {
                 return this.userIdToName(this.issues.map(item => Object.assign({}, item)));
             },
+            // 表格数据来源
             dataList0() {
                 return this.issueData.filter(item => item.status === 0)
             },
