@@ -5,7 +5,8 @@
                 <base-table :columns="columns[0]"
                             :data="dataList0"
                             :page-size="10"
-                            @on-row-click="showModal"></base-table>
+                            @on-row-click="showModal"
+                            ref="baseTable"></base-table>
             </TabPane>
             <TabPane label="测试人员分配" name="2">
                 <base-table :columns="columns[1]"
@@ -20,17 +21,16 @@
                 <span>分配</span>
             </div>
             <div slot="close"></div>
-            <Form ref="form" :modal="{people}" label-position="top">
-                <FormItem :label="inputName" prop="people">
-                    <AutoComplete v-model="people"
-                                  transfer
-                                  @on-search="peopleSearch">
-                        <Option v-for="item in optionData" :value="item.name" :key="item.id">
-                            {{ item.name }}
-                        </Option>
-                    </AutoComplete>
-                </FormItem>
-            </Form>
+            <div>
+                <span style="font-size: 14px">{{ inputName }}</span>
+                <AutoComplete v-model="people"
+                              transfer
+                              @on-search="peopleSearch">
+                    <Option v-for="item in optionData" :value="item.name" :key="item.id">
+                        {{ item.name }}
+                    </Option>
+                </AutoComplete>
+            </div>
             <div slot="footer">
                 <Button type="text" size="large" @click="resetIssue">取消</Button>
                 <Button type="primary" size="large" @click="submitIssue">确定</Button>
@@ -49,6 +49,18 @@
             BaseTable
         },
         data() {
+            const validatePeople = (rule, value, callback) => {
+                console.log(value);
+                console.log(this.optionList);
+                if (value) {
+                    const list = this.optionList.map(item => item.name);
+                    if (!list.includes(value)) {
+                        callback(new Error('该成员不存在！'));
+                    } else {
+                        callback();
+                    }
+                }
+            };
             return {
                 tab: '1',
                 columns: [
@@ -74,46 +86,65 @@
                 ],
                 modal: false,
                 people: '',
-                rules: [],
                 optionData: [],    // 下拉列表实际显示的数据
                 optionList: [],    // 下拉列表总数据
-                inputName: ''
+                inputName: '',
+                clickRowIndex: ''     // 被选中的问题的索引
             }
         },
         methods: {
             submitIssue() {
-                this.modal = false;
+                const list = this.optionList.map(item => item.name);
+                if (list.includes(this.people)) {
+                    this.optionList.forEach(item => {
+                        if (item.name === this.people) {
+                            if (this.tab === '1') {
+                                this.issues[this.clickRowIndex].developer = item.id;
+                                this.issues[this.clickRowIndex].status = 1;
+                            } else if (this.tab === '2') {
+                                this.issues[this.clickRowIndex].tester = item.id;
+                                this.issues[this.clickRowIndex].status = 3;
+                            }
+                        }
+                    });
+                    this.modal = false;
+                    this.$Message.success('分配成功!');
+                } else {
+                    this.$Message.error('错误!');
+                }
             },
             resetIssue() {
                 this.modal = false;
             },
             showModal(row, index) {
+                this.clickRowIndex = this.$refs.baseTable.current * 10 - 10 + index;
+                console.log(this.clickRowIndex);
                 const peopleData = this.projectList[this.defaultIndex].people;
                 if (this.tab === '1') {
-                    this.inputName = '问题解决人员';
+                    this.inputName = '解决人员：';
                     this.optionList = peopleData.filter(item => item.permission[4] === '1')
                         .map(item => {
                             return {
                                 'name': item.name,
                                 'id': item.userId
                             }
-                        })
+                        });
                 } else if (this.tab === '2') {
-                    this.inputName = '问题测试人员';
+                    this.inputName = '测试人员：';
                     this.optionList = peopleData.filter(item => item.permission[5] === '1')
                         .map(item => {
                             return {
                                 'name': item.name,
                                 'id': item.userId
                             }
-                        })
+                        });
                 }
                 this.modal = true;
             },
             peopleSearch(val) {
                 if (val) {
                     this.optionData = this.optionList.filter(item => {
-                        if (item.title.search(val) >= 0) return true;
+                        if (item.name.search(val) >= 0) return true;
                     })
                         .slice(-5);
                 } else {

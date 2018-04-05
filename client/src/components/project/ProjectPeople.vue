@@ -232,7 +232,7 @@
                          */
                         this.people.push({
                             userId: '', name: '', email: this.newPeopleEmail, desc: '',
-                            avatarId: '', issue: 0, dispense: 0, solve: 0, test: 0
+                            avatarId: '', issue: 0, dispense: 0, solve: 0, test: 0, permission: '100000'
                         });
                         this.$Message.success('添加成功!');
                     } else {

@@ -29,10 +29,10 @@
             <div>
                 <Table :columns="columnsModal"
                        :data="rowData"
-                       height=440
+                       :height="440"
                        size="small"
-                       :border="true"
-                       :showHeader="false"></Table>
+                       border
+                       show-header></Table>
             </div>
         </Modal>
     </Card>
@@ -207,7 +207,7 @@
             },
             issueList() {
                 return this.issueData.slice((this.current - 1) * 10, Math.min(this.current * 10, this.total));
-            },
+            }
         }
     }
 </script>
