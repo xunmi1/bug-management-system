@@ -22,46 +22,46 @@
                     </div>
                     <div class="menu-nav">
                         <MenuItem name="issue" @click.native="setModal('issue', true)">
-                            <Icon type="compose"></Icon>
+                            <Icon type="compose" size="16"></Icon>
                             问题提交
                         </MenuItem>
                         <Submenu name="mgmt">
                             <template slot="title">
-                                <Icon type="ios-gear"></Icon>
+                                <Icon type="ios-gear" size="16"></Icon>
                                 项目配置
                             </template>
                             <MenuItem name="projectInfo">
-                                <Icon type="ios-paper"></Icon>
+                                <Icon type="ios-paper" size="16"></Icon>
                                 项目信息
                             </MenuItem>
                             <MenuItem name="projectPeople">
-                                <Icon type="android-person-add"></Icon>
+                                <Icon type="android-person-add" size="16"></Icon>
                                 成员管理
                             </MenuItem>
                             <MenuItem name="projectModules">
-                                <Icon type="cube"></Icon>
+                                <Icon type="cube" size="16"></Icon>
                                 功能模块
                             </MenuItem>
                             <MenuItem name="projectVersions">
-                                <Icon type="pull-request"></Icon>
+                                <Icon type="pull-request" size="16"></Icon>
                                 版本管理
                             </MenuItem>
                         </Submenu>
                         <MenuItem name="myProject">
-                            <Icon type="folder"></Icon>
+                            <Icon type="folder" size="16"></Icon>
                             我的项目
                         </MenuItem>
                         <Submenu name="options">
                             <template slot="title">
-                                <Icon type="navicon-round"></Icon>
+                                <Icon type="navicon-round" size="16"></Icon>
                                 其他功能
                             </template>
                             <MenuItem name="retrieval">
-                                <Icon type="bug"></Icon>
+                                <Icon type="bug" size="16"></Icon>
                                 BUG 检索
                             </MenuItem>
                             <MenuItem name="more">
-                                <Icon type="more"></Icon>
+                                <Icon type="more" size="16"></Icon>
                                 开发中...
                             </MenuItem>
                         </Submenu>
@@ -95,8 +95,8 @@
                                 <Icon type="log-out" size="16"></Icon>
                                 待分配
                             </MenuItem>
-                            <MenuItem name="2">
-                                <Icon type="compose"></Icon>
+                            <MenuItem name="setDeveloper">
+                                <Icon type="settings" size="16"></Icon>
                                 待解决
                             </MenuItem>
                             <MenuItem name="3">
@@ -189,8 +189,11 @@
 
             // 导航栏高度自适应 (页面兼容性)
             changeHeight() {
-                if (this.screenWidth <= 1056) this.headerHeight = 120;
-                else this.headerHeight = 60;
+                if (this.screenWidth <= 1058) {
+                    this.headerHeight = 120;
+                } else {
+                    this.headerHeight = 60;
+                }
             },
             // 删除头像右边的 '^' 对应的节点
             removeAvatarI() {

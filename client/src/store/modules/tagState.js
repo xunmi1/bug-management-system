@@ -1,6 +1,8 @@
 const state = {
     list: [],
-    // 由于keep-alive清除缓存，因此需要保存组件名，即 name
+    tagIndex: Number,
+    isRedirect: true,     // tag 组件被点击，判断是否跳转
+    // 由于 keep-alive 需要销毁组件，因此需要保存组件名，即 name
     menuList: {
         projectInfo: {
             title: '项目信息',
@@ -45,10 +47,12 @@ const state = {
         setDispense: {
             title: '问题分配',
             name: 'SetDispense'
+        },
+        setDeveloper: {
+            title: '问题解决',
+            name: 'SetDeveloper'
         }
-    },
-    tagIndex: Number,
-    isRedirect: true // tag 组件被点击，判断是否跳转
+    }
 };
 
 const mutations = {

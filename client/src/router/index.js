@@ -11,6 +11,7 @@ import TheUserInfo from '@/TheUserInfo';
 import ViewProject from '@/views/ViewProject';
 import ViewIssue from '@/views/ViewIssue';
 import SetDispense from '@/views/SetDispense';
+import SetDeveloper from '@/views/SetDeveloper';
 import TheNewProject from '@/project/TheNewProject';
 import ProjectInfo from '@/project/ProjectInfo';
 import ProjectPeople from '@/project/ProjectPeople';
@@ -106,11 +107,17 @@ const router = new Router({
                     path: 'view/dispense',
                     name: 'setDispense',
                     component: SetDispense
+                },
+                {
+                    path: 'view/developer',
+                    name: 'setDeveloper',
+                    component: SetDeveloper
                 }
             ]
         }
     ]
 });
+
 router.beforeEach((to, from, next) => {
     console.log('路由验证');
     let userToken = VueCookie.get('userToken');
