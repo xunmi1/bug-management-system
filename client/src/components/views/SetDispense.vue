@@ -24,8 +24,11 @@
             <div>
                 <span style="font-size: 14px">{{ inputName }}</span>
                 <AutoComplete v-model="people"
+                              size="large"
                               transfer
-                              @on-search="peopleSearch">
+                              clearable
+                              @on-search="peopleSearch"
+                              class="auto-input">
                     <Option v-for="item in optionData" :value="item.name" :key="item.id">
                         {{ item.name }}
                     </Option>
@@ -49,18 +52,6 @@
             BaseTable
         },
         data() {
-            const validatePeople = (rule, value, callback) => {
-                console.log(value);
-                console.log(this.optionList);
-                if (value) {
-                    const list = this.optionList.map(item => item.name);
-                    if (!list.includes(value)) {
-                        callback(new Error('该成员不存在！'));
-                    } else {
-                        callback();
-                    }
-                }
-            };
             return {
                 tab: '1',
                 columns: [
@@ -110,18 +101,21 @@
                     this.modal = false;
                     this.$Message.success('分配成功!');
                 } else {
-                    this.$Message.error('错误!');
+                    this.$Loading.error();
+                    this.$Message.error('人员有误!');
                 }
             },
             resetIssue() {
                 this.modal = false;
             },
+            // 显示对话框
             showModal(row, index) {
                 this.clickRowIndex = this.$refs.baseTable.current * 10 - 10 + index;
                 console.log(this.clickRowIndex);
                 const peopleData = this.projectList[this.defaultIndex].people;
                 if (this.tab === '1') {
-                    this.inputName = '解决人员：';
+                    // 解决人员分配
+                    this.inputName = '选择解决人员：';
                     this.optionList = peopleData.filter(item => item.permission[4] === '1')
                         .map(item => {
                             return {
@@ -130,7 +124,8 @@
                             }
                         });
                 } else if (this.tab === '2') {
-                    this.inputName = '测试人员：';
+                    // 测试人员分配
+                    this.inputName = '选择测试人员：';
                     this.optionList = peopleData.filter(item => item.permission[5] === '1')
                         .map(item => {
                             return {
@@ -141,11 +136,10 @@
                 }
                 this.modal = true;
             },
+            // 输入框下拉列表的人员搜索
             peopleSearch(val) {
                 if (val) {
-                    this.optionData = this.optionList.filter(item => {
-                        if (item.name.search(val) >= 0) return true;
-                    })
+                    this.optionData = this.optionList.filter(item => item.name.search(val) >= 0)
                         .slice(-5);
                 } else {
                     this.optionData = [];
@@ -177,15 +171,16 @@
                 defaultIndex: state => state.project.defaultIndex,
                 issues: state => state.issue.issueList
             }),
+            // 表格总来源数据
             issueData() {
                 return this.userIdToName(this.issues.map(item => Object.assign({}, item)));
             },
-            // 表格数据来源
+            // 表格当前显示的数据
             dataList0() {
-                return this.issueData.filter(item => item.status === 0)
+                return this.issueData.filter(item => item.status === 0);
             },
             dataList1() {
-                return this.issueData.filter(item => item.status === 2)
+                return this.issueData.filter(item => item.status === 2);
             }
         }
     }
@@ -200,5 +195,9 @@
     .icon-color {
         color: #2d8cf0;
         font-size: 16px;
+    }
+
+    .auto-input {
+        padding: 16px 0;
     }
 </style>

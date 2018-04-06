@@ -192,7 +192,7 @@
             ...mapState({
                 projectList: state => state.project.projectList,
                 defaultIndex: state => state.project.defaultIndex,
-                issues: state => state.issue.issueList,
+                issues: state => state.issue.issueList
             }),
             tableHeight() {
                 return this.checkHeight();
@@ -202,9 +202,11 @@
                     return this.issueData.length;
                 }
             },
+            // 表格总来源数据
             issueData() {
                 return this.userIdToName(this.issues.map(item => Object.assign({}, item)));
             },
+            // 表格当前显示的数据
             issueList() {
                 return this.issueData.slice((this.current - 1) * 10, Math.min(this.current * 10, this.total));
             }
