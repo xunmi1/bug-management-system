@@ -96,6 +96,29 @@ const state = {
     ]
 };
 
+const getters = {
+// 管理人员
+    ownerList: state => {
+        return state.projectList[state.defaultIndex].people.filter(item => item.permission[1] === '1');
+    },
+    // 提交人员
+    issuerList: state => {
+        return state.projectList[state.defaultIndex].people.filter(item => item.permission[2] === '1');
+    },
+    // 分配人员
+    dispenseList: state => {
+        return state.projectList[state.defaultIndex].people.filter(item => item.permission[3] === '1');
+    },
+    // 解决人员
+    developerList: state => {
+        return state.projectList[state.defaultIndex].people.filter(item => item.permission[4] === '1');
+    },
+    // 测试人员
+    testerList: state => {
+        return state.projectList[state.defaultIndex].people.filter(item => item.permission[5] === '1');
+    },
+};
+
 const mutations = {
     setProjectInfo(state, info) {
         state.projectList[state.defaultIndex].info.title = info.title;
@@ -126,6 +149,7 @@ const mutations = {
 
 const project = {
     state,
+    getters,
     mutations
 };
 
