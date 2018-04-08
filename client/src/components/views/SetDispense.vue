@@ -90,11 +90,11 @@
                     this.optionList.forEach(item => {
                         if (item.name === this.people) {
                             if (this.tab === '1') {
-                                this.issues[this.clickRowIndex].developer = item.id;
-                                this.issues[this.clickRowIndex].status = 1;
+                                this.issueList[this.clickRowIndex].developer = item.id;
+                                this.issueList[this.clickRowIndex].status = 1;
                             } else if (this.tab === '2') {
-                                this.issues[this.clickRowIndex].tester = item.id;
-                                this.issues[this.clickRowIndex].status = 3;
+                                this.issueList[this.clickRowIndex].tester = item.id;
+                                this.issueList[this.clickRowIndex].status = 3;
                             }
                         }
                     });
@@ -111,7 +111,6 @@
             // 显示对话框
             showModal(row, index) {
                 this.clickRowIndex = this.$refs.baseTable.current * 10 - 10 + index;
-                console.log(this.clickRowIndex);
                 const peopleData = this.projectList[this.defaultIndex].people;
                 if (this.tab === '1') {
                     // 解决人员分配
@@ -169,11 +168,11 @@
             ...mapState({
                 projectList: state => state.project.projectList,
                 defaultIndex: state => state.project.defaultIndex,
-                issues: state => state.issue.issueList
+                issueList: state => state.issue.issueList
             }),
             // 表格总来源数据
             issueData() {
-                return this.userIdToName(this.issues.map(item => Object.assign({}, item)));
+                return this.userIdToName(this.issueList.map(item => Object.assign({}, item)));
             },
             // 表格当前显示的数据
             dataList0() {
