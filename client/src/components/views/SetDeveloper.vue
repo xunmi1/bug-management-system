@@ -11,7 +11,7 @@
                     ref="baseTable"></base-table>
         <Modal v-model="modal" :mask-closable="false">
             <div slot="header" class="header-font">
-
+                <span>解决方法</span>
             </div>
             <div slot="close"></div>
             <div slot="footer">
@@ -60,7 +60,6 @@
                         }
                     });
                     this.modal = false;
-                    this.$Message.success('分配成功!');
                 } else {
                     this.$Loading.error();
                     this.$Message.error('人员有误!');
