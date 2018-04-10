@@ -9,11 +9,15 @@
                     :page-size="10"
                     @on-row-click="showModal"
                     ref="baseTable"></base-table>
-        <Modal v-model="modal" :mask-closable="false">
+        <Modal v-model="modal" :mask-closable="false" width="680">
             <div slot="header" class="header-font">
                 <span>解决方法</span>
             </div>
+            <div id="editor">
+                <base-editor></base-editor>
+            </div>
             <div slot="close"></div>
+
             <div slot="footer">
                 <Button type="text" size="large" @click="resetIssue">取消</Button>
                 <Button type="primary" size="large" @click="submitIssue">确定</Button>
@@ -25,11 +29,13 @@
 <script>
     import {mapState} from 'vuex';
     import BaseTable from '../base/BaseTable';
+    import BaseEditor from '../base/BaseEditor'
 
     export default {
         name: "SetDeveloper",
         components: {
-            BaseTable
+            BaseTable,
+            BaseEditor
         },
         data() {
             return {
@@ -43,7 +49,7 @@
                     {title: '提交', key: 'issuer', sortable: true},
                     {title: '分配', key: 'dispense', sortable: true}
                 ],
-                modal: false,
+                modal: true,
                 people: '',
                 optionData: [],    // 下拉列表实际显示的数据
                 optionList: [],    // 下拉列表总数据
