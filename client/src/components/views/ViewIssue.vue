@@ -32,7 +32,7 @@
                        :height="440"
                        size="small"
                        border
-                       show-header></Table>
+                       :show-header="false"></Table>
             </div>
         </Modal>
     </Card>
