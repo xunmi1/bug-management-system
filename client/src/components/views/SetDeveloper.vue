@@ -9,15 +9,22 @@
                     :page-size="10"
                     @on-row-click="showModal"
                     ref="baseTable"></base-table>
-        <Modal v-model="modal" :mask-closable="false" width="680">
+        <Modal v-model="modal"
+               :mask-closable="false"
+               :closable="false"
+               width="680">
             <div slot="header" class="header-font">
                 <span>解决方法</span>
             </div>
-            <div id="editor">
+            <div class="modal-item">
+                <p>问题关键词：</p>
+                <Alert class="alert" show-icon closable>请使用 "|" 分开</Alert>
+                <Input v-model="keywords" clearable></Input>
+            </div>
+            <div class="modal-item">
+                <p>方法描述：</p>
                 <base-editor></base-editor>
             </div>
-            <div slot="close"></div>
-
             <div slot="footer">
                 <Button type="text" size="large" @click="resetIssue">取消</Button>
                 <Button type="primary" size="large" @click="submitIssue">确定</Button>
@@ -39,6 +46,7 @@
         },
         data() {
             return {
+                keywords: '',
                 columns: [
                     {type: 'index', width: 48, align: 'center'},
                     {title: '标题', key: 'title'},
@@ -49,7 +57,7 @@
                     {title: '提交', key: 'issuer', sortable: true},
                     {title: '分配', key: 'dispense', sortable: true}
                 ],
-                modal: true,
+                modal: false,
                 people: '',
                 optionData: [],    // 下拉列表实际显示的数据
                 optionList: [],    // 下拉列表总数据
@@ -118,5 +126,24 @@
 </script>
 
 <style scoped>
+    .header-font {
+        font-size: 14px;
+        font-weight: 600;
+    }
 
+    .modal-item {
+        margin-bottom: 16px;
+    }
+
+    .modal-item p {
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+
+    .modal-item .alert {
+        position: absolute;
+        display: inline-block;
+        top: 52px;
+        left: 110px;
+    }
 </style>
