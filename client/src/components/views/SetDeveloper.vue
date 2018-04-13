@@ -17,12 +17,11 @@
                 <span>解决方法</span>
             </div>
             <div class="modal-item">
-                <p>问题关键词：</p>
-                <Alert class="alert" show-icon closable>请使用 "|" 分开</Alert>
-                <Input v-model="keywords" clearable></Input>
+                <p>问题描述：</p>
+                <Input v-model="issueName" clearable></Input>
             </div>
             <div class="modal-item">
-                <p>方法描述：</p>
+                <p>解决方法描述：</p>
                 <base-editor></base-editor>
             </div>
             <div slot="footer">
@@ -46,7 +45,7 @@
         },
         data() {
             return {
-                keywords: '',
+                issueName: '',  //由解决人员重新对问题描述
                 columns: [
                     {type: 'index', width: 48, align: 'center'},
                     {title: '标题', key: 'title'},
@@ -138,12 +137,5 @@
     .modal-item p {
         font-size: 14px;
         margin-bottom: 10px;
-    }
-
-    .modal-item .alert {
-        position: absolute;
-        display: inline-block;
-        top: 52px;
-        left: 110px;
     }
 </style>
