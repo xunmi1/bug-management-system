@@ -1,122 +1,13 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-
-import TheIndex from '@/TheIndex';
-import TheHomeInput from '@/index/TheHomeInput';
-import TheLoginInput from '@/index/TheLoginInput';
-import TheRegisterInput from '@/index/TheRegisterInput';
-import TheMain from '@/TheMain';
-import MyProject from '@/MyProject';
-import TheUserInfo from '@/TheUserInfo';
-import ViewProject from '@/views/ViewProject';
-import ViewIssue from '@/views/ViewIssue';
-import SetDispense from '@/views/SetDispense';
-import SetDeveloper from '@/views/SetDeveloper';
-import TheNewProject from '@/project/TheNewProject';
-import ProjectInfo from '@/project/ProjectInfo';
-import ProjectPeople from '@/project/ProjectPeople';
-import ProjectModules from '@/project/ProjectModules';
-import ProjectVersions from '@/project/ProjectVersions';
-
+import appRouter from './appRouter';
 import store from '../store';
 import VueCookie from 'vue-cookie';
 import {Base64} from 'js-base64';
 
 Vue.use(Router);
 
-const router = new Router({
-    routes: [
-        {
-            path: '/',
-            name: 'index',
-            // 注册将使用的组件（局部注册），只在父组件可用
-            component: TheIndex,
-            children: [
-                {
-                    path: 'home',
-                    name: 'home',
-                    component: TheHomeInput,
-                    // 别名，访问 / 时转向 /home, 且 url 不变。不同于重定向
-                    alias: '/'
-                },
-                {
-                    path: 'login',
-                    name: 'login',
-                    component: TheLoginInput
-                },
-                {
-                    path: 'register',
-                    name: 'register',
-                    component: TheRegisterInput
-                }
-            ]
-        },
-        {
-            path: '/:userName',
-            name: 'main',
-            component: TheMain,
-            children: [
-                {
-                    path: 'project/user',
-                    name: 'myProject',
-                    component: MyProject,
-                    alias: 'project'
-                },
-                {
-                    path: 'project/new',
-                    name: 'newProject',
-                    component: TheNewProject
-                },
-                {
-                    path: 'project/info',
-                    name: 'projectInfo',
-                    component: ProjectInfo
-                },
-                {
-                    path: 'project/people',
-                    name: 'projectPeople',
-                    component: ProjectPeople
-                },
-                {
-                    path: 'project/modules',
-                    name: 'projectModules',
-                    component: ProjectModules
-                },
-                {
-                    path: 'project/versions',
-                    name: 'projectVersions',
-                    component: ProjectVersions
-                },
-                {
-                    path: 'user',
-                    name: 'user',
-                    component: TheUserInfo
-                },
-                {
-                    path: 'view/project',
-                    name: 'viewProject',
-                    component: ViewProject,
-                    alias: 'view'
-                },
-                {
-                    path: 'view/issue',
-                    name: 'viewIssue',
-                    component: ViewIssue
-                },
-                {
-                    path: 'view/dispense',
-                    name: 'setDispense',
-                    component: SetDispense
-                },
-                {
-                    path: 'view/developer',
-                    name: 'setDeveloper',
-                    component: SetDeveloper
-                }
-            ]
-        }
-    ]
-});
+const router = new Router(appRouter);
 
 router.beforeEach((to, from, next) => {
     console.log('路由验证');
