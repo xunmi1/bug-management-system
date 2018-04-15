@@ -15,12 +15,13 @@
                             @on-row-click="showModal"></base-table>
             </TabPane>
         </Tabs>
-        <Modal v-model="modal" :mask-closable="false">
+        <Modal v-model="modal"
+               :mask-closable="false"
+               :closable="false">
             <div slot="header" class="header-font">
                 <Icon type="log-out" class="icon-color"></Icon>
                 <span>分配</span>
             </div>
-            <div slot="close"></div>
             <div>
                 <span style="font-size: 14px">{{ inputName }}</span>
                 <AutoComplete v-model="people"

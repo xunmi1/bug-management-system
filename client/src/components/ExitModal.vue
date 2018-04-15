@@ -1,10 +1,12 @@
 <template>
-    <Modal v-model="modalStatus" width="380" :mask-closable=false>
+    <Modal v-model="modalStatus"
+           :closable="false"
+           :mask-closable="false"
+           width="380">
         <div slot="header" class="header-font">
             <i class="fa fa-exclamation-circle fa-lg fa-fw" style="color: #f90"></i>
             <span>退出系统</span>
         </div>
-        <div slot="close"></div>
         <p style="text-align:center; font-size: 15px">
             你确定要退出系统吗？
         </p>

@@ -1,10 +1,13 @@
 <template>
-    <Modal v-model="modalStatus" width="660" :styles="{top: '30px'}" :mask-closable="false">
+    <Modal v-model="modalStatus"
+           :mask-closable="false"
+           :closable="false"
+           width="660"
+           :styles="{top: '30px'}">
         <div slot="header" class="header-font">
             <Icon type="compose" class="fa-lg fa-fw icon-color"></Icon>
             <span>问题提交</span>
         </div>
-        <div slot="close"></div>
         <div>
             <ButtonGroup class="issue-btn-group">
                 <Button :type="btnStyle? 'info':'default'"

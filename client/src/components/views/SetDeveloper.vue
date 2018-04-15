@@ -16,6 +16,7 @@
             <div slot="header" class="header-font">
                 <span>解决方法</span>
             </div>
+            <div></div>
             <div class="modal-item">
                 <p>问题描述：</p>
                 <Input v-model="issueName" clearable></Input>
