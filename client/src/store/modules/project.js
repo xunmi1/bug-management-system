@@ -5,7 +5,8 @@ const state = {
         {
             info: {
                 id: '11111110',
-                title: '测试内容测试内容',
+                title: '测试项目',
+                share: true,
                 desc: '测试内容\n测试内容\n测试内容\n测试内容\n测试内容\n测试内容',
                 imgName: ''
             },
@@ -69,6 +70,7 @@ const state = {
             info: {
                 id: '11111111',
                 title: '测试1',
+                share: true,
                 desc: '测试内容\n测试内容\n测试内容\n测试内容\n测试内容\n测试内容',
                 imgName: ''
             },
@@ -79,6 +81,7 @@ const state = {
             info: {
                 id: '11111112',
                 title: '测试2',
+                share: false,
                 desc: '测试内容\n测试内容\n测试内容\n测试内容\n测试内容\n测试内容',
                 imgName: ''
             },

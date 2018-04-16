@@ -57,6 +57,7 @@
                     info: {
                         id: '',
                         title: '',
+                        share: true,
                         desc: '',
                         imgName: ''
                     },

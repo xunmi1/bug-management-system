@@ -7,9 +7,7 @@
             <i class="fa fa-exclamation-circle fa-lg fa-fw" style="color: #f90"></i>
             <span>退出系统</span>
         </div>
-        <p style="text-align:center; font-size: 15px">
-            你确定要退出系统吗？
-        </p>
+        <p style="text-align:center; font-size: 15px">你确定要退出系统吗？</p>
         <div slot="footer">
             <Button type="text" size="large" @click="closeModal">取消</Button>
             <Button type="primary" size="large" @click="exit">确定</Button>

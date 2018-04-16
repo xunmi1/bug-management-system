@@ -140,7 +140,7 @@
             // 初始化表格表头
             initColumns() {
                 const column = [
-                    {type: 'index', width: 52, align: 'center'},
+                    {type: 'index', width: 60, title: '序号', align: 'center'},
                     {
                         title: '头像', key: 'avatarId', width: 60,
                         render: (h, params) => {

@@ -19,6 +19,19 @@
                                :autosize="{minRows: 3, maxRows: 6}" type="textarea"
                                style="width: 100%; max-width:460px"></Input>
                     </FormItem>
+                    <FormItem prop="share" class="content-info-box">
+                        <span style="font-size: 14px">问题共享：</span>
+                        <Switch v-model="projectInfo.share" size="large">
+                            <span slot="open">开启</span>
+                            <span slot="close">关闭</span>
+                        </Switch>
+                        <Alert v-if="projectInfo.share" show-icon closable>
+                            开启后，本项目中的问题和解决方法脱敏后，会保存到知识库中，帮助其他人解决问题。
+                        </Alert>
+                        <Alert v-else type="warning" show-icon closable>
+                            关闭后，将无法使用全局搜索功能。
+                        </Alert>
+                    </FormItem>
                     <FormItem class="content-info-box">
                         <div class="content-button">
                             <ButtonGroup size="large">
@@ -41,8 +54,9 @@
                         :on-format-error="handleFormatError"
                         :on-exceeded-size="handleMaxSize"
                         action="http://localhost:8000/project/img">
-                        <Button type="ghost" icon="ios-cloud-upload-outline" class="upload-button">
-                            上传图标
+                        <Button type="ghost"
+                                icon="ios-cloud-upload-outline"
+                                class="upload-button">上传图标
                         </Button>
                     </Upload>
                 </iCol>
@@ -192,7 +206,6 @@
     .content-info-box p {
         font-size: 15px;
     }
-
     .content-button {
         width: 100%;
         height: 80px;

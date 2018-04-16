@@ -49,7 +49,7 @@
                 rowData: [],
                 current: 1,
                 columns: [
-                    {type: 'index', width: 48, align: 'center'},
+                    {type: 'index', width: 60, title: '序号', align: 'center'},
                     {title: '标题', key: 'title'},
                     {
                         title: '状态',

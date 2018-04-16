@@ -48,7 +48,7 @@
             return {
                 issueName: '',  //由解决人员重新对问题描述
                 columns: [
-                    {type: 'index', width: 48, align: 'center'},
+                    {type: 'index', width: 60, title: '序号', align: 'center'},
                     {title: '标题', key: 'title'},
                     {title: '类型', key: 'select'},
                     {title: '模块', key: 'module'},
