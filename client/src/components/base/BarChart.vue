@@ -1,5 +1,5 @@
 <template>
-    <div style="width:100%;height:200%;" class="column"></div>
+    <div style="width:100%;height:280%;" class="column"></div>
 </template>
 
 <script>
@@ -8,9 +8,9 @@
     export default {
         name: "BarChart",
         props: {
-            'bar-number': Number,
-            'x-data': Array,
-            'y-data': Array
+            barNumber: Number,
+            xData: Array,
+            yData: Array
         },
         data() {
             return {
@@ -22,8 +22,17 @@
                             type: 'shadow'
                         }
                     },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            dataView: {show: true, readOnly: false},
+                            magicType: {show: true, type: ['line', 'bar']},
+                            restore: {show: true},
+                            saveAsImage: {show: true}
+                        }
+                    },
                     grid: {
-                        top: '4%',
+                        top: '24%',
                         left: '2%',
                         right: '2%',
                         bottom: '2%',
@@ -44,7 +53,18 @@
                             name: '数量',
                             type: 'bar',
                             barWidth: '66%',
-                            data: this.yData
+                            data: this.yData,
+                            markPoint: {
+                                data: [
+                                    {type: 'max', name: '最大值'},
+                                    {type: 'min', name: '最小值'}
+                                ]
+                            },
+                            markLine: {
+                                data: [
+                                    {type: 'average', name: '平均值'}
+                                ]
+                            }
                         }
                     ]
                 }
@@ -63,5 +83,8 @@
 </script>
 
 <style scoped>
-
+    .column {
+        width: 100%;
+        height: 200%;
+    }
 </style>
