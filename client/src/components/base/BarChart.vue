@@ -1,5 +1,5 @@
 <template>
-    <div style="width:100%;height:280%;" class="column"></div>
+    <div style="width:100%;height:240%;" class="column"></div>
 </template>
 
 <script>
@@ -25,16 +25,22 @@
                     toolbox: {
                         show: true,
                         feature: {
-                            dataView: {show: true, readOnly: false},
-                            magicType: {show: true, type: ['line', 'bar']},
+                            dataView: {
+                                show: true,
+                                readOnly: false
+                            },
+                            magicType: {
+                                show: true,
+                                type: ['line', 'bar']
+                            },
                             restore: {show: true},
                             saveAsImage: {show: true}
                         }
                     },
                     grid: {
-                        top: '24%',
+                        top: '18%',
                         left: '2%',
-                        right: '2%',
+                        right: '4%',
                         bottom: '2%',
                         containLabel: true
                     },
@@ -54,12 +60,6 @@
                             type: 'bar',
                             barWidth: '66%',
                             data: this.yData,
-                            markPoint: {
-                                data: [
-                                    {type: 'max', name: '最大值'},
-                                    {type: 'min', name: '最小值'}
-                                ]
-                            },
                             markLine: {
                                 data: [
                                     {type: 'average', name: '平均值'}
