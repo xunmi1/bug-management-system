@@ -1,8 +1,10 @@
 <template>
     <Card>
         <div slot="title">
-            <Icon type="settings"></Icon>
-            <span>待解决问题列表</span>
+            <Tooltip content="单击相关列，进入设置">
+                <Icon type="settings"></Icon>
+                <span>待解决问题列表</span>
+            </Tooltip>
         </div>
         <base-table :columns="columns"
                     :data="dataList"
@@ -12,7 +14,7 @@
         <Modal v-model="modal"
                :mask-closable="false"
                :closable="false"
-               width="680">
+               :styles="{top: '30px',width: '680px'}">
             <div slot="header" class="header-font">
                 <span>解决方法</span>
             </div>
@@ -26,8 +28,8 @@
                 <base-editor></base-editor>
             </div>
             <div slot="footer">
-                <Button type="text" size="large" @click="resetIssue">取消</Button>
-                <Button type="primary" size="large" @click="submitIssue">确定</Button>
+                <Button type="text" size="large" @click="reset">取消</Button>
+                <Button type="primary" size="large" @click="submit">确定</Button>
             </div>
         </Modal>
     </Card>
@@ -65,7 +67,7 @@
             }
         },
         methods: {
-            submitIssue() {
+            submit() {
                 const list = this.optionList.map(item => item.name);
                 if (list.includes(this.people)) {
                     this.optionList.forEach(item => {
@@ -79,7 +81,7 @@
                     this.$Message.error('人员有误!');
                 }
             },
-            resetIssue() {
+            reset() {
                 this.modal = false;
             },
             // 显示对话框
