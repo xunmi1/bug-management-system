@@ -25,7 +25,7 @@
             </div>
             <div class="modal-item">
                 <p>解决方法描述：</p>
-                <base-editor></base-editor>
+                <base-editor @get-content="getContent"></base-editor>
             </div>
             <div slot="footer">
                 <Button type="text" size="large" @click="reset">取消</Button>
@@ -49,6 +49,7 @@
         data() {
             return {
                 issueName: '',  //由解决人员重新对问题描述
+                solveDesc: '',  // 解决描述
                 columns: [
                     {type: 'index', width: 60, title: '序号', align: 'center'},
                     {title: '标题', key: 'title'},
@@ -88,6 +89,9 @@
             showModal(row, index) {
                 this.clickRowIndex = this.$refs.baseTable.current * 10 - 10 + index;
                 this.modal = true;
+            },
+            getContent(data) {
+                this.solveDesc = data;
             },
             /**
              * 成员 id 转换为昵称
