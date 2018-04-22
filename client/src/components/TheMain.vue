@@ -99,8 +99,8 @@
                                 <Icon type="settings" size="16"></Icon>
                                 待解决
                             </MenuItem>
-                            <MenuItem name="3">
-                                <Icon type="compose"></Icon>
+                            <MenuItem name="setTester">
+                                <Icon type="ios-analytics"></Icon>
                                 待测试
                             </MenuItem>
                         </MenuGroup>

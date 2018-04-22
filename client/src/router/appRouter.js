@@ -118,6 +118,13 @@ const appRouter = {
                     component: resolve => {
                         require(['@/views/SetDeveloper'], resolve);
                     }
+                },
+                {
+                    path: 'view/tester',
+                    name: 'setTester',
+                    component: resolve => {
+                        require(['@/views/SetTester'], resolve);
+                    }
                 }
             ]
         }

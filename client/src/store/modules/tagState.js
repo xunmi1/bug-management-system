@@ -51,7 +51,11 @@ const state = {
         setDeveloper: {
             title: '问题解决',
             name: 'SetDeveloper'
-        }
+        },
+        setTester: {
+            title: '问题解决',
+            name: 'SetTester'
+        },
     }
 };
 
