@@ -27,7 +27,6 @@
         },
         data() {
             return {
-
                 columns: [
                     {type: 'index', width: 60, title: '序号', align: 'center'},
                     {title: '标题', key: 'title'},

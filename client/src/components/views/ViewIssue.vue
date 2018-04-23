@@ -17,6 +17,7 @@
             <Page :total="total"
                   :current="current"
                   :page-size="10"
+                  @on-change="changePage"
                   show-total
                   show-elevator
                   style="float: right"></Page>
@@ -49,7 +50,7 @@
                 rowData: [],
                 current: 1,
                 columns: [
-                    {type: 'index', width: 60, title: '序号', align: 'center'},
+                    {type: 'index', width: 86, title: '序号', align: 'center'},
                     {title: '标题', key: 'title'},
                     {
                         title: '状态',
@@ -118,6 +119,9 @@
              */
             checkHeight() {
                 return Math.min(Math.max(this.total, 5), 10) * 48 + 40;
+            },
+            changePage(index) {
+                this.current = index;
             },
             /**
              *  表数据筛选

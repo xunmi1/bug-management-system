@@ -1,7 +1,7 @@
 <template>
     <div>
         <Table :columns="columns"
-               :data="data"
+               :data="tableData"
                :height="tableHeight"
                @on-row-click="onRowClick"
                ref="table"
@@ -27,8 +27,16 @@
         name: "BaseTable",
         props: {
             columns: Array,
-            data: Array,
-            pageSize: Number
+            data: {
+                type: Array,
+                default() {
+                    return [];
+                }
+            },
+            pageSize: {
+                type: Number,
+                default: 10
+            }
         },
         data() {
             return {
@@ -55,6 +63,9 @@
         computed: {
             tableHeight() {
                 return this.checkHeight();
+            },
+            tableData() {
+                return this.data.slice(this.current * 10 - 10, Math.min(this.current * 10, this.data.length));
             },
             total() {
                 return this.data.length;
