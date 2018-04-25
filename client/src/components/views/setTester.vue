@@ -11,6 +11,33 @@
                     :page-size="10"
                     @on-row-click="showModal"
                     ref="baseTable"></base-table>
+        <Modal v-model="modal"
+               :mask-closable="false"
+               :closable="false"
+               :styles="{top: '50px',width: '680px'}">
+            <div slot="header" class="header-font">
+                <span>测试结果</span>
+            </div>
+            <div></div>
+            <div class="modal-item">
+                <span>是否通过测试：</span>
+                <Switch v-model="isClose">
+                    <span slot="open">是</span>
+                    <span slot="close">否</span>
+                </Switch>
+            </div>
+            <div v-show="!isClose" class="modal-item">
+                <p>未通过原因描述：</p>
+                <base-editor @get-content="getContent" ref="editor"></base-editor>
+            </div>
+            <div slot="footer">
+                <Button type="text" size="large" @click="reset">取消</Button>
+                <Tooltip content="切勿刷新页面">
+                    <Button type="ghost" size="large" @click="tmpContent">暂存</Button>
+                </Tooltip>
+                <Button type="primary" size="large" @click="submit">确定</Button>
+            </div>
+        </Modal>
     </Card>
 </template>
 
@@ -38,34 +65,32 @@
                     {title: '分配', key: 'dispense', sortable: true}
                 ],
                 modal: false,
+                isClose: true,
+                testDesc: '',
                 people: '',
-                optionData: [],    // 下拉列表实际显示的数据
-                optionList: [],    // 下拉列表总数据
                 clickRowIndex: ''     // 被选中的问题的索引
             }
         },
         methods: {
-            submit() {
-                const list = this.optionList.map(item => item.name);
-                if (list.includes(this.people)) {
-                    this.optionList.forEach(item => {
-                        if (item.name === this.people) {
-                            // 设置属性值
-                        }
-                    });
-                    this.modal = false;
-                } else {
-                    this.$Loading.error();
-                    this.$Message.error('人员有误!');
-                }
-            },
             reset() {
+                this.modal = false;
+                this.isClose = true;
+                this.$refs.editor.clearContent();
+            },
+            tmpContent() {
+                this.modal = false;
+            },
+            submit() {
                 this.modal = false;
             },
             // 显示对话框
             showModal(row, index) {
                 this.clickRowIndex = this.$refs.baseTable.current * 10 - 10 + index;
                 this.modal = true;
+            },
+            getContent(data) {
+                console.log(data);
+                this.testDesc = data;
             },
             /**
              * 成员 id 转换为昵称
@@ -106,8 +131,21 @@
 </script>
 
 <style scoped>
-    .modal-item p {
+    .header-font {
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .modal-item {
+        margin-bottom: 16px;
+    }
+
+    .modal-item > p {
         font-size: 14px;
         margin-bottom: 10px;
+    }
+
+    .modal-item > span {
+        font-size: 14px;
     }
 </style>

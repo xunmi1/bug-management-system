@@ -188,8 +188,8 @@
 
 <style scoped>
     .header-font {
-        font-weight: 500;
-        font-size: 16px;
+        font-size: 14px;
+        font-weight: 600;
     }
 
     .icon-color {

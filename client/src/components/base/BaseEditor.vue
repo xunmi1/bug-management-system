@@ -14,13 +14,17 @@
         },
         data() {
             return {
+                editor: {},
                 editorContent: ''
             }
         },
         methods: {
             // 查看代码
-            getContent: function () {
+            getContent() {
                 alert(this.editorContent);
+            },
+            clearContent() {
+                this.editor.txt.clear();
             }
         },
         mounted() {
@@ -30,8 +34,8 @@
                 this.$emit('get-content', html);
             };
             editor.create();
-            let content = this.content;
-            editor.txt.html(content);
+            editor.txt.html(this.content);
+            this.editor = editor;
         }
     }
 </script>

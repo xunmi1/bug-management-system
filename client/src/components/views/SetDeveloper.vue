@@ -14,7 +14,7 @@
         <Modal v-model="modal"
                :mask-closable="false"
                :closable="false"
-               :styles="{top: '30px',width: '680px'}">
+               :styles="{top: '50px',width: '680px'}">
             <div slot="header" class="header-font">
                 <span>解决方法</span>
             </div>
@@ -25,10 +25,13 @@
             </div>
             <div class="modal-item">
                 <p>解决方法描述：</p>
-                <base-editor @get-content="getContent"></base-editor>
+                <base-editor @get-content="getContent" ref="editor"></base-editor>
             </div>
             <div slot="footer">
                 <Button type="text" size="large" @click="reset">取消</Button>
+                <Tooltip content="切勿刷新页面">
+                    <Button type="ghost" size="large" @click="tmpContent">暂存</Button>
+                </Tooltip>
                 <Button type="primary" size="large" @click="submit">确定</Button>
             </div>
         </Modal>
@@ -62,27 +65,19 @@
                 ],
                 modal: false,
                 people: '',
-                optionData: [],    // 下拉列表实际显示的数据
-                optionList: [],    // 下拉列表总数据
                 clickRowIndex: ''     // 被选中的问题的索引
             }
         },
         methods: {
-            submit() {
-                const list = this.optionList.map(item => item.name);
-                if (list.includes(this.people)) {
-                    this.optionList.forEach(item => {
-                        if (item.name === this.people) {
-                            // 设置属性值
-                        }
-                    });
-                    this.modal = false;
-                } else {
-                    this.$Loading.error();
-                    this.$Message.error('人员有误!');
-                }
-            },
             reset() {
+                this.modal = false;
+                this.issueName = '';
+                this.$refs.editor.clearContent();
+            },
+            tmpContent() {
+                this.modal = false;
+            },
+            submit() {
                 this.modal = false;
             },
             // 显示对话框
@@ -141,7 +136,7 @@
         margin-bottom: 16px;
     }
 
-    .modal-item p {
+    .modal-item > p {
         font-size: 14px;
         margin-bottom: 10px;
     }
