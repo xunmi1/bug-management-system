@@ -9,8 +9,7 @@
         <base-table :columns="columns"
                     :data="dataList"
                     :page-size="10"
-                    @on-row-click="showModal"
-                    ref="baseTable"></base-table>
+                    @on-row-click="showModal"></base-table>
         <Modal v-model="modal"
                :mask-closable="false"
                :closable="false"
@@ -65,6 +64,7 @@
                 ],
                 modal: false,
                 people: '',
+                issueIndex: [],  // 所有问题 id 列表，用于快速查找选中问题的索引
                 clickRowIndex: ''     // 被选中的问题的索引
             }
         },
@@ -78,11 +78,16 @@
                 this.modal = false;
             },
             submit() {
-                this.modal = false;
+                if (this.issueName && this.solveDesc) {
+                    this.issueList[this.clickRowIndex].status = 2;
+                    this.modal = false;
+                } else {
+                    this.$Message.error('请填写内容！');
+                }
             },
             // 显示对话框
-            showModal(row, index) {
-                this.clickRowIndex = this.$refs.baseTable.current * 10 - 10 + index;
+            showModal(row) {
+                this.clickRowIndex = this.issueIndex.indexOf(row.id);
                 this.modal = true;
             },
             getContent(data) {
@@ -122,6 +127,9 @@
             dataList() {
                 return this.issueData.filter(item => item.status === 1);
             }
+        },
+        mounted() {
+            this.issueIndex = this.issueList.map(item => item.id);
         }
     }
 </script>

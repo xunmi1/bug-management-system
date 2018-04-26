@@ -5,8 +5,7 @@
                 <base-table :columns="columns[0]"
                             :data="dataList0"
                             :page-size="10"
-                            @on-row-click="showModal"
-                            ref="baseTable"></base-table>
+                            @on-row-click="showModal"></base-table>
             </TabPane>
             <TabPane label="测试人员分配" name="2">
                 <base-table :columns="columns[1]"
@@ -81,6 +80,7 @@
                 optionData: [],    // 下拉列表实际显示的数据
                 optionList: [],    // 下拉列表总数据
                 inputName: '',
+                issueIndex: [],  // 所有问题 id 列表，用于快速查找选中问题的索引
                 clickRowIndex: ''     // 被选中的问题的索引
             }
         },
@@ -110,8 +110,8 @@
                 this.modal = false;
             },
             // 显示对话框
-            showModal(row, index) {
-                this.clickRowIndex = this.$refs.baseTable.current * 10 - 10 + index;
+            showModal(row) {
+                this.clickRowIndex = this.issueIndex.indexOf(row.id);
                 const peopleData = this.projectList[this.defaultIndex].people;
                 if (this.tab === '1') {
                     // 解决人员分配
@@ -182,6 +182,9 @@
             dataList1() {
                 return this.issueData.filter(item => item.status === 2);
             }
+        },
+        mounted() {
+            this.issueIndex = this.issueList.map(item => item.id);
         }
     }
 </script>
