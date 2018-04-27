@@ -12,10 +12,12 @@
                     @on-row-click="showModal"></base-table>
         <Modal v-model="modal"
                :mask-closable="false"
-               :closable="false"
                :styles="{top: '50px',width: '680px'}">
             <div slot="header" class="header-font">
                 <span>解决方法</span>
+            </div>
+            <div slot="close" class="header-font">
+                <Button type="text" size="large" @click="refuseIssue">拒绝</Button>
             </div>
             <div></div>
             <div class="modal-item">
@@ -92,6 +94,16 @@
             },
             getContent(data) {
                 this.solveDesc = data;
+            },
+            refuseIssue() {
+                this.$Modal.confirm({
+                    onOk: () => {
+                        this.issueList[this.clickRowIndex].status = 5;
+                        this.$Message.success('操作成功！');
+                    },
+                    content: '<h3 style="font-size: 15px; margin-bottom: 10px">是否拒绝解决此问题吗？</h3>' +
+                    '<p>拒绝后，该问题将被永远关闭, 不能恢复。</p>'
+                })
             },
             /**
              * 成员 id 转换为昵称
