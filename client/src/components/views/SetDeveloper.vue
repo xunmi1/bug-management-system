@@ -18,6 +18,7 @@
             </div>
             <div slot="close" class="header-font">
                 <Button type="text" size="large" @click="refuseIssue">拒绝</Button>
+                <Button type="text" size="large" @click="delayIssue">延期</Button>
             </div>
             <div></div>
             <div class="modal-item">
@@ -95,6 +96,7 @@
             getContent(data) {
                 this.solveDesc = data;
             },
+            // 拒绝
             refuseIssue() {
                 this.$Modal.confirm({
                     onOk: () => {
@@ -103,6 +105,16 @@
                     },
                     content: '<h3 style="font-size: 15px; margin-bottom: 10px">是否拒绝解决此问题吗？</h3>' +
                     '<p>拒绝后，该问题将被永远关闭, 不能恢复。</p>'
+                })
+            },
+            // 延期
+            delayIssue() {
+                this.$Modal.confirm({
+                    onOk: () => {
+                        this.issueList[this.clickRowIndex].status = 6;
+                        this.$Message.success('操作成功！');
+                    },
+                    content: '<h3 style="font-size: 15px; margin-bottom: 10px">是否延长此问题的时限吗？</h3>'
                 })
             },
             /**
