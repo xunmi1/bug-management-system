@@ -125,6 +125,27 @@ const appRouter = {
                     component: resolve => {
                         require(['@/views/SetTester'], resolve);
                     }
+                },
+                {
+                    path: 'view/do_dispense',
+                    name: 'doDispense',
+                    component: resolve => {
+                        require(['@/views/DoDispense'], resolve);
+                    }
+                },
+                {
+                    path: 'view/do_developer',
+                    name: 'doDeveloper',
+                    component: resolve => {
+                        require(['@/views/DoDeveloper'], resolve);
+                    }
+                },
+                {
+                    path: 'view/do_tester',
+                    name: 'doTester',
+                    component: resolve => {
+                        require(['@/views/DoTester'], resolve);
+                    }
                 }
             ]
         }

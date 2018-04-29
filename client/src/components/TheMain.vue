@@ -100,21 +100,21 @@
                                 待解决
                             </MenuItem>
                             <MenuItem name="setTester">
-                                <Icon type="ios-analytics"></Icon>
+                                <Icon type="ios-analytics" size="16"></Icon>
                                 待测试
                             </MenuItem>
                         </MenuGroup>
                         <MenuGroup title="已完成">
-                            <MenuItem name="4">
-                                <Icon type="compose"></Icon>
+                            <MenuItem name="doDispense">
+                                <Icon type="log-out" size="16"></Icon>
                                 已分配
                             </MenuItem>
-                            <MenuItem name="5">
-                                <Icon type="compose"></Icon>
+                            <MenuItem name="doDeveloper">
+                                <Icon type="settings" size="16"></Icon>
                                 已解决
                             </MenuItem>
-                            <MenuItem name="6">
-                                <Icon type="compose"></Icon>
+                            <MenuItem name="doTester">
+                                <Icon type="ios-analytics" size="16"></Icon>
                                 已测试
                             </MenuItem>
                         </MenuGroup>

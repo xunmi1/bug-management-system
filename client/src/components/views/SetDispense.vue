@@ -1,17 +1,19 @@
 <template>
-    <Card>
+    <Card :padding="0">
         <Tabs v-model="tab" type="card">
             <TabPane label="解决人员分配" name="1">
                 <base-table :columns="columns[0]"
                             :data="dataList0"
                             :page-size="10"
-                            @on-row-click="showModal"></base-table>
+                            @on-row-click="showModal"
+                            class="tab-table"></base-table>
             </TabPane>
             <TabPane label="测试人员分配" name="2">
                 <base-table :columns="columns[1]"
                             :data="dataList1"
                             :page-size="10"
-                            @on-row-click="showModal"></base-table>
+                            @on-row-click="showModal"
+                            class="tab-table"></base-table>
             </TabPane>
         </Tabs>
         <Modal v-model="modal"
@@ -202,5 +204,9 @@
 
     .auto-input {
         padding: 16px 0;
+    }
+
+    .tab-table {
+        padding: 0 16px;
     }
 </style>

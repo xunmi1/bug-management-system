@@ -53,8 +53,20 @@ const state = {
             name: 'SetDeveloper'
         },
         setTester: {
-            title: '问题解决',
+            title: '问题测试',
             name: 'SetTester'
+        },
+        doDispense: {
+            title: '已经分配',
+            name: 'DoDispense'
+        },
+        doDeveloper: {
+            title: '已经解决',
+            name: 'DoDeveloper'
+        },
+        doTester: {
+            title: '已经测试',
+            name: 'DoTester'
         },
     }
 };
