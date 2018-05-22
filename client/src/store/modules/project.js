@@ -40,18 +40,22 @@ const state = {
             ],
             moduleList: [{
                 title: '测试模块',
+                nodeKey: 0,
                 expand: true,
                 children: [
                     {
                         title: 'parent 1-1',
-                        children: [{title: 'leaf 1-1-1'}, {title: 'leaf 1-1-2'}]
+                        nodeKey: 1,
+                        children: [{title: 'leaf 1-1-1', nodeKey: 2}, {title: 'leaf 1-1-2', nodeKey: 3}]
                     },
                     {
                         title: 'parent 1-2',
-                        children: [{title: 'leaf 1-2-1'}, {title: 'leaf 1-2-2'}]
+                        nodeKey: 4,
+                        children: [{title: 'leaf 1-2-1', nodeKey: 5,}, {title: 'leaf 1-2-2', nodeKey: 6,}]
                     },
                     {
-                        title: 'parent 1-3'
+                        title: 'parent 1-3',
+                        nodeKey: 7,
                     }
                 ]
             }],

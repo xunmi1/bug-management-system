@@ -116,7 +116,7 @@
                 ruleInfo: {
                     title: [
                         {required: true, message: '请输入标题', trigger: 'blur'},
-                        {type: 'string', max: 30, message: '长度不超过30位', trigger: 'blur'},
+                        {type: 'string', max: 30, min: 6, message: '长度范围6 ~ 30位', trigger: 'blur'},
                     ],
                     module: [
                         {required: true, message: '请确定模块', trigger: 'blur'},
@@ -128,7 +128,7 @@
                     ],
                     text: [
                         {required: true, message: '请输入详细内容', trigger: 'blur'},
-                        {type: 'string', max: 1024, message: '长度不超过1024位', trigger: 'blur'},
+                        {type: 'string', max: 1024, message: '长度不超过2048位', trigger: 'blur'},
                     ]
                 },
                 moduleList: [],
