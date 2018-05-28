@@ -10,7 +10,6 @@ Vue.use(Router);
 const router = new Router(appRouter);
 
 router.beforeEach((to, from, next) => {
-    console.log('路由验证');
     let userToken = VueCookie.get('userToken');
     store.commit('setToken', userToken);
     const isOpen = (
@@ -19,6 +18,7 @@ router.beforeEach((to, from, next) => {
     if (isOpen) {
         next();
     } else {
+        console.log('路由验证');
         // 如果本地有 token，进行验证，否则，转到 index 界面
         if (userToken) {
             // 发送本地数据，返回用户信息
@@ -41,8 +41,9 @@ router.beforeEach((to, from, next) => {
         } else {
             console.log('用户拦截');
             // 用于预览，暂时取消拦截 next('/')
-            to.params.userName = '123456';
-            next();
+            // to.params.userName = '123456';
+            // next();
+            next('/');
         }
     }
 });

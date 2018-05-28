@@ -21,15 +21,17 @@
         },
         methods: {
             toMain: function () {
-                console.log('开始验证');
                 switch (this.status) {
                     case 0:
+                        this.$Loading.error();
                         this.$Notice.warning({title: '该用户名不存在！', duration: 1.5});
                         break;
                     case 1:
+                        this.$Loading.error();
                         this.$Notice.warning({title: '密码错误！', duration: 1.5});
                         break;
                     case 2:
+                        this.$Loading.error();
                         this.$Notice.warning({title: '该用户已在其他地方登录！', duration: 1.5});
                         break;
                     case 3:
@@ -39,11 +41,12 @@
                             name: 'myProject',
                             params: {userName: this.$store.state.user.userInfo.name}
                         });
+                        this.$Loading.finish();
                         break;
                 }
-                console.log('开始结束');
             },
             loginSubmit: function () {
+                this.$Loading.start();
                 this.$store.dispatch('loginCheck', {
                     name: this.userName,
                     pwd: this.userPwd

@@ -32,21 +32,23 @@
                     });
                 } else {
                     // 用于预览，暂时取消拦截
+                    // this.$router.push({
+                    //     name: 'myProject',
+                    //     params: {userName: '123456'}
+                    // });
                     this.$Notice.destroy();
-                    this.$router.push({
-                        name: 'myProject',
-                        params: {userName: '123456'}
-                    });
-                    /* this.$Notice.warning({
+                    this.$Notice.warning({
                          title: '<p style="font-size: 15px">请重新登录！</p>', duration: 3
                      });
-                     this.toLogin();*/
+                    this.toLogin();
                 }
             },
             toLogin: function () {
+                this.$Notice.destroy();
                 this.$router.push({name: 'login'});
             },
             toRegister: function () {
+                this.$Notice.destroy();
                 this.$router.push({name: 'register'});
             }
         },

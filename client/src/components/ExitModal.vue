@@ -26,7 +26,7 @@
         },
         methods: {
             exit() {
-                // 这里添加清除登录状态
+                this.$cookie.delete('userToken');
                 setTimeout(() => {
                     this.$emit('on-close');
                     this.$router.push({name: 'home'});

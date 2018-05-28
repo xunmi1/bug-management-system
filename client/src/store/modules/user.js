@@ -5,13 +5,13 @@ axios.defaults.withCredentials = true;
 
 const state = {
     userInfo: {
-        userId: '11111111',
-        name: '123456',
+        userId: '',
+        name: '',
         pwd: '',
         email: '',
         desc: '',
         avatarId: '',
-        status: 0, // 0: 用户不存在，1: 密码错误，2: 同时登录，3: 登录成功
+        status: 3, // 0: 用户不存在，1: 密码错误，2: 同时登录，3: 登录成功
     },
     token: ''  // 本地数据
 };
@@ -41,13 +41,10 @@ const mutations = {
 };
 
 const actions = {
-    nameCheck(context, info) {
+    async nameCheck(context, info) {
         // 向服务器验证是否已存在
-        if (true) {
-
-        } else {
-            context.commit('setUserName', info);
-        }
+        const res = await axios.post(process.env.API_HOST + '/name/check', info);
+        return res.data;
     },
     async userCheck(context) {
         try {
@@ -57,6 +54,7 @@ const actions = {
                 if (res.data.status === 4) {
                     // 需要更新本地 token
                     context.commit('setToken', res.data.token);
+                    // expires 不能使用 d 表示天数，只能用 D
                     VueCookie.set('userToken', res.data.token, {expires: '7D'});
                 }
                 return true;
@@ -82,6 +80,12 @@ const actions = {
             }
         }
     },
+
+    async registerUser(context, info) {
+        const res = await axios.post(process.env.API_HOST + '/register', info);
+        return res.data;
+    },
+
     async postInfo(context, info) {
         context.commit('setUserName', info);
         context.commit('setUserEmail', info);
