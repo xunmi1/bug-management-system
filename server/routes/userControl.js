@@ -6,7 +6,6 @@ const tokenSecret = require('../config/tokenSecret');
 
 // 用户登录
 router.post('/api/login', async (ctx, next) => {
-    console.log(ctx.request.body);
     let name = ctx.request.body.username || '',
         password = ctx.request.body.password || '';
 
@@ -16,7 +15,7 @@ router.post('/api/login', async (ctx, next) => {
         token: ''
     };
     ctx.body = responseBody;
-    if (!result) {
+    if (result.err) {
         responseBody.status = 0;
     } else {
         if (password !== result.userPwd.trim()) {
@@ -29,11 +28,34 @@ router.post('/api/login', async (ctx, next) => {
             };
             //token签名 有效期为5小时
             const token = jwt.sign(payload, tokenSecret.value, {expiresIn: '5h'});
+            await msSqlDb.update({
+                params: {
+                    userStatus: 3
+                },
+                tableName: '[dbo].[user]',
+                whereSql: `userName = '${name}'`
+            });
             console.log(`用户 ${name}: 登录成功`);
             responseBody.status = 3;
             responseBody.token = token;
         }
     }
+});
+
+// 用户退出
+router.post('/api/exit', async (ctx, next) => {
+    console.log(ctx.request.body);
+    let result = await msSqlDb.update({
+        params: {
+            userStatus: 0
+        },
+        tableName: '[dbo].[user]',
+        whereSql: `userId= '${ctx.request.body.userId}'`
+    });
+    const responseBody = {status: 0};
+    if (result.err) responseBody.status = 0;
+    else responseBody.status = 1;
+    ctx.body = responseBody;
 });
 
 // 用户注册
@@ -64,13 +86,15 @@ router.post('/api/register', async (ctx, next) => {
             tableName: '[dbo].[user]',
             whereSql: `userName = '${name}'`
         });
+        console.log(result.rows[0]);
         if (result.rows.length === 1) {
             for (let index in result.rows[0]) {
-                if (typeof result.rows[0][index] == 'string') {
+                if (result.rows[0].hasOwnProperty(index) && typeof result.rows[0][index] === 'string') {
                     let str = result.rows[0][index];
                     result.rows[0][index] = str.trim();
                 }
             }
+            console.log(result.rows[0]);
             const payload = {
                 userId: result.rows[0].userId.toString(),
                 userName: result.rows[0].userName
@@ -131,6 +155,73 @@ router.post('/api/name/check', async (ctx, next) => {
     const responseBody = {status: 0};
     if (result.rows.length === 0) responseBody.status = 1;
     else responseBody.status = 0;
+    ctx.body = responseBody;
+});
+
+// 获取用户信息
+router.post('/api/user/getInfo', async (ctx, next) => {
+    let name = ctx.request.body.name.toString() || '';
+    let result = await msSqlDb.findAll({
+        tableName: '[dbo].[user]',
+        whereSql: `userName = '${name}'`
+    });
+    let responseBody = {status: 0};
+    if (result.rows.length === 1) {
+        responseBody.status = 1;
+        for (let index in result.rows[0]) {
+            if (result.rows[0].hasOwnProperty(index) && typeof result.rows[0][index] === 'string') {
+                let str = result.rows[0][index];
+                result.rows[0][index] = str.trim();
+            }
+        }
+        result.rows[0].userPwd = null;
+        responseBody.data = result.rows[0];
+    }
+    else responseBody.status = 0;
+    ctx.body = responseBody;
+});
+
+// 修改用户信息
+router.post('/api/user/setInfo', async (ctx, next) => {
+    let result = await msSqlDb.update({
+        params: {
+            userName: ctx.request.body.name,
+            userDesc: ctx.request.body.desc,
+            userEmail: ctx.request.body.email,
+            userAvatar: ctx.request.body.avatarId
+        },
+        tableName: '[dbo].[user]',
+        whereSql: `userId = '${ctx.request.body.userId}'`
+    });
+    console.log(result);
+    let responseBody = {status: 0};
+    if (result.err) responseBody.status = 0;
+    else responseBody.status = 1;
+    ctx.body = responseBody;
+});
+
+// 修改用户密码
+router.post('/api/user/setSafe', async (ctx, next) => {
+    const req = ctx.request.body;
+    const result = await msSqlDb.findAll({
+        tableName: '[dbo].[user]',
+        whereSql: `userId = '${req.userId}'`
+    });
+    const responseBody = {status: 0};
+    if (result.rows[0].userPwd.trim() === req.oldPwd) {
+        const data = await msSqlDb.update({
+            params: {
+                userPwd: req.newPwd,
+            },
+            tableName: '[dbo].[user]',
+            whereSql: `userId = '${req.userId}'`
+        });
+        if (data.err) responseBody.status = 0;
+        else responseBody.status = 1;
+    }
+    else {
+        ctx.body = responseBody;
+    }
     ctx.body = responseBody;
 });
 

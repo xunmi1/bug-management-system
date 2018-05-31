@@ -30,8 +30,6 @@ class msSqlDb {
 
     /**
      * sql语句自由查询
-     * @param {sql} sql语句,sql语句中使用参数a=@a
-     * @param {params}  字段参数，如 {a:v,b:v}
      */
     async querySql(sql, params) {
         let conn = await this.getConnection();
@@ -39,9 +37,9 @@ class msSqlDb {
         let ps = new mssql.PreparedStatement(conn);
         if (params) {
             for (let index in params) {
-                if (typeof params[index] == 'number') {
+                if (typeof params[index] === 'number') {
                     ps.input(index, mssql.Int);
-                } else if (typeof params[index] == 'string') {
+                } else if (typeof params[index] === 'string') {
                     ps.input(index, mssql.NVarChar);
                 }
             }
@@ -94,7 +92,7 @@ class msSqlDb {
                 return result.recordset[0];
             })
             .catch(err => {
-                console.log('查无此人');
+                console.log(err);
                 return false;
             })
     }
@@ -113,10 +111,30 @@ class msSqlDb {
         if (params) {
             for (let index in params) {
                 sql += index + ',';
-                val += params[index] + ','
+                val += `'${params[index]}',`
             }
             sql = sql.substring(0, sql.length - 1) + ') VALUES(';
             sql = sql + val.substring(0, val.length - 1) + ')';
+            return this.querySql(sql, params);
+        }
+        else {
+            return '';
+        }
+    }
+
+    update(options) {
+        let tableName = options.tableName;
+        let whereSql = options.whereSql || '';
+        let params = options.params || '';
+        let sql = 'UPDATE ' + tableName + ' SET ';
+        if (params) {
+            for (let index in params) {
+                sql += index + " = '" + params[index] + "',";
+            }
+            sql = sql.substring(0, sql.length - 1);
+            if (whereSql) {
+                sql += ' WHERE ' + whereSql;
+            }
             return this.querySql(sql, params);
         }
         else {
@@ -133,8 +151,7 @@ class msSqlDb {
         if (whereSql) {
             sql += ' WHERE ' + whereSql;
         }
-        let ret = this.querySql(sql, params);
-        return ret;
+        return this.querySql(sql, params);
     }
 }
 
