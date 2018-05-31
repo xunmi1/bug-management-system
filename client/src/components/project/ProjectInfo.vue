@@ -10,7 +10,7 @@
             <Row :gutter="24">
                 <iCol span="14">
                     <FormItem prop="title" class="content-info-box">
-                        <p>项目标题：</p>
+                        <p>项目名称：</p>
                         <Input v-model="projectInfo.title" style="width: 100%; max-width:300px" clearable></Input>
                     </FormItem>
                     <FormItem prop="desc" class="content-info-box">

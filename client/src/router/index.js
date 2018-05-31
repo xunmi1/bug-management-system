@@ -28,6 +28,8 @@ router.beforeEach((to, from, next) => {
                     userToken = store.state.user.token;
                     const user = JSON.parse(Base64.decode(userToken.split('.')[1]));
                     if (to.params.userName === user.userName) {
+                        store.commit('setUserName', {name: user.userName});
+                        store.commit('setUserId', {userId: user.userId});
                         next();
                     } else {
                         console.log('导航错误，进行拦截');

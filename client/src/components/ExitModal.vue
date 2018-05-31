@@ -26,11 +26,19 @@
         },
         methods: {
             exit() {
-                this.$cookie.delete('userToken');
-                setTimeout(() => {
-                    this.$emit('on-close');
-                    this.$router.push({name: 'home'});
-                }, 600);
+                this.$store.dispatch('exitUser').then((res) => {
+                    console.log(res);
+                    if (res.status) {
+                        this.$cookie.delete('userToken');
+                        setTimeout(() => {
+                            this.$emit('on-close');
+                            this.$router.push({name: 'home'});
+                        }, 600);
+                    } else {
+                        this.$Message.error('退出系统失败！');
+                    }
+                });
+
             },
             closeModal() {
                 this.$emit('on-close');

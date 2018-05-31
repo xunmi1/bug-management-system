@@ -124,10 +124,13 @@
             };
 
             return {
+                oldName: '',
                 userInfo: {
                     name: '',
                     email: '',
-                    desc: ''
+                    desc: '',
+                    userId: '',
+                    avatarId: '',
                 },
                 userSafe: {
                     pwd: '',
@@ -167,20 +170,36 @@
         },
         methods: {
             init() {
-                this.userInfo.name = this.user.name;
+                this.oldName = this.userInfo.name = this.user.name;
+                this.userInfo.userId = this.user.userId;
                 this.userInfo.email = this.user.email;
                 this.userInfo.desc = this.user.desc;
-                this.defaultAvatar[0].name = this.user.avatarId;
+                this.defaultAvatar[0].name = this.userInfo.avatarId = this.user.avatarId;
             },
 
             commitInfo() {
                 this.$refs['userInfo'].validate((valid) => {
-                    console.log(valid);
                     if (valid) {
-                        this.$store.dispatch('postInfo', this.userInfo)
-                            .then(() => {
-                                this.$Message.success('修改成功！');
-                            });
+                        this.$store.dispatch('nameCheck', this.userInfo).then((response) => {
+                            if (response.status || this.userInfo.name === this.oldName) {
+                                this.$store.dispatch('setInfo', this.userInfo).then(res => {
+                                    if (res.status) {
+                                        this.$Notice.success({
+                                            title: '修改成功！',
+                                            desc: '请重新登录系统'
+                                        });
+                                        setTimeout(() => {
+                                            this.$router.push({name: 'login'});
+                                        }, 1500);
+                                    } else {
+                                        this.$Message.error('修改失败！');
+                                    }
+                                });
+                            } else {
+                                this.$Loading.error();
+                                this.$Message.error('用户名不可用！');
+                            }
+                        });
                     } else {
                         this.$Message.error('修改失败！');
                     }
@@ -188,12 +207,21 @@
             },
             commitSafe() {
                 this.$refs['userSafe'].validate((valid) => {
-                    console.log(valid);
                     if (valid) {
-                        this.$store.dispatch('postSafe', this.userSafe)
-                            .then(() => {
+                        this.$store.dispatch('setSafe', {
+                            userId: this.userInfo.userId,
+                            oldPwd: this.userSafe.pwd,
+                            newPwd: this.userSafe.newPwd
+                        }).then(res => {
+                            if (res.status) {
                                 this.$Message.success('修改成功！');
-                            });
+                            } else {
+                                this.$Notice.error({
+                                    title: '修改失败！',
+                                    desc: '请检查原密码是否正确'
+                                });
+                            }
+                        });
                     } else {
                         this.$Message.error('修改失败！');
                     }
@@ -204,25 +232,25 @@
                 this.$refs[name].resetFields();
             },
             handleSuccess(evnet, file) {
-                this.defaultAvatar[0].name = file.response.filename;
+                this.userInfo.avatarId = this.defaultAvatar[0].name = file.response.filename;
                 this.$store.commit('setUserAvatarId', {
                     avatarId: file.response.filename
                 });
                 this.$Notice.success({
                     title: '上传成功',
-                    desc: file.name + ' 上传成功'
+                    desc: file.name + ' 上传成功，请点击确认'
                 });
             },
             handleMaxSize(file) {
                 this.$Notice.warning({
                     title: '超出图片大小限制',
-                    desc: file.name + ' 太大，不能超过 1M'
+                    desc: file.name + ' 文件太大，不能超过 1M'
                 });
             },
             handleFormatError(file) {
                 this.$Notice.warning({
                     title: '图片格式不正确',
-                    desc: file.name + ' 格式不正确，请选择合适的图片'
+                    desc: file.name + ' 的格式不正确，请选择合适的图片'
                 });
             }
         },
@@ -232,7 +260,9 @@
             })
         },
         mounted() {
-            this.init();
+            this.$store.dispatch('getInfo').then(() => {
+                this.init();
+            });
         }
     }
 </script>

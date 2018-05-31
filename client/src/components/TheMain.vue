@@ -239,6 +239,8 @@
                 this.screenWidth = document.body.clientWidth;
                 this.changeHeight();
             };
+
+            this.$store.dispatch('getInfo');
         },
         updated() {
             this.$nextTick(() => {
@@ -252,6 +254,7 @@
         }
     }
 </script>
+
 <style scoped>
     #background-height {
         min-height: 100vh;

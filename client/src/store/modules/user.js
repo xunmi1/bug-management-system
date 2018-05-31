@@ -17,6 +17,9 @@ const state = {
 };
 
 const mutations = {
+    setUserId(state, info) {
+        state.userInfo.userId = info.userId;
+    },
     setUserName(state, info) {
         state.userInfo.name = info.name;
     },
@@ -37,6 +40,18 @@ const mutations = {
     },
     setToken(state, token) {
         state.token = token;
+    },
+    clearUserInfo(state) {
+        state.userInfo = {
+            userId: '',
+            name: '',
+            pwd: '',
+            email: '',
+            desc: '',
+            avatarId: '',
+            status: 0,
+        };
+        state.token = '';
     }
 };
 
@@ -76,37 +91,47 @@ const actions = {
         if (context.state.token) {
             if (context.state.userInfo.status === 3) {
                 context.commit('setUserName', info);
-                context.commit('setUserPwd', info);
+                // context.commit('setUserPwd', info);
             }
         }
     },
-
+    async exitUser(context, info) {
+        const res = await axios.post(process.env.API_HOST + '/exit', {
+            userId: context.state.userInfo.userId
+        });
+        if (res.data.status) {
+            context.commit('clearUserInfo');
+        }
+        return res.data;
+    },
     async registerUser(context, info) {
         const res = await axios.post(process.env.API_HOST + '/register', info);
         return res.data;
     },
 
-    async postInfo(context, info) {
-        context.commit('setUserName', info);
-        context.commit('setUserEmail', info);
-        context.commit('setUserDesc', info);
-        await axios.post(process.env.API_HOST + '/user', info)
-            .then((response) => {
-                console.log(response.data);
-            })
-            .catch(function (error) {
-                console.log(error.data);
-            });
+    async getInfo(context) {
+        const info = {name: context.state.userInfo.name};
+        const res = await axios.post(process.env.API_HOST + '/user/getInfo', info);
+        context.commit('setUserName', {name: res.data.data.userName});
+        context.commit('setUserId', {userId: res.data.data.userId});
+        context.commit('setUserEmail', {email: res.data.data.userEmail});
+        context.commit('setUserDesc', {desc: res.data.data.userDesc});
+        context.commit('setUserAvatarId', {avatarId: res.data.data.userAvatar});
     },
-    async postSafe(context, info) {
-        context.commit('setUserPwd', info);
-        await axios.post(process.env.API_HOST + '/user', info)
-            .then((response) => {
-                console.log(response.data);
-            })
-            .catch(function (error) {
-                console.log(error.data);
-            });
+
+    async setInfo(context, info) {
+        const res = await axios.post(process.env.API_HOST + '/user/setInfo', info);
+        // context.commit('setUserName', {name:res.data.data.userName});
+        // context.commit('setUserId', {userId:res.data.data.userId});
+        // context.commit('setUserEmail', {email:res.data.data.userEmail});
+        // context.commit('setUserDesc', {desc:res.data.data.userDesc});
+        // context.commit('setUserAvatarId', {avatarId:res.data.data.userAvatar});
+        return res.data;
+    },
+
+    async setSafe(context, info) {
+        const res = await axios.post(process.env.API_HOST + '/user/setSafe', info);
+        return res.data;
     }
 };
 
