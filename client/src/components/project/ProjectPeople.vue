@@ -16,13 +16,18 @@
                     <Page :total="total" size="small" show-total
                           class="page-margin" @on-change="changePage"></Page>
                     <Form :label-width="0" class="table-button" inline
-                          ref="newPeopleEmail" :model="{newPeopleEmail}">
-                        <FormItem :rules="ruleEmail" prop="newPeopleEmail">
+                          ref="newPeopleEmail" :model="{newUserName}">
+                        <!--<FormItem :rules="ruleEmail" prop="newPeopleEmail">-->
+                        <!--<span style="font-size: 14px">人员添加：</span>-->
+                        <!--<AutoComplete v-model="newPeopleEmail" :data="emailSuffix"-->
+                        <!--@on-search="searchEmail"-->
+                        <!--placeholder="输入邮箱地址" style="width:200px" placement="top">-->
+                        <!--</AutoComplete>-->
+                        <!--<Button type="primary" @click="pushNewPeopleEmail">添加</Button>-->
+                        <!--</FormItem>-->
+                        <FormItem :rules="ruleName" prop="newUserName">
                             <span style="font-size: 14px">人员添加：</span>
-                            <AutoComplete v-model="newPeopleEmail" :data="emailSuffix"
-                                          @on-search="searchEmail"
-                                          placeholder="输入邮箱地址" style="width:200px" placement="top">
-                            </AutoComplete>
+                            <Input v-model="newUserName" placeholder="输入用户名" style="width: 200px"></Input>
                             <Button type="primary" @click="pushNewPeopleEmail">添加</Button>
                         </FormItem>
                         <FormItem>
@@ -106,10 +111,15 @@
         data() {
             return {
                 newPeopleEmail: '',
+                newUserName: '',  //人员添加
                 emailSuffix: [],
                 ruleEmail: [
                     {required: true, message: '请输入邮箱地址', trigger: 'blur'},
                     {type: 'email', message: '邮箱地址不正确', trigger: 'blur'}
+                ],
+                ruleName: [
+                    {required: true, message: '请输入用户名', trigger: 'blur'},
+                    {type: 'string', min: 6, message: '用户名不少于6位', trigger: 'blur'}
                 ],
                 people: [],
                 selectList: [],       // 主表中被选中行
@@ -223,20 +233,34 @@
              * 新成员添加（主表）
              */
             pushNewPeopleEmail() {
-                console.log(this.newPeopleEmail);
                 this.$refs.newPeopleEmail.validate((valid) => {
                     if (valid) {
                         /**
                          * 1、验证用户是否存在，若存在，则返回此用户相关数据
                          * 2、通过 userId 验证列表中是否已存在
                          */
-                        this.people.push({
-                            userId: '', name: '', email: this.newPeopleEmail, desc: '',
-                            avatarId: '', issue: 0, dispense: 0, solve: 0, test: 0, permission: '100000'
-                        });
-                        this.$Message.success('添加成功!');
+                        const isHave = this.allList.some(item => item.name === this.newUserName.toString());
+                        if (isHave) {
+                            this.$Message.error('该用户已经是项目成员！');
+                        } else {
+                            this.$store.dispatch('nameCheck', {name: this.newUserName}).then(res => {
+                                if (res.status) {
+                                    this.$Message.error('未找到该用户信息！');
+                                } else {
+                                    this.people.push({
+                                        userId: res.data.userId,
+                                        name: res.data.userName,
+                                        email: res.data.userName,
+                                        desc: res.data.userDesc,
+                                        avatarId: res.data.userAvatar,
+                                        issue: 0, dispense: 0, solve: 0, test: 0, permission: '100000'
+                                    });
+                                    this.$Message.success('添加成功!');
+                                }
+                            });
+                        }
                     } else {
-                        this.$Message.error('格式错误!');
+                        this.$Message.error('填写有误!');
                     }
                 })
             },
@@ -249,13 +273,14 @@
              * @param tableIndex 当前表的索引
              */
             setTask(tableIndex) {
-                const table = ['allList', 'ownerList', 'issuerList', 'dispenseList', 'developerList', 'testerList'];
                 this.selectList.forEach(row => {
-                    if (this[table[tableIndex]].every(item => item.userId !== row.userId)) {
-                        const tmp = row.permission.split('');
-                        tmp.splice(tableIndex, 1, '1');
-                        row.permission = tmp.join('');
-                    }
+                    this.people.forEach((i, index) => {
+                        if (i.userId === row.userId) {
+                            const tmp = i.permission.split('');
+                            tmp.splice(tableIndex, 1, '1');
+                            i.permission = tmp.join('');
+                        }
+                    });
                 });
             },
             /**

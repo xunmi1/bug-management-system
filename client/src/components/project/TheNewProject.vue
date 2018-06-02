@@ -97,15 +97,21 @@
                 }
             },
             pushNewProject() {
-                // 暂时 id 为八位随机数
-                this.newProject.info.id = Math.floor(Math.random() * 90000000 + 10000000)
-                    .toString();
-                this.$store.commit('pushProject', this.newProject);
-                this.$Loading.finish();
-                this.$Notice.success({
-                    title: '新项目添加成功！',
-                    desc: '切勿重复点击确认按钮！'
+                //this.newProject.info.id = new Date().getTime();
+                this.$store.dispatch('addProject', this.newProject).then(res => {
+                    if (res.status) {
+                        this.$Loading.finish();
+                        this.$Notice.success({
+                            title: '新项目添加成功！',
+                            desc: '切勿重复点击确认按钮！'
+                        });
+                        this.$router.push({name: 'myProject'});
+                        this.$root.Bus.$emit('closeComponent', 'TheNewProject');
+                    } else {
+                        this.$Message.error('添加失败！');
+                    }
                 });
+
             },
             initData() {
                 let owner = this.$store.state.user.userInfo;
@@ -118,7 +124,7 @@
                     permission: '110000'
                 };
                 this.newProject.people.push(owner);
-                this.newProject.versionList.push({name: '1.0.0', desc: ''});
+                this.newProject.versionList.push({title: '1.0.0', desc: ''});
             },
             initModuleList() {
                 this.newProject.moduleList.splice(0, 1, {

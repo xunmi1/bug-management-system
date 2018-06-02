@@ -121,6 +121,7 @@
         },
         computed: {
             ...mapState({
+                id: state => state.user.userInfo.userId,
                 menuItem: state => state.tagState.menuList,
                 projectList: state => state.project.projectList,
                 defaultIndex: state => state.project.defaultIndex,
@@ -137,6 +138,9 @@
             deleteList() {
                 return this.projectList.filter(project => project.status === 3);
             }
+        },
+        mounted() {
+            this.$store.dispatch('getProject', {userId: this.id});
         }
     }
 </script>
@@ -149,7 +153,7 @@
     .card {
         width: 170px;
         height: 170px;
-        margin: 14px;
+        margin: 12px;
         background-color: #f1f1f1;
         float: left;
     }
