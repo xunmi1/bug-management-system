@@ -1,3 +1,5 @@
+import axios from "axios/index";
+
 const state = {
     //选中项目的索引号，-1: 没有默认项目
     defaultIndex: 0,
@@ -67,7 +69,8 @@ const state = {
                 {title: '1.2.0', desc: '测试内容5'}
             ],
             issueList: [],
-            // 0：拥有，1：参与，2：关闭，3：删除（7 天内）
+            // 当前用户：0：拥有，1：参与，2：关闭，3：删除（7 天内）
+            // 项目： 1：打开，2：关闭，3：删除（7 天内），具体是0或1 根据当前用户来判别
             status: 0
         },
         {
@@ -151,13 +154,34 @@ const mutations = {
     // 改变默认项目
     setDefaultIndex(state, project) {
         state.defaultIndex = state.projectList.indexOf(project);
+    },
+    setProject(state, info) {
+        state.projectList = JSON.parse(JSON.stringify(info));
+    }
+};
+
+const actions = {
+    async addProject(context, info) {
+        console.log(info);
+        const res = await axios.post(process.env.API_HOST + '/project/add', info);
+        if (res.data.status) {
+            context.commit('pushProject', info);
+        }
+        return res.data;
+    },
+    async getProject(context, info) {
+        const res = await axios.post(process.env.API_HOST + '/project/index', info);
+        if (res.data.status) {
+            context.commit('setProject', res.data.data);
+        }
     }
 };
 
 const project = {
     state,
-    getters,
-    mutations
+    //getters,
+    mutations,
+    actions
 };
 
 export default project;
