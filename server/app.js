@@ -11,6 +11,8 @@ const tokenSecret = require('./config/tokenSecret');
 
 const index = require('./routes/index');
 const userControl = require('./routes/userControl');
+const project = require('./routes/project');
+//const issue = require('./routes/issue');
 const upload = require('./routes/upload');
 
 // 创建一个 Koa 对象表示 web app 本身
@@ -42,6 +44,8 @@ app.use(jwtKoa({
 
 app.use(index.routes());
 app.use(userControl.routes());
+app.use(project.routes());
+//app.use(issue.routes());
 app.use(upload.routes());
 
 // 监听端口

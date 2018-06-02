@@ -77,7 +77,6 @@ class msSqlDb {
                 }
             });
         });
-
     };
 
     async getLoginData(option) {
@@ -103,22 +102,38 @@ class msSqlDb {
      * options.tableName,查询的表名
      * options.params 参数。
      */
-    add(options) {
+    async add(options) {
         let tableName = options.tableName;
         let params = options.params || '';
         let sql = 'INSERT INTO ' + tableName + '(';
         let val = '';
-        if (params) {
-            for (let index in params) {
-                sql += index + ',';
-                val += `'${params[index]}',`
+        if (Array.isArray(params)) {
+            sql = 'INSERT INTO ' + tableName;
+            let key = '', value = '';
+            params.forEach(item => {
+                let str1 = '', str2 = '';
+                for (let index in item) {
+                    str1 += `${index},`;
+                    str2 += `'${item[index]}',`
+                }
+                key = `(${str1.substring(0, str1.length - 1)})`;
+                value += `(${str2.substring(0, str2.length - 1)}),`;
+            });
+            sql += `${key} VALUES ${value.substring(0, value.length - 1)}`;
+            return this.querySql(sql);
+        } else {
+            if (params) {
+                for (let index in params) {
+                    sql += index + ',';
+                    val += `'${params[index]}',`
+                }
+                sql = sql.substring(0, sql.length - 1) + ') VALUES(';
+                sql = sql + val.substring(0, val.length - 1) + ')';
+                return await this.querySql(sql, params);
             }
-            sql = sql.substring(0, sql.length - 1) + ') VALUES(';
-            sql = sql + val.substring(0, val.length - 1) + ')';
-            return this.querySql(sql, params);
-        }
-        else {
-            return '';
+            else {
+                return '';
+            }
         }
     }
 

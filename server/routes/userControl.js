@@ -61,7 +61,7 @@ router.post('/api/exit', async (ctx, next) => {
 // 用户注册
 router.post('/api/register', async (ctx, next) => {
     console.log(ctx.request.body);
-    let name = ctx.request.body.name || '',
+    const name = ctx.request.body.name || '',
         password = ctx.request.body.pwd || '';
 
     let result = await msSqlDb.add({
@@ -152,9 +152,21 @@ router.post('/api/name/check', async (ctx, next) => {
         tableName: '[dbo].[user]',
         whereSql: `userName = '${name}'`
     });
-    const responseBody = {status: 0};
+    const responseBody = {
+        status: 0,
+        data: {}
+    };
     if (result.rows.length === 0) responseBody.status = 1;
-    else responseBody.status = 0;
+    else {
+        responseBody.status = 0;
+        for (let index in result.rows[0]) {
+            if (result.rows[0].hasOwnProperty(index) && typeof result.rows[0][index] === 'string') {
+                let str = result.rows[0][index];
+                result.rows[0][index] = str.trim();
+            }
+        }
+        responseBody.data = result.rows[0];
+    }
     ctx.body = responseBody;
 });
 
