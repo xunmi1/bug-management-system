@@ -21,11 +21,13 @@
                                style="width: 180px"></Input>
                     </div>
                     <div class="menu-nav">
-                        <MenuItem name="issue" @click.native="setModal('issue', true)">
+                        <MenuItem v-if="permission[2] === '1'"
+                                  name="issue"
+                                  @click.native="setModal('issue', true)">
                             <Icon type="compose" size="16"></Icon>
                             问题提交
                         </MenuItem>
-                        <Submenu name="mgmt">
+                        <Submenu v-if="permission[1] === '1'" name="mgmt">
                             <template slot="title">
                                 <Icon type="ios-gear" size="16"></Icon>
                                 项目配置
@@ -206,7 +208,8 @@
             ...mapState({
                 avatarId: state => state.user.userInfo.avatarId,
                 menuItem: state => state.tagState.menuList,
-                tagList: state => state.tagState.list
+                tagList: state => state.tagState.list,
+                permission: state => state.user.permission
             }),
             // 用户头像设置
             defaultAvatar() {

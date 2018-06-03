@@ -206,10 +206,21 @@
                 projectList: state => state.project.projectList
             })
         },
-        created() {
-            this.projectInfo = this.projectList[this.defaultIndex].info;
-            this.versionList = this.projectList[this.defaultIndex].versionList;
-            this.inOrderRoot(this.projectList[this.defaultIndex].moduleList[0]);
+        // created() {
+        //     this.projectInfo = this.projectList[this.defaultIndex].info;
+        //     this.versionList = this.projectList[this.defaultIndex].versionList;
+        //     this.inOrderRoot(this.projectList[this.defaultIndex].moduleList[0]);
+        // },
+        watch: {
+            defaultIndex: {
+                handler: function (val) {
+                    this.projectInfo = this.projectList[val].info;
+                    this.versionList = this.projectList[val].versionList;
+                    this.moduleList = [];
+                    this.inOrderRoot(this.projectList[val].moduleList[0]);
+                },
+                immediate: true
+            }
         }
     }
 </script>

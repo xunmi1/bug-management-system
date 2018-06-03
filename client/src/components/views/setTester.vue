@@ -82,13 +82,35 @@
             },
             submit() {
                 if (this.isClose) {
-                    this.issueList[this.clickRowIndex].status = 4;
-                    this.$Message.success('问题已关闭');
-                    this.modal = false;
+                    let tmpData = JSON.parse(JSON.stringify(this.issueList[this.clickRowIndex]));
+                    tmpData.status = 4;
+                    this.$store.dispatch('testerIssue', Object.assign(tmpData, {
+                        testDesc: '',
+                        isClose: this.isClose
+                    })).then(res => {
+                        if (res.status) {
+                            this.issueList[this.clickRowIndex].status = 4;
+                            this.modal = false;
+                            this.$Message.success('问题已关闭');
+                        } else {
+                            this.$Message.error('操作有误，请重新尝试！');
+                        }
+                    })
                 } else if (this.testDesc) {
-                    this.issueList[this.clickRowIndex].status = 1;
-                    this.$Message.info('问题已分发给解决人员');
-                    this.modal = false;
+                    let tmpData = JSON.parse(JSON.stringify(this.issueList[this.clickRowIndex]));
+                    tmpData.status = 1;
+                    this.$store.dispatch('testerIssue', Object.assign(tmpData, {
+                        testDesc: this.testDesc,
+                        isClose: false
+                    })).then(res => {
+                        if (res.status) {
+                            this.issueList[this.clickRowIndex].status = 1;
+                            this.modal = false;
+                            this.$Message.info('已分发给解决人员');
+                        } else {
+                            this.$Message.error('操作有误，请重新尝试！');
+                        }
+                    })
                 } else {
                     this.$Message.error('请填写内容！');
                 }
@@ -120,13 +142,24 @@
                     })
                 });
                 return oldData;
+            },
+            checkPermission() {
+                if (!this.permission || this.permission[5] !== '1') {
+                    this.$router.push({name: 'myProject'});
+                    this.$root.Bus.$emit('closeComponent', 'SetDispense');
+                    this.$Notice.warning({
+                        title: '没有操作权限！',
+                        desc: '请联系项目管理人员，分配职责。'
+                    });
+                }
             }
         },
         computed: {
             ...mapState({
                 projectList: state => state.project.projectList,
                 defaultIndex: state => state.project.defaultIndex,
-                issueList: state => state.issue.issueList
+                issueList: state => state.issue.issueList,
+                permission: state => state.user.permission
             }),
             // 表格总来源数据
             issueData() {
@@ -136,6 +169,9 @@
             dataList() {
                 return this.issueData.filter(item => item.status === 3);
             }
+        },
+        created() {
+            this.checkPermission();
         },
         mounted() {
             this.issueIndex = this.issueList.map(item => item.id);

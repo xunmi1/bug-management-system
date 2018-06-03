@@ -82,8 +82,20 @@
             },
             submit() {
                 if (this.issueName && this.solveDesc) {
-                    this.issueList[this.clickRowIndex].status = 2;
-                    this.modal = false;
+                    let tmpData = JSON.parse(JSON.stringify(this.issueList[this.clickRowIndex]));
+                    tmpData.status = 2;
+                    this.$store.dispatch('developerIssue', Object.assign(tmpData, {
+                        issueName: this.issueName,
+                        solveDesc: this.solveDesc
+                    })).then(res => {
+                        if (res.status) {
+                            this.issueList[this.clickRowIndex].status = 2;
+                            this.modal = false;
+                            this.$Message.success('操作成功！');
+                        } else {
+                            this.$Message.error('提交有误，请重新尝试！');
+                        }
+                    });
                 } else {
                     this.$Message.error('请填写内容！');
                 }
@@ -100,8 +112,17 @@
             refuseIssue() {
                 this.$Modal.confirm({
                     onOk: () => {
-                        this.issueList[this.clickRowIndex].status = 5;
-                        this.$Message.success('操作成功！');
+                        let tmpData = JSON.parse(JSON.stringify(this.issueList[this.clickRowIndex]));
+                        tmpData.status = 5;
+                        this.$store.dispatch('developerIssue', tmpData).then(res => {
+                            if (res.status) {
+                                this.issueList[this.clickRowIndex].status = 5;
+                                this.modal = false;
+                                this.$Message.success('操作成功！');
+                            } else {
+                                this.$Message.error('操作有误，请重新尝试！');
+                            }
+                        })
                     },
                     content: '<h3 style="font-size: 15px; margin-bottom: 10px">是否拒绝解决此问题吗？</h3>' +
                     '<p>拒绝后，该问题将被永远关闭, 不能恢复。</p>'
@@ -111,8 +132,17 @@
             delayIssue() {
                 this.$Modal.confirm({
                     onOk: () => {
-                        this.issueList[this.clickRowIndex].status = 6;
-                        this.$Message.success('操作成功！');
+                        let tmpData = JSON.parse(JSON.stringify(this.issueList[this.clickRowIndex]));
+                        tmpData.status = 6;
+                        this.$store.dispatch('developerIssue', tmpData).then(res => {
+                            if (res.status) {
+                                this.issueList[this.clickRowIndex].status = 6;
+                                this.modal = false;
+                                this.$Message.success('操作成功！');
+                            } else {
+                                this.$Message.error('操作有误，请重新尝试！');
+                            }
+                        })
                     },
                     content: '<h3 style="font-size: 15px; margin-bottom: 10px">是否延长此问题的时限吗？</h3>'
                 })
@@ -135,13 +165,24 @@
                     })
                 });
                 return oldData;
+            },
+            checkPermission() {
+                if (!this.permission || this.permission[4] !== '1') {
+                    this.$router.push({name: 'myProject'});
+                    this.$root.Bus.$emit('closeComponent', 'SetDispense');
+                    this.$Notice.warning({
+                        title: '没有操作权限！',
+                        desc: '请联系项目管理人员，分配职责。'
+                    });
+                }
             }
         },
         computed: {
             ...mapState({
                 projectList: state => state.project.projectList,
                 defaultIndex: state => state.project.defaultIndex,
-                issueList: state => state.issue.issueList
+                issueList: state => state.issue.issueList,
+                permission: state => state.user.permission
             }),
             // 表格总来源数据
             issueData() {
@@ -151,6 +192,9 @@
             dataList() {
                 return this.issueData.filter(item => item.status === 1);
             }
+        },
+        created() {
+            this.checkPermission();
         },
         mounted() {
             this.issueIndex = this.issueList.map(item => item.id);

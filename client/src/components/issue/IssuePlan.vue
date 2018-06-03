@@ -167,16 +167,20 @@
                 }
             },
             submitIssue() {
-                this.$refs['issuePlan'].validate((valid) => {
-                    if (valid) {
-                        this.issuePlan.dispense = this.setPeopleId('dispenseList', this.issuePlan.dispense);
-                        this.issuePlan.developer = this.setPeopleId('developerList', this.issuePlan.developer);
-                        this.$emit('push-issue');
-                        this.$emit('close-issue');
-                    } else {
-                        this.$Message.error('<span style="font-size: 14px">提交失败！</span>');
-                    }
-                });
+                if (this.issuePlan.dispense || this.issuePlan.developer) {
+                    this.$refs['issuePlan'].validate((valid) => {
+                        if (valid) {
+                            this.issuePlan.dispense = this.setPeopleId('dispenseList', this.issuePlan.dispense);
+                            this.issuePlan.developer = this.setPeopleId('developerList', this.issuePlan.developer);
+                            this.$emit('push-issue');
+                            this.$emit('close-issue');
+                        } else {
+                            this.$Message.error('<span style="font-size: 14px">提交失败！</span>');
+                        }
+                    });
+                } else {
+                    this.$Message.warning('<span style="font-size: 14px">分配和提交必填一项！</span>');
+                }
             },
             resetIssue() {
                 this.$refs['issuePlan'].resetFields();
@@ -189,20 +193,37 @@
                 projectList: state => state.project.projectList
             })
         },
-        created() {
-            this.dispenseList = this.projectList[this.defaultIndex].people
-                .filter(item => item.permission[3] === '1')
-                .map(item => {
-                    return {'title': item.name, 'id': item.userId}
-                });
-            this.developerList = this.projectList[this.defaultIndex].people
-                .filter(item => item.permission[4] === '1')
-                .map(item => {
-                    return {'title': item.name, 'id': item.userId}
-                });
-        },
+        // created() {
+        //     this.dispenseList = this.projectList[this.defaultIndex].people
+        //         .filter(item => item.permission[3] === '1')
+        //         .map(item => {
+        //             return {'title': item.name, 'id': item.userId}
+        //         });
+        //     this.developerList = this.projectList[this.defaultIndex].people
+        //         .filter(item => item.permission[4] === '1')
+        //         .map(item => {
+        //             return {'title': item.name, 'id': item.userId}
+        //         });
+        // },
         activated() {
             this.issuePlan.startDate = new Date();
+        },
+        watch: {
+            defaultIndex: {
+                handler: function (val) {
+                    this.dispenseList = this.projectList[val].people
+                        .filter(item => item.permission[3] === '1')
+                        .map(item => {
+                            return {'title': item.name, 'id': item.userId}
+                        });
+                    this.developerList = this.projectList[val].people
+                        .filter(item => item.permission[4] === '1')
+                        .map(item => {
+                            return {'title': item.name, 'id': item.userId}
+                        });
+                },
+                immediate: true
+            }
         }
     }
 </script>

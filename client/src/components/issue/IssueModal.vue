@@ -113,18 +113,26 @@
             },
             pushIssue() {
                 // 暂时 id 为八位随机数
-                this.issue.issueInfo.id = Math.floor(Math.random() * 90000000 + 10000000)
-                    .toString();
+                // this.issue.issueInfo.id = Math.floor(Math.random() * 90000000 + 10000000)
+                //     .toString();
                 this.issue.issuePlan.issuer = this.userId;
                 if (this.issue.issuePlan.developer) {
                     this.issue.status = 1;
                 }
                 const issueData = Object.assign({}, this.issue.issueInfo, this.issue.issuePlan);
                 issueData.status = this.issue.status;
-                this.$store.commit('pushIssue', issueData);
-                this.$Message.success({
-                    content: '<span style="font-size: 14px">提交成功！</span>',
-                    duration: 2
+                this.$store.dispatch('addIssue', issueData).then(res => {
+                    if (res.status) {
+                        this.$Message.success({
+                            content: '<span style="font-size: 14px">提交成功！</span>',
+                            duration: 2
+                        });
+                    } else {
+                        this.$Message.error({
+                            content: '<span style="font-size: 14px">提交失败！</span>',
+                            duration: 2
+                        });
+                    }
                 });
             }
         },

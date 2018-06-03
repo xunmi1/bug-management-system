@@ -86,7 +86,6 @@ router.post('/api/register', async (ctx, next) => {
             tableName: '[dbo].[user]',
             whereSql: `userName = '${name}'`
         });
-        console.log(result.rows[0]);
         if (result.rows.length === 1) {
             for (let index in result.rows[0]) {
                 if (result.rows[0].hasOwnProperty(index) && typeof result.rows[0][index] === 'string') {
@@ -94,7 +93,6 @@ router.post('/api/register', async (ctx, next) => {
                     result.rows[0][index] = str.trim();
                 }
             }
-            console.log(result.rows[0]);
             const payload = {
                 userId: result.rows[0].userId.toString(),
                 userName: result.rows[0].userName
@@ -205,7 +203,6 @@ router.post('/api/user/setInfo', async (ctx, next) => {
         tableName: '[dbo].[user]',
         whereSql: `userId = '${ctx.request.body.userId}'`
     });
-    console.log(result);
     let responseBody = {status: 0};
     if (result.err) responseBody.status = 0;
     else responseBody.status = 1;

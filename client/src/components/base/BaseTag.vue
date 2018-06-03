@@ -4,7 +4,7 @@
              checkable
              :key="index"
              :name="index"
-             :closable="list.length===1? false: true"
+             :closable="list.length!==1"
              :color="item.isChecked===true? 'blue': 'default'"
              @on-close="tagClose"
              @on-change="tagChange">
@@ -57,7 +57,6 @@
 
             /**
              * 切换当前显示页面
-             * @param url tag 标签的 url
              */
             tagRedirect(index) {
                 //this.$router.push({path: this.list[index].url});
@@ -77,9 +76,9 @@
              * closeComponent: 组件关闭自己 (name: 组件名);
              */
             this.$root.Bus.$on('closeComponent', name => {
-                let tmpIndex;
+                let tmpIndex = 1;
                 this.list.some((item, index) => {
-                    if (item.name === name) {
+                    if (item.name === name || item.tag === name) {
                         tmpIndex = index;
                         return true;
                     }

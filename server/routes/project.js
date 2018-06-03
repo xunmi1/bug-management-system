@@ -41,6 +41,7 @@ router.post('/api/project/add', async (ctx, next) => {
                 status: 1,
             }
         });
+        if (resultInfo.err) throw result.err;
         const resultPeople = await msSqlDb.add({
             tableName: 'permission',
             params: people.map(item => {
@@ -51,11 +52,13 @@ router.post('/api/project/add', async (ctx, next) => {
                 }
             })
         });
+        if (resultPeople.err) throw result.err;
         inOrderRoot(moduleList[0], '');
         const resultModules = await msSqlDb.add({
             tableName: 'module',
             params: modules
         });
+        if (resultModules.err) throw result.err;
         const resultVersion = await msSqlDb.add({
             tableName: 'version',
             params: versionList.map((item, index) => {
@@ -67,6 +70,7 @@ router.post('/api/project/add', async (ctx, next) => {
                 }
             })
         });
+        if (resultVersion.err) throw result.err;
         responseBody.status = 1;
     } catch (e) {
         console.error(e);
@@ -103,6 +107,7 @@ router.post('/api/project/index', async (ctx, next) => {
             tableName: 'permission, project',
             whereSql: `permission.projectId = project.id AND permission.userId = '${id}'`
         });
+        if (resultInfo.err) throw result.err;
         for (let i = 0; i < resultInfo.rows.length; i++) {
             const pid = resultInfo.rows[i].id;
             const resultPeople = await msSqlDb.findAll({
@@ -110,17 +115,19 @@ router.post('/api/project/index', async (ctx, next) => {
                 tableName: 'permission, [dbo].[user]',
                 whereSql: `permission.userId = [dbo].[user].userId AND permission.projectId = '${pid}'`
             });
+            if (resultPeople.err) throw result.err;
             const resultModules = await msSqlDb.findAll({
                 displayColumns: `id, title, pid`,
                 tableName: 'module',
                 whereSql: `id like '${pid}%'`
             });
+            if (resultModules.err) throw result.err;
             const resultVersions = await msSqlDb.findAll({
                 displayColumns: `title, sortId, versionDesc`,
                 tableName: 'version',
                 whereSql: `pid = '${pid}' ORDER BY sortId ASC`
             });
-
+            if (resultVersions.err) throw result.err;
             responseBody.data.push({
                 info: {
                     id: resultInfo.rows[i].id,

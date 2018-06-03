@@ -92,13 +92,25 @@
                 if (list.includes(this.people)) {
                     this.optionList.forEach(item => {
                         if (item.name === this.people) {
+                            let tmpData = JSON.parse(JSON.stringify(this.issueList[this.clickRowIndex]));
                             if (this.tab === '1') {
-                                this.issueList[this.clickRowIndex].developer = item.id;
-                                this.issueList[this.clickRowIndex].status = 1;
+                                tmpData.developer = item.id;
+                                tmpData.status = 1;
                             } else if (this.tab === '2') {
-                                this.issueList[this.clickRowIndex].tester = item.id;
-                                this.issueList[this.clickRowIndex].status = 3;
+                                tmpData.tester = item.id;
+                                tmpData.status = 3;
                             }
+                            tmpData.dispense = this.userId;
+                            this.$store.dispatch('dispenseIssue', tmpData).then(res => {
+                                if (res.status) {
+                                    this.issueList[this.clickRowIndex].dispense = tmpData.dispense;
+                                    this.issueList[this.clickRowIndex].developer = tmpData.developer;
+                                    this.issueList[this.clickRowIndex].tester = tmpData.tester;
+                                    this.issueList[this.clickRowIndex].status = tmpData.status;
+                                } else {
+                                    this.$Message.error('分配失败!');
+                                }
+                            });
                         }
                     });
                     this.modal = false;
@@ -165,13 +177,24 @@
                     })
                 });
                 return oldData;
+            },
+            checkPermission() {
+                if (!this.permission || this.permission[3] !== '1') {
+                    this.$router.push({name: 'myProject'});
+                    this.$root.Bus.$emit('closeComponent', 'SetDispense');
+                    this.$Notice.warning({
+                        title: '没有操作权限！',
+                        desc: '请联系项目管理人员，分配职责。'
+                    });
+                }
             }
         },
         computed: {
             ...mapState({
                 projectList: state => state.project.projectList,
                 defaultIndex: state => state.project.defaultIndex,
-                issueList: state => state.issue.issueList
+                issueList: state => state.issue.issueList,
+                permission: state => state.user.permission
             }),
             // 表格总来源数据
             issueData() {
@@ -184,6 +207,9 @@
             dataList1() {
                 return this.issueData.filter(item => item.status === 2);
             }
+        },
+        created() {
+            this.checkPermission();
         },
         mounted() {
             this.issueIndex = this.issueList.map(item => item.id);

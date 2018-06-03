@@ -13,7 +13,8 @@ const state = {
         avatarId: '',
         status: 3, // 0: 用户不存在，1: 密码错误，2: 同时登录，3: 登录成功
     },
-    token: ''  // 本地数据
+    token: '',  // 本地数据
+    permission: '000000'
 };
 
 const mutations = {
@@ -40,6 +41,9 @@ const mutations = {
     },
     setToken(state, token) {
         state.token = token;
+    },
+    setPermission(state, permission) {
+        state.permission = permission;
     },
     clearUserInfo(state) {
         state.userInfo = {

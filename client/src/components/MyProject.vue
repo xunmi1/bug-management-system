@@ -94,6 +94,15 @@
                 change: 'changeProjectStatus',
                 setIndex: 'setDefaultIndex'
             }),
+            getPermission() {
+                let userPermission = '';
+                this.projectList[this.defaultIndex].people.forEach(item => {
+                    if (item.userId == this.id) {
+                        userPermission = item.permission;
+                    }
+                });
+                this.$store.commit('setPermission', userPermission);
+            },
             newProject(tag) {
                 if (this.menuItem[tag]) {
                     this.add({
@@ -112,7 +121,16 @@
                 this.change({project, toStatus});
             },
             setDefaultIndex(project) {
+                this.$store.dispatch('getIssue', project.info).then(res => {
+                    if (!res.status) {
+                        this.$Notice.error({
+                            title: '问题数据获取失败！',
+                            desc: '请检查网络状况，并重新设置默认项目'
+                        });
+                    }
+                });
                 this.setIndex(project);
+                this.getPermission();
                 this.$Message.success({
                     content: '<span style="font-size: 14px">项目设置成功！</span>',
                     duration: 2

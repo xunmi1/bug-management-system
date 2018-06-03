@@ -32,6 +32,7 @@
                         this.$cookie.delete('userToken');
                         setTimeout(() => {
                             this.$emit('on-close');
+                            this.$store.commit('setPermission', '000000');
                             this.$router.push({name: 'home'});
                         }, 600);
                     } else {

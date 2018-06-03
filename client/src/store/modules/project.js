@@ -162,17 +162,19 @@ const mutations = {
 
 const actions = {
     async addProject(context, info) {
-        console.log(info);
         const res = await axios.post(process.env.API_HOST + '/project/add', info);
         if (res.data.status) {
             context.commit('pushProject', info);
         }
         return res.data;
     },
+
     async getProject(context, info) {
         const res = await axios.post(process.env.API_HOST + '/project/index', info);
         if (res.data.status) {
             context.commit('setProject', res.data.data);
+        } else {
+            context.commit('setProject', {});
         }
     }
 };

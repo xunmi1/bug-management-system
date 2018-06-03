@@ -1,3 +1,5 @@
+import axios from "axios/index";
+
 const state = {
     issueList: [
         {
@@ -45,10 +47,46 @@ const state = {
 const mutations = {
     pushIssue(state, issue) {
         state.issueList.push(issue);
-    }
+    },
+    setIssue(state, info) {
+        state.issueList = JSON.parse(JSON.stringify(info));
+    },
 };
 
-const actions = {};
+const actions = {
+    async addIssue(context, info) {
+        const res = await axios.post(process.env.API_HOST + '/issue/add', info);
+        if (res.data.status) {
+            context.commit('pushIssue', info);
+        }
+        return res.data;
+    },
+
+    async getIssue(context, info) {
+        const res = await axios.post(process.env.API_HOST + '/issue/index', info);
+        if (res.data.status) {
+            context.commit('setIssue', res.data.data);
+        } else {
+            context.commit('setIssue', {});
+        }
+        return res.data;
+    },
+
+    async dispenseIssue(context, info) {
+        const res = await axios.post(process.env.API_HOST + '/issue/dispense', info);
+        return res.data;
+    },
+
+    async developerIssue(context, info) {
+        const res = await axios.post(process.env.API_HOST + '/issue/developer', info);
+        return res.data;
+    },
+
+    async testerIssue(context, info) {
+        const res = await axios.post(process.env.API_HOST + '/issue/tester', info);
+        return res.data;
+    }
+};
 
 const issue = {
     state,
