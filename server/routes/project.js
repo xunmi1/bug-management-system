@@ -41,7 +41,7 @@ router.post('/api/project/add', async (ctx, next) => {
                 status: 1,
             }
         });
-        if (resultInfo.err) throw result.err;
+        if (resultInfo.err) throw resultInfo.err;
         const resultPeople = await msSqlDb.add({
             tableName: 'permission',
             params: people.map(item => {
@@ -52,25 +52,25 @@ router.post('/api/project/add', async (ctx, next) => {
                 }
             })
         });
-        if (resultPeople.err) throw result.err;
+        if (resultPeople.err) throw resultPeople.err;
         inOrderRoot(moduleList[0], '');
         const resultModules = await msSqlDb.add({
             tableName: 'module',
             params: modules
         });
-        if (resultModules.err) throw result.err;
+        if (resultModules.err) throw resultModules.err;
         const resultVersion = await msSqlDb.add({
             tableName: 'version',
-            params: versionList.map((item, index) => {
+            params: versionList.map(item => {
                 return {
-                    sortId: index,
+                    sortId: 0,
                     title: item.title,
                     versionDesc: item.desc,
                     pid: id
                 }
             })
         });
-        if (resultVersion.err) throw result.err;
+        if (resultVersion.err) throw resultVersion.err;
         responseBody.status = 1;
     } catch (e) {
         console.error(e);
@@ -159,6 +159,163 @@ router.post('/api/project/index', async (ctx, next) => {
                     : resultInfo.rows[i].status
             })
         }
+        responseBody.status = 1;
+    } catch (e) {
+        responseBody.status = 0;
+        console.error(e);
+    }
+    ctx.body = responseBody;
+});
+
+// 项目成员修改
+router.post('/api/project/people', async (ctx, next) => {
+    const people = ctx.request.body.people;
+    const projectId = ctx.request.body.projectId;
+    const responseBody = {
+        status: 0,
+        data: []
+    };
+    try {
+        const result = await msSqlDb.del({
+            tableName: 'permission',
+            whereSql: `projectId = '${projectId}'`
+        });
+        if (result.err) throw result.err;
+        const resultPeople = await msSqlDb.add({
+            tableName: 'permission',
+            params: people.map(item => {
+                return {
+                    userId: item.userId,
+                    projectId,
+                    permission: item.permission
+                }
+            })
+        });
+        if (resultPeople.err) throw resultPeople.err;
+        responseBody.status = 1;
+    } catch (e) {
+        responseBody.status = 0;
+        console.error(e);
+    }
+    ctx.body = responseBody;
+});
+
+// 项目信息修改
+router.post('/api/project/info', async (ctx, next) => {
+    const info = ctx.request.body.info;
+    const projectId = ctx.request.body.projectId;
+    const responseBody = {
+        status: 0,
+        data: []
+    };
+    try {
+        const result = await msSqlDb.update({
+            tableName: 'project',
+            whereSql: `id = '${projectId}'`,
+            params: {
+                title: info.title,
+                share: info.share,
+                projectDesc: info.desc,
+                imgName: info.imgName
+            },
+        });
+        if (result.err) throw result.err;
+        responseBody.status = 1;
+    } catch (e) {
+        responseBody.status = 0;
+        console.error(e);
+    }
+    ctx.body = responseBody;
+});
+
+// 项目模块修改
+router.post('/api/project/moduleList', async (ctx, next) => {
+    const moduleList = ctx.request.body.moduleList;
+    const projectId = ctx.request.body.projectId;
+    const modules = [];
+    const inOrderRoot = function (node, pid) {
+        if (node) {
+            modules.push({
+                title: node.title,
+                id: projectId + node.nodeKey,
+                pid: projectId + pid
+            });
+            if (node.children && node.children.length > 0) {
+                for (let i = 0; i < node.children.length; i++) {
+                    inOrderRoot(node.children[i], node.nodeKey);
+                }
+            }
+        }
+    };
+    const responseBody = {
+        status: 0,
+        data: []
+    };
+    try {
+        const result = await msSqlDb.del({
+            tableName: 'module',
+            whereSql: `id LIKE '${projectId}%'`
+        });
+        if (result.err) throw result.err;
+        inOrderRoot(moduleList[0], '');
+        const resultModules = await msSqlDb.add({
+            tableName: 'module',
+            params: modules
+        });
+        if (resultModules.err) throw resultModules.err;
+        responseBody.status = 1;
+    } catch (e) {
+        responseBody.status = 0;
+        console.error(e);
+    }
+    ctx.body = responseBody;
+});
+
+// 项目版本添加
+router.post('/api/project/version', async (ctx, next) => {
+    const version = ctx.request.body.version;
+    const projectId = ctx.request.body.projectId;
+    const responseBody = {
+        status: 0,
+        data: []
+    };
+    try {
+        const result = await msSqlDb.add({
+            tableName: 'version',
+            params: {
+                sortId: 0,
+                title: version.title,
+                versionDesc: version.desc,
+                pid: projectId
+            }
+        });
+        if (result.err) throw result.err;
+        responseBody.status = 1;
+    } catch (e) {
+        responseBody.status = 0;
+        console.error(e);
+    }
+    ctx.body = responseBody;
+});
+
+// 项目状态修改
+router.post('/api/project/status', async (ctx, next) => {
+    const projectId = ctx.request.body.projectId;
+    let toStatus = ctx.request.body.toStatus;
+    if (toStatus === 0) toStatus = 1;
+    const responseBody = {
+        status: 0,
+        data: []
+    };
+    try {
+        const result = await msSqlDb.update({
+            tableName: 'project',
+            whereSql: `id = '${projectId}'`,
+            params: {
+                status: toStatus,
+            },
+        });
+        if (result.err) throw result.err;
         responseBody.status = 1;
     } catch (e) {
         responseBody.status = 0;

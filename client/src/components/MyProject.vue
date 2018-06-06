@@ -91,7 +91,6 @@
         methods: {
             ...mapMutations({
                 add: 'tagAdd',
-                change: 'changeProjectStatus',
                 setIndex: 'setDefaultIndex'
             }),
             getPermission() {
@@ -115,10 +114,19 @@
             },
             // toStatus 目标项目状态
             changeProjectStatus(project, toStatus) {
-                if (this.projectList[this.defaultIndex] === project) {
+                if (this.projectList[this.defaultIndex].info.id == project.info.id) {
                     this.setIndex();
                 }
-                this.change({project, toStatus});
+                this.$store.dispatch('changeProjectStatus', {project, toStatus}).then(res => {
+                    if (res.status) {
+                        this.$Message.success('修改成功！');
+                    } else {
+                        this.$Notice.error({
+                            title: '修改失败！',
+                            desc: '请检查网络状况，并重新点击确认'
+                        });
+                    }
+                })
             },
             setDefaultIndex(project) {
                 this.$store.dispatch('getIssue', project.info).then(res => {
@@ -158,7 +166,14 @@
             }
         },
         mounted() {
-            this.$store.dispatch('getProject', {userId: this.id});
+            this.$store.dispatch('getProject', {userId: this.id}).then(res => {
+                if (!res.status) {
+                    this.$Notice.error({
+                        title: '项目信息获取失败！',
+                        desc: '请检查网络状况，并重新进入系统'
+                    });
+                }
+            });
         }
     }
 </script>

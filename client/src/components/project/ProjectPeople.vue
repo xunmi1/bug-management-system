@@ -320,8 +320,16 @@
 
             handleSubmit(name) {
                 if (!this.data) {
-                    this.$store.commit('setProjectPeople', this.people);
-                    this.$Message.success('修改成功！');
+                    this.$store.dispatch('setProjectPeople', this.people).then(res => {
+                        if (res.status) {
+                            this.$Message.success('修改成功！');
+                        } else {
+                            this.$Notice.error({
+                                title: '修改失败！',
+                                desc: '请检查网络状况，并重新点击确认'
+                            });
+                        }
+                    });
                 } else {
                     this.$emit('update:data', this[name]);
                     this.$emit('on-ok');

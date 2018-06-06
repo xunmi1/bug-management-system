@@ -24,9 +24,9 @@ const state = {
             title: '我的项目',
             name: 'MyProject'
         },
-        retrieval: {
+        issueSearch: {
             title: 'BUG 检索',
-            name: ''
+            name: 'IssueSearch'
         },
         user: {
             title: '账号设置',

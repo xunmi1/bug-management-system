@@ -211,16 +211,18 @@
         watch: {
             defaultIndex: {
                 handler: function (val) {
-                    this.dispenseList = this.projectList[val].people
-                        .filter(item => item.permission[3] === '1')
-                        .map(item => {
-                            return {'title': item.name, 'id': item.userId}
-                        });
-                    this.developerList = this.projectList[val].people
-                        .filter(item => item.permission[4] === '1')
-                        .map(item => {
-                            return {'title': item.name, 'id': item.userId}
-                        });
+                    if (val >= 0) {
+                        this.dispenseList = this.projectList[val].people
+                            .filter(item => item.permission[3] === '1')
+                            .map(item => {
+                                return {'title': item.name, 'id': item.userId}
+                            });
+                        this.developerList = this.projectList[val].people
+                            .filter(item => item.permission[4] === '1')
+                            .map(item => {
+                                return {'title': item.name, 'id': item.userId}
+                            });
+                    }
                 },
                 immediate: true
             }

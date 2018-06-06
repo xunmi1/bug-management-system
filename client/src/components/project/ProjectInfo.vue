@@ -116,12 +116,16 @@
                 this.$refs[name].validate((valid) => {
                     if (!this.data) {
                         if (valid) {
-                            this.$store.commit('setProjectInfo', {
-                                title: this.projectInfo.title,
-                                desc: this.projectInfo.desc,
-                                imgName: this.projectInfo.imgName
+                            this.$store.dispatch('setProjectInfo', this.projectInfo).then(res => {
+                                if (res.status) {
+                                    this.$Message.success('修改成功！');
+                                } else {
+                                    this.$Notice.error({
+                                        title: '修改失败！',
+                                        desc: '请检查网络状况，并重新点击确认'
+                                    });
+                                }
                             });
-                            this.$Message.success('修改成功！');
                         } else {
                             this.$Loading.error();
                             this.$Message.error('修改失败！');

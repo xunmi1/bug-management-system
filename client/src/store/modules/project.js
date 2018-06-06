@@ -131,9 +131,7 @@ const getters = {
 
 const mutations = {
     setProjectInfo(state, info) {
-        state.projectList[state.defaultIndex].info.title = info.title;
-        state.projectList[state.defaultIndex].info.desc = info.desc;
-        state.projectList[state.defaultIndex].info.imgName = info.imgName;
+        state.projectList[state.defaultIndex].info = JSON.parse(JSON.stringify(info));
     },
     setProjectPeople(state, people) {
         state.projectList[state.defaultIndex].people = JSON.parse(JSON.stringify(people));
@@ -153,7 +151,12 @@ const mutations = {
     },
     // 改变默认项目
     setDefaultIndex(state, project) {
-        state.defaultIndex = state.projectList.indexOf(project);
+        if (project) {
+            state.defaultIndex = state.projectList.indexOf(project);
+        } else {
+            state.defaultIndex = -1;
+        }
+
     },
     setProject(state, info) {
         state.projectList = JSON.parse(JSON.stringify(info));
@@ -176,7 +179,56 @@ const actions = {
         } else {
             context.commit('setProject', {});
         }
+        return res.data;
+    },
+
+    async setProjectInfo(context, info) {
+        const projectId = state.projectList[state.defaultIndex].info.id;
+        const res = await axios.post(process.env.API_HOST + '/project/info', {info: info, projectId});
+        if (res.data.status) {
+            context.commit('setProjectInfo', info);
+        }
+        return res.data;
+    },
+
+    async setProjectPeople(context, info) {
+        const projectId = state.projectList[state.defaultIndex].info.id;
+        const res = await axios.post(process.env.API_HOST + '/project/people', {people: info, projectId});
+        if (res.data.status) {
+            context.commit('setProjectPeople', info);
+        }
+        return res.data;
+    },
+
+    async setProjectModuleList(context, info) {
+        const projectId = state.projectList[state.defaultIndex].info.id;
+        const res = await axios.post(process.env.API_HOST + '/project/moduleList', {moduleList: info, projectId});
+        if (res.data.status) {
+            context.commit('setProjectModuleList', info);
+        }
+        return res.data;
+    },
+
+    async pushProjectVersion(context, info) {
+        const projectId = state.projectList[state.defaultIndex].info.id;
+        const res = await axios.post(process.env.API_HOST + '/project/version', {version: info, projectId});
+        if (res.data.status) {
+            context.commit('pushProjectVersion', info);
+        }
+        return res.data;
+    },
+
+    async changeProjectStatus(context, info) {
+        const res = await axios.post(process.env.API_HOST + '/project/status', {
+            projectId: info.project.info.id,
+            toStatus: info.toStatus
+        });
+        if (res.data.status) {
+            context.commit('changeProjectStatus', info);
+        }
+        return res.data;
     }
+
 };
 
 const project = {

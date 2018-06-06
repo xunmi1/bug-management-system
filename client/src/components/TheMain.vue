@@ -58,7 +58,7 @@
                                 <Icon type="navicon-round" size="16"></Icon>
                                 其他功能
                             </template>
-                            <MenuItem name="retrieval">
+                            <MenuItem name="issueSearch">
                                 <Icon type="bug" size="16"></Icon>
                                 BUG 检索
                             </MenuItem>

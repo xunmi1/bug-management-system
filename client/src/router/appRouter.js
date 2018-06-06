@@ -84,6 +84,13 @@ const appRouter = {
                     }
                 },
                 {
+                    path: 'issue/search',
+                    name: 'issueSearch',
+                    component: resolve => {
+                        require(['@/issue/IssueSearch'], resolve);
+                    }
+                },
+                {
                     path: 'user',
                     name: 'user',
                     component: resolve => {

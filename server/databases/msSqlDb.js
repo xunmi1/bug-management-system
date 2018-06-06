@@ -137,7 +137,18 @@ class msSqlDb {
         }
     }
 
-    update(options) {
+    async del(options) {
+        const tableName = options.tableName;
+        const whereSql = options.whereSql || '';
+        const params = options.params || '';
+        let sql = 'DELETE FROM ' + tableName;
+        if (whereSql) {
+            sql += ' WHERE ' + whereSql;
+        }
+        return await this.querySql(sql, params);
+    }
+
+    async update(options) {
         let tableName = options.tableName;
         let whereSql = options.whereSql || '';
         let params = options.params || '';
@@ -150,14 +161,14 @@ class msSqlDb {
             if (whereSql) {
                 sql += ' WHERE ' + whereSql;
             }
-            return this.querySql(sql, params);
+            return await this.querySql(sql, params);
         }
         else {
             return '';
         }
     }
 
-    findAll(options) {
+    async findAll(options) {
         let displayColumns = options.displayColumns || '*';
         let tableName = options.tableName;
         let whereSql = options.whereSql || '';
@@ -166,7 +177,7 @@ class msSqlDb {
         if (whereSql) {
             sql += ' WHERE ' + whereSql;
         }
-        return this.querySql(sql, params);
+        return await this.querySql(sql, params);
     }
 }
 

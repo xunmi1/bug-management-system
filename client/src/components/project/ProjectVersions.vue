@@ -87,10 +87,18 @@
             handleSubmit(name) {
                 if (!this.data) {
                     // 提交新版本
-                    this.$store.commit('pushProjectVersion', this[name]);
-                    this.versionList.pop();
-                    this.versionList.unshift(this[name]);
-                    this.$Message.success('修改成功！');
+                    this.$store.dispatch('pushProjectVersion', this[name]).then(res => {
+                        if (res.status) {
+                            this.versionList.pop();
+                            this.versionList.unshift(this[name]);
+                            this.$Message.success('修改成功！');
+                        } else {
+                            this.$Notice.error({
+                                title: '修改失败！',
+                                desc: '请检查网络状况，并重新点击确认'
+                            });
+                        }
+                    })
                 } else {
                     // 保存到 TheNewProject 组件
                     this.$emit('update:data', this[name]);

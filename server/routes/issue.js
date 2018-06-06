@@ -161,4 +161,29 @@ router.post('/api/issue/tester', async (ctx, next) => {
     ctx.body = responseBody;
 });
 
+router.post('/api/issue/search', async (ctx, next) => {
+    const responseBody = {
+        status: 0,
+        data: []
+    };
+    const value = ctx.request.body.value;
+    const projectId = ctx.request.body.projectId;
+    let whereSql = `issue.id = solution.issueId AND solution.issueName LIKE '%${value}%' AND solution.isClose = 'true'`;
+    if (projectId) whereSql += ` AND issue.project = '${projectId}'`;
+    try {
+        const result = await msSqlDb.findAll({
+            displayColumns: `issue.id, issueName, solveDesc`,
+            tableName: 'issue, solution',
+            whereSql
+        });
+        if (result.err) throw result.err;
+        responseBody.data = result.rows;
+        responseBody.status = 1;
+    } catch (e) {
+        responseBody.status = 0;
+        console.error(e);
+    }
+    ctx.body = responseBody;
+});
+
 module.exports = router;

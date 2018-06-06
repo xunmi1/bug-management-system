@@ -214,10 +214,12 @@
         watch: {
             defaultIndex: {
                 handler: function (val) {
-                    this.projectInfo = this.projectList[val].info;
-                    this.versionList = this.projectList[val].versionList;
-                    this.moduleList = [];
-                    this.inOrderRoot(this.projectList[val].moduleList[0]);
+                    if (val >= 0) {
+                        this.projectInfo = this.projectList[val].info;
+                        this.versionList = this.projectList[val].versionList;
+                        this.moduleList = [];
+                        this.inOrderRoot(this.projectList[val].moduleList[0]);
+                    }
                 },
                 immediate: true
             }
